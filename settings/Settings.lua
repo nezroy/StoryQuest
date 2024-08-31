@@ -106,7 +106,7 @@ local function Setup(use_callback)
 
     do
         local var = "WeaponMode"
-        local name = "Weapopn Behavior (character)"
+        local name = "Weapon Behavior (character)"
         local tooltip = "Determines the weapon behavior for the current character."
         local defVal = DEFAULT_DB[var]
 
