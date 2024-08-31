@@ -1,0 +1,9 @@
+manual-changelog: CHANGELOG.txt
+ignore:
+  - assets
+  - tools
+  - screenshots
+  - README.md
+  - _MACOSX
+  - .previews
+
