@@ -1,2 +1,1 @@
-- Updated model scales
-- Typo fix
+- Fix logo
