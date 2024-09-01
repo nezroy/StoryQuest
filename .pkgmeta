@@ -1,8 +1,0 @@
-manual-changelog: CHANGELOG_NEW_VERSION.txt
-ignore:
-  - assets
-  - tools
-  - screenshots
-  - README.md
-  - _MACOSX
-  - .previews
