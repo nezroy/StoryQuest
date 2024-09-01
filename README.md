@@ -1,6 +1,6 @@
 # StoryQuest
 
-**StoryQuest** provides a more immersive quest dialog experience inspired by the original quest dialog interface [found in Guild Wars 2](https://standardof.net/wp-content/uploads/2020/09/Guild-Wars-2-Quest-Guide-Breaking-the-Blade-12.png).
+**StoryQuest** provides a more immersive quest dialog experience inspired by the original quest dialog interface [found in Guild Wars 2](https://github.com/nezroy/StoryQuest/blob/main/screenshots/Guild-Wars-2-Quest-Guide-Breaking-the-Blade-12.jpg?raw=true).
 
 Left-click, spacebar, or interact key to advance text. Right-click or backspace to go back in the text.
 
