@@ -1,10 +1,7 @@
-manual-changelog:
-  filename: CHANGELOG_NEW.md
-  markup-type: markdown
+package-as: StoryQuest
+
 ignore:
   - assets
   - tools
   - screenshots
   - README.md
-  - _MACOSX
-  
