@@ -70,6 +70,7 @@ local T = {
     [5348707] = 0.81, -- vix'aron
     [5241992] = 1.05, -- ren'khat
     [589715] = 1.3, -- noli marlen
+    [5550057] = 2.0, -- cogwalker
 }
 PKG.QUESTVIEW_MODEL_TWEAKS = T
 
