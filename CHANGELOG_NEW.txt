@@ -1,4 +1,1 @@
-- Fix logo
-- Improve quest text splitting accuracy
-- Updated model scales
-- Fix inset gradient texture slice problem
+- More quest text parsing fixes

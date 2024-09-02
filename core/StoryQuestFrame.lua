@@ -109,7 +109,7 @@ local function questInfoDisplay(template, parentFrame)
 end
 
 local pat_sep = "[\\.|!|?|\n]%s+"
-local pat_emo = "^<[^>]*>"
+local pat_uwu = "^<[^>]*>"
 local function splitQuest(inputstr)
     local t = {}
     local i = 1
@@ -124,26 +124,37 @@ local function splitQuest(inputstr)
     inputstr = inputstr:gsub("(%S)—(%S)", "%1 — %2") -- as above
     inputstr = inputstr:gsub(" Co%.", " Co;,;") -- change abbrev period into a pattern we fix back later
 
-    -- split the string by uwus and separators
-    while inputstr ~= "" do
-        local emo_s, emo_e = inputstr:find(pat_emo)
-        if emo_s then
-            t[i] = inputstr:sub(emo_s, emo_e):gsub("[\n\r]+", " "):gsub("%s+$", ""):gsub(";,;", ".")
+    -- split a string by separators, clean up, and add uwu caps if needed
+    local sepString = function(text, uwuflag)
+        local sep_s, _ = text:find(pat_sep)
+        local uwucap = uwuflag and "<" or ""
+        local uwuend = uwuflag and ">" or ""
+        if sep_s then
+            t[i] = uwucap .. text:sub(1, sep_s):gsub("%s+$", ""):gsub(";,;", ".") .. uwuend
             i = i + 1
-            inputstr = inputstr:sub(emo_e + 1):gsub("^%s+", "")
+            text = text:sub(sep_s + 1):gsub("^%s+", "")
         else
-            local sep_s, _ = inputstr:find(pat_sep)
-            if sep_s then
-                t[i] = inputstr:sub(1, sep_s):gsub("%s+$", ""):gsub(";,;", ".")
-                i = i + 1
-                inputstr = inputstr:sub(sep_s + 1):gsub("^%s+", "")
-            else
-                t[i] = inputstr:gsub("%s+$", ""):gsub(";,;", ".")
-                inputstr = ""
-                i = i + 1
+            t[i] = uwucap .. text:gsub("%s+$", ""):gsub(";,;", ".") .. uwuend
+            i = i + 1
+            text = ""
+        end
+        return text
+    end
+
+    -- check for uwus and recursively split those
+    while inputstr ~= "" do
+        local uwu_s, uwu_e = inputstr:find(pat_uwu)
+        if uwu_s then
+            local uwustr = inputstr:sub(uwu_s + 1, uwu_e - 1)
+            while uwustr ~= "" do
+                uwustr = sepString(uwustr, true)
             end
+            inputstr = inputstr:sub(uwu_e + 1):gsub("^%s+", "")
+        else
+            inputstr = sepString(inputstr)
         end
     end
+
     return t
 end
 
