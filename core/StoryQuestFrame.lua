@@ -352,7 +352,7 @@ function StoryQuest:showQuestFrame()
         end
     until not mapInfo or mapTex or mapInfo.parentMapID == 0
     if not mapTex then
-        mapTex = "default"
+        mapTex = "Misc/default"
     end
     self.container.mapBG:SetTexture("Interface/AddOns/StoryQuest/textures/backgrounds/" .. mapTex)
 

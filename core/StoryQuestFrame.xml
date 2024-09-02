@@ -44,7 +44,7 @@
                 </Animations>
                 <Layers>
                     <Layer level="BACKGROUND" textureSubLevel="1">
-                        <Texture parentKey="mapBG" file="Interface/AddOns/StoryQuest/textures/backgrounds/default" alpha="0">
+                        <Texture parentKey="mapBG" file="Interface/AddOns/StoryQuest/textures/backgrounds/Misc/default" alpha="0">
                             <Size x="950" y="475"></Size>
                             <Anchors>
                                 <Anchor point="TOP"/>

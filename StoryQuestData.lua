@@ -71,6 +71,8 @@ local T = {
     [5241992] = 1.05, -- ren'khat
     [589715] = 1.3, -- noli marlen
     [5550057] = 2.0, -- cogwalker
+    [1890763] = 1.6, -- jarden
+    [1267024] = 2.0, -- khadgar's summons
 }
 PKG.QUESTVIEW_MODEL_TWEAKS = T
 
@@ -79,6 +81,7 @@ local N = {
     [197478] = 2.8, -- herald flaps
     [201648] = 0.79, -- big somnikus
     [215788] = 1.1, [215822] = 1.1, [215836] = 1.1, -- berrund
+    [144154] = 1.6, -- thurgaden
 }
 PKG.QUESTVIEW_NPC_TWEAKS = N
 
@@ -107,11 +110,17 @@ PKG.QUESTVIEW_PLAYER_SCALES = P
 
 -- background textures to use in questview frame for various map IDs
 local M = {
-    [84] = "EK/stormwind",
-    [85] = "Kalimdor/orgrimmar",
-    [627] = "Legion/dalaran",
-    [896] = "BFA/drustvar",
-    [1409] = "starter_isle",
+    [84]   = "EK/stormwind",
+    [1186] = "EK/blackrock_depths",
+    [85]   = "Kalimdor/orgrimmar",
+    [1409] = "Misc/starter_isle",
+    [971]  = "Misc/telogus_rift",
+    [115]  = "Wrath/dragonblight",
+    [120]  = "Wrath/stormpeaks",
+    [627]  = "Legion/dalaran",
+    [629]  = "Legion/dalaran_basement",
+    [882]  = "Legion/eredath",
+    [896]  = "BFA/drustvar",
     [1525] = "SL/revendreth",
     [1533] = "SL/bastion",
     [1543] = "SL/maw",

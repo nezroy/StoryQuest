@@ -112,6 +112,11 @@ function QuestGiverMixin:setPMUnit(unit, is_dead, npc_name, npc_type)
         -- static tweak for most smaller models
         offsetZ = 100
     end
+    if fileID == 1267024 then
+        -- floating scroll
+        offsetX = -350
+        offsetZ = 250
+    end
     self:SetViewTranslation(offsetX, offsetZ)
 
     if is_dead then
