@@ -69,6 +69,7 @@ local T = {
     [5333438] = 2.6, -- spindle
     [5348707] = 0.81, -- vix'aron
     [5241992] = 1.05, -- ren'khat
+    [589715] = 1.3, -- noli marlen
 }
 PKG.QUESTVIEW_MODEL_TWEAKS = T
 

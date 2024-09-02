@@ -108,36 +108,37 @@ local function questInfoDisplay(template, parentFrame)
     end
 end
 
-local pat_sep = "[\\.|!|?]%s+"
+local pat_sep = "[\\.|!|?|\n]%s+"
 local pat_emo = "^<[^>]*>"
 local function splitQuest(inputstr)
     local t = {}
     local i = 1
 
     -- cleanup and normalize the quest text
-    inputstr = inputstr:gsub("\n", " ")
-    inputstr = inputstr:gsub("^%s+", "")
-    inputstr = inputstr:gsub("%s+$", "")
-    inputstr = inputstr:gsub(" %s+", " ")
-    inputstr = inputstr:gsub("%.%.%.", "…")
-    inputstr = inputstr:gsub("%-%-", "—")
-    inputstr = inputstr:gsub("([^%s])—([^%s])", "%1 — %2")
+    inputstr = inputstr:gsub("\n+", "\n") -- collapse multi-line gaps to a single newline
+    inputstr = inputstr:gsub("^%s+", "") -- left trim whitespace
+    inputstr = inputstr:gsub("%s+$", "") -- right trim whitespace
+    inputstr = inputstr:gsub(" %s+", " ") -- collapse multi-space gaps to a single space
+    inputstr = inputstr:gsub("%.%.%.", "…") -- normalize elipsis
+    inputstr = inputstr:gsub("%-%-", "—") -- normalize emdash
+    inputstr = inputstr:gsub("(%S)—(%S)", "%1 — %2") -- as above
+    inputstr = inputstr:gsub(" Co%.", " Co;,;") -- change abbrev period into a pattern we fix back later
 
     -- split the string by uwus and separators
     while inputstr ~= "" do
         local emo_s, emo_e = inputstr:find(pat_emo)
         if emo_s then
-            t[i] = inputstr:sub(emo_s, emo_e)
+            t[i] = inputstr:sub(emo_s, emo_e):gsub("%s+$", ""):gsub(";,;", ".")
             i = i + 1
             inputstr = inputstr:sub(emo_e + 1):gsub("^%s+", "")
         else
             local sep_s, _ = inputstr:find(pat_sep)
             if sep_s then
-                t[i] = inputstr:sub(1, sep_s)
+                t[i] = inputstr:sub(1, sep_s):gsub("%s+$", ""):gsub(";,;", ".")
                 i = i + 1
                 inputstr = inputstr:sub(sep_s + 1):gsub("^%s+", "")
             else
-                t[i] = inputstr
+                t[i] = inputstr:gsub("%s+$", ""):gsub(";,;", ".")
                 inputstr = ""
                 i = i + 1
             end
@@ -638,10 +639,10 @@ function StoryQuest:OnLoad()
     self.mapId = 0
     self.updateAttempts = 0
 
-    self.border:SetTextureSliceMargins(32, 32, 32, 32);
-    self.border:SetTextureSliceMode(Enum.UITextureSliceMode.Tiled);
-    self.container.floaty.inset:SetTextureSliceMargins(64, 64, 64, 64);
-    self.container.floaty.inset:SetTextureSliceMode(Enum.UITextureSliceMode.Tiled);
+    self.border:SetTextureSliceMargins(32, 32, 32, 32)
+    self.border:SetTextureSliceMode(Enum.UITextureSliceMode.Stretched)
+    self.container.floaty.inset:SetTextureSliceMargins(64, 64, 64, 64)
+    self.container.floaty.inset:SetTextureSliceMode(Enum.UITextureSliceMode.Stretched)
 
     self.container.floaty.title:SetTextColor(1.0, 0.77, 0.15)
     self.container.floaty.title:SetFont(STANDARD_TEXT_FONT, 24)
