@@ -115,7 +115,7 @@ local function splitQuest(inputstr)
     local i = 1
 
     -- cleanup and normalize the quest text
-    inputstr = inputstr:gsub("\n+", "\n") -- collapse multi-line gaps to a single newline
+    inputstr = inputstr:gsub("[\r\n]+", "\n") -- normalize to LF and collapse multi-line gaps
     inputstr = inputstr:gsub("^%s+", "") -- left trim whitespace
     inputstr = inputstr:gsub("%s+$", "") -- right trim whitespace
     inputstr = inputstr:gsub(" %s+", " ") -- collapse multi-space gaps to a single space
@@ -128,7 +128,7 @@ local function splitQuest(inputstr)
     while inputstr ~= "" do
         local emo_s, emo_e = inputstr:find(pat_emo)
         if emo_s then
-            t[i] = inputstr:sub(emo_s, emo_e):gsub("%s+$", ""):gsub(";,;", ".")
+            t[i] = inputstr:sub(emo_s, emo_e):gsub("[\n\r]+", " "):gsub("%s+$", ""):gsub(";,;", ".")
             i = i + 1
             inputstr = inputstr:sub(emo_e + 1):gsub("^%s+", "")
         else
