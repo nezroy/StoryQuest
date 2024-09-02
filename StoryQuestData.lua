@@ -77,6 +77,7 @@ PKG.QUESTVIEW_MODEL_TWEAKS = T
 local N = {
     [197478] = 2.8, -- herald flaps
     [201648] = 0.79, -- big somnikus
+    [215788] = 1.1, [215822] = 1.1, [215836] = 1.1, -- berrund
 }
 PKG.QUESTVIEW_NPC_TWEAKS = N
 
