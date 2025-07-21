@@ -64,7 +64,6 @@ local function questInfoDisplay(template, parentFrame)
     fRwd.ItemReceiveText:SetShadowOffset(1, -1)
     QuestInfoXPFrame.ReceiveText:SetShadowColor(0, 0, 0, 1)
     QuestInfoXPFrame.ReceiveText:SetShadowOffset(1, -1)
-    QuestInfoAccountCompletedNotice:SetTextColor(0, 0.9, 0.6)
 
     fRwd.Header:SetTextColor(1, 1, 1)
     fRwd.Header:SetShadowColor(0, 0, 0, 1)
