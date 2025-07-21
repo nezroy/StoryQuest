@@ -73,6 +73,7 @@ local T = {
     [5550057] = 2.0, -- cogwalker
     [1890763] = 1.6, -- jarden
     [1267024] = 2.0, -- khadgar's summons
+    [5517447] = 0.9, -- miral murder-mittens
 }
 PKG.QUESTVIEW_MODEL_TWEAKS = T
 
@@ -134,12 +135,13 @@ local M = {
     [1978] = "DF/default",
     [2022] = "DF/waking_shore",
     [2133] = "DF/zaralek",
+    [2025] = "DF/thaldraszus",
     [2112] = "DF/valdrakken",
     [2305] = "TWW/dalaran_fall",
     [2248] = "TWW/isle_of_dorn",
     [2339] = "TWW/dornogal",
     [2214] = "TWW/ringing_deeps",
     [2215] = "TWW/hallowfall",
-    [2255] = "TWW/azj_kahet",
+    [2255] = "TWW/azj_kahet", [2256] = "TWW/azj_kahet",
 }
 PKG.QUESTVIEW_MAP_BGS = M
