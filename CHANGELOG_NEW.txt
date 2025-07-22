@@ -1,3 +1,1 @@
 - Updated model scales
-- New backgrounds
-- More quest text parsing fixes

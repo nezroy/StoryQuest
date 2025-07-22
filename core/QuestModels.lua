@@ -98,14 +98,19 @@ function QuestGiverMixin:setPMUnit(unit, is_dead, npc_name, npc_type)
     elseif fileID and model_tweaks[fileID] then
         scaleFactor = model_tweaks[fileID]
     end
+    local wideModel = false
+    if scaleFactor < 0 then
+        wideModel = true
+        scaleFactor = -scaleFactor
+    end
 
     Debug("NPC:", npc_name, "type:", npc_type, "fileID:", fileID, "creatureID:", creatureID, "is_dead:", is_dead, "sf:", scaleFactor)
     self:InitializeCamera(scaleFactor)
 
     local offsetX = -110
     local offsetZ = 50
-    if scaleFactor < 0.8 then
-        -- static tweak for some big models like dragons
+    if wideModel then
+        -- static tweak for some big wide models like dragons
         offsetX = 30
         --offsetZ = 0
     elseif scaleFactor > 2.5 then
