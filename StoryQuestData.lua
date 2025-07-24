@@ -76,6 +76,8 @@ local T = {
     [5517447] = 0.9, -- miral murder-mittens
     [5763560] = 1.5, -- alyza bowblaze
     [2618947] = 0.6, -- goehi
+    [5764885] = 1.6, -- monte gazlowe
+    [6658771] = 2.1, -- titan console
 }
 PKG.QUESTVIEW_MODEL_TWEAKS = T
 
