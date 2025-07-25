@@ -147,5 +147,6 @@ local M = {
     [2214] = "TWW/ringing_deeps",
     [2215] = "TWW/hallowfall",
     [2255] = "TWW/azj_kahet", [2256] = "TWW/azj_kahet",
+    [2369] = "TWW/siren_isle",
 }
 PKG.QUESTVIEW_MAP_BGS = M
