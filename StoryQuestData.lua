@@ -78,6 +78,7 @@ local T = {
     [2618947] = 0.6, -- goehi
     [5764885] = 1.6, -- monte gazlowe
     [6658771] = 2.1, -- titan console
+    [5899823] = 1.0, -- sitchoaf
 }
 PKG.QUESTVIEW_MODEL_TWEAKS = T
 
@@ -148,5 +149,6 @@ local M = {
     [2215] = "TWW/hallowfall",
     [2255] = "TWW/azj_kahet", [2256] = "TWW/azj_kahet",
     [2369] = "TWW/siren_isle",
+    [2346] = "TWW/undermine",
 }
 PKG.QUESTVIEW_MAP_BGS = M
