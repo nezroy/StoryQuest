@@ -160,25 +160,11 @@ end
 function StoryQuest:HideQuestFrame()
     -- cannot actually hide it as we are stealing its elements/events and need it
     -- to remain technially shown for the duration
-    if self.blizzFramePoints then
-        wipe(self.blizzFramePoints)
-    else
-        self.blizzFramePoints = {}
-    end
-    for i = 1, QuestFrame:GetNumPoints() do
-        tinsert(self.blizzFramePoints, {QuestFrame:GetPoint(i)})
-    end
-    QuestFrame:ClearAllPoints()
-    QuestFrame:SetClampedToScreen(false)
-    QuestFrame:SetPoint("RIGHT", UIParent, "LEFT", -800, 0)
+    QuestFrame:SetAlpha(0.0)
 end
 
 function StoryQuest:UnhideQuestFrame()
-    QuestFrame:ClearAllPoints()
-    QuestFrame:SetClampedToScreen(true)
-    for _, pt in ipairs(self.blizzFramePoints) do
-        QuestFrame:SetPoint(pt[1], pt[2], pt[3], pt[4], pt[5])
-    end
+    QuestFrame:SetAlpha(1.0)
 end
 
 function StoryQuest:showRewards(showObjective)
