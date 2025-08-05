@@ -85,6 +85,7 @@ local T = {
     [3058051] = 1.6, -- tarela
     [5755585] = 3.0, -- chett
     [1608483] = 2.0, -- maggie wiltshire
+    [3657310] = 1.05, -- om'en
 }
 PKG.QUESTVIEW_MODEL_TWEAKS = T
 
@@ -158,5 +159,7 @@ local M = {
     [2255] = "TWW/azj_kahet", [2256] = "TWW/azj_kahet",
     [2369] = "TWW/siren_isle",
     [2346] = "TWW/undermine",
+    [2371] = "TWW/karesh",
+    [2472] = "TWW/tazavesh",
 }
 PKG.QUESTVIEW_MAP_BGS = M
