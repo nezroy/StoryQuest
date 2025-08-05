@@ -1,2 +1,3 @@
 - Updated model scales
-- Add Siren Isle and Undermine backdrops
+- Additional backgrounds
+- Updated TOC for 11.2.0
