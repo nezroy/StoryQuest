@@ -79,6 +79,12 @@ local T = {
     [5764885] = 1.6, -- monte gazlowe
     [6658771] = 2.1, -- titan console
     [5899823] = 1.0, -- sitchoaf
+    [1905018] = 0.8, -- xithixxin
+    [123799] = 1.15, -- ameer
+    [123791] = 0.85, -- dabiri
+    [3058051] = 1.6, -- tarela
+    [5755585] = 3.0, -- chett
+    [1608483] = 2.0, -- maggie wiltshire
 }
 PKG.QUESTVIEW_MODEL_TWEAKS = T
 
@@ -88,6 +94,7 @@ local N = {
     [201648] = -0.79, -- big somnikus
     [215788] = 1.1, [215822] = 1.1, [215836] = 1.1, -- berrund
     [144154] = 1.6, -- thurgaden
+    [228860] = 2.2, -- gabby gabi
 }
 PKG.QUESTVIEW_NPC_TWEAKS = N
 
@@ -118,6 +125,7 @@ PKG.QUESTVIEW_PLAYER_SCALES = P
 local M = {
     [84]   = "EK/stormwind",
     [1186] = "EK/blackrock_depths",
+    [2372] = "EK/arathi_highlands",
     [85]   = "Kalimdor/orgrimmar",
     [81]   = "Kalimdor/silithus",
     [1409] = "Misc/starter_isle",
