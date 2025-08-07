@@ -1,1 +1,2 @@
-- Add K'aresh backgrounds
+- Add support for animation kits with alternate idle types
+- Give Xal'atath her iconic hover

@@ -86,6 +86,7 @@ local T = {
     [5755585] = 3.0, -- chett
     [1608483] = 2.0, -- maggie wiltshire
     [3657310] = 1.05, -- om'en
+    [5159886] = 1.2, -- xal'atath
 }
 PKG.QUESTVIEW_MODEL_TWEAKS = T
 
