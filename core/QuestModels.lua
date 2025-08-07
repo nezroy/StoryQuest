@@ -13,28 +13,54 @@ local QuestPlayerMixin = StoryQuestPlayerModelMixin
 -- emote IDs used for SetAnimation
 local emotes = {
     ["Idle"] = 0,
-    ["Dead"] = 6,
+    ["IdleHover"] = 193,
+    ["IdleDead"] = 6,
+    ["IdleDrowned"] = 132,
+    ["IdleRead"] = 520,
     ["Talk"] = 60,
+    ["FullTalk"] = 1203,
+    ["HalfTalk"] = 1521,
+    ["Talk2"] = 1492,
+    ["FullTalk2"] = 1203,
+    ["HalfTalk2"] = 1521,
     ["TalkExclamation"] = 64,
+    ["FullTalkExclamation"] = 1201,
+    ["HalfTalkExclamation"] = 14256,
     ["TalkQuestion"] = 65,
+    ["FullTalkQuestion"] = 29460,
+    ["HalfTalkQuestion"] = 3216,
     ["Bow"] = 66,
+    ["FullBow"] = 3261,
+    ["HalfBow"] = 2413,
     ["Point"] = 84,
+    ["FullPoint"] = 4010,
+    ["HalfPoint"] = 4010,
     ["Salute"] = 113,
-    ["Drowned"] = 132,
+    ["FullSalute"] = 18795,
+    ["HalfSalute"] = 13678,
     ["Yes"] = 185,
+    ["FullYes"] = 9183,
+    ["HalfYes"] = 30606,
     ["No"] = 186,
-    ["Read"] = 520
+    ["FullNo"] = 20341,
+    ["HalfNo"] = 4772,
 }
-local mid_set = {"Idle", "Talk", "Yes", "No", "Point"}
+local mid_set = {"Talk", "Talk2", "Yes", "No", "Point"}
 local end_set = {"Bow", "Salute"}
 function QuestGiverMixin:OnAnimFinished()
-    if self.anim_next ~= 0 then
-        self:SetAnimation(self.anim_next)
-        self.anim_next = 0
-    else
-        self:SetScript("OnAnimFinished", nil)
+    if self.anim_next ~= -1 then
+        self.anim_playing = true
+        if self.half_kits then
+            self:PlayAnimKit(self.anim_next)
+        else
+            self:SetAnimation(self.anim_next)
+        end
+        self.anim_next = -1
+    elseif self.anim_playing then
         self.anim_playing = false
-        self:SetAnimation(0)
+        if not self.half_kits then
+            self:SetAnimation(self.idle_anim)
+        end
     end
 end
 
@@ -47,37 +73,57 @@ function QuestGiverMixin:setQuestGiverAnimation(count, qString, qStringInt)
         return
     end
 
-    if qStringInt == 1 or qStringInt >= count then
-        self:SetScript("OnAnimFinished", nil)
-        self.anim_next = 0
-        self.anim_playing = false
-    end
-
     -- determine main emote to play for this line
-    local a = emotes["Talk"]
+    local prefix = self.half_kits and "Half" or ""
+    local a = "Talk"
     local s = string.sub(qString[qStringInt], -1)
+    local overwrite_next = false
     if qStringInt >= count then
-        a = emotes[end_set[math.random(1, #end_set)]]
+        a = end_set[math.random(1, #end_set)]
+        overwrite_next = true
     elseif s == "!" then
-        a = emotes["TalkExclamation"]
+        a = "TalkExclamation"
     elseif s == "?" then
-        a = emotes["TalkQuestion"]
+        a = "TalkQuestion"
     end
 
     -- if playing something, don't interrupt to avoid spastic motions on click-thru
     if self.anim_playing then
-        if a == emotes["Talk"] then
-            self.anim_next = emotes[mid_set[math.random(1, #mid_set)]]
-        else
-            self.anim_next = a
+        if self.anim_next == -1 or overwrite_next then
+            if a == "Talk" then
+                a = mid_set[math.random(1, #mid_set)]
+            end
+            Debug("anim is playing; next anim:", prefix, a)
+            if self:HasAnimation(emotes[a]) then
+                self.anim_next = emotes[prefix .. a]
+            elseif not overwrite_next then
+                self.anim_next = emotes[prefix .. "Talk"]
+            else
+                self.anim_next = -1
+            end
         end
     else
         self.anim_playing = true
+        self.anim_next = -1
         if qStringInt < count then
-            self.anim_next = emotes[mid_set[math.random(1, #mid_set)]]
+            if a == "Talk" then
+                a = mid_set[math.random(1, #mid_set)]
+            end
         end
-        self:SetScript("OnAnimFinished", self.OnAnimFinished)
-        self:SetAnimation(a)
+        Debug("no anim playing; next anim:", prefix, a)
+        local play_anim = nil
+        if self:HasAnimation(emotes[a]) then
+            play_anim = emotes[prefix .. a]
+        elseif not overwrite_next then
+            play_anim = emotes[prefix .. "Talk"]
+        end
+        if play_anim ~= nil then
+            if self.half_kits then
+                self:PlayAnimKit(play_anim)
+            else
+                self:SetAnimation(play_anim)
+            end
+        end
     end
 end
 
@@ -117,19 +163,33 @@ function QuestGiverMixin:setPMUnit(unit, is_dead, npc_name, npc_type)
         -- static tweak for most smaller models
         offsetZ = 100
     end
+
+    if is_dead then
+        self.idle_anim = emotes.IdleDead
+        self.doAnims = false
+    else
+        self.doAnims = true
+        self.idle_anim = emotes.Idle
+    end
+
+    self.half_kits = false
     if fileID == 1267024 then
         -- floating scroll
         offsetX = -350
         offsetZ = 250
-    end
-    self:SetViewTranslation(offsetX, offsetZ)
-
-    if is_dead then
-        self:SetAnimation(emotes.Dead)
         self.doAnims = false
-    else
-        self.doAnims = true
+    elseif fileID == 5159886 then
+        self.idle_anim = emotes.IdleHover
+        self.half_kits = true
     end
+    self.anim_next = -1
+    self.anim_playing = false
+    if not self.anim_hooked then
+        self:HookScript("OnAnimFinished", self.OnAnimFinished)
+        self.anim_hooked = true
+    end
+    self:SetAnimation(self.idle_anim)
+    self:SetViewTranslation(offsetX, offsetZ)
 end
 
 function QuestGiverMixin:setBoardUnit()
@@ -184,7 +244,6 @@ function QuestPlayerMixin:SetupModel()
         offsetX = -55
     end
 
-
     self:ClearModel()
     self:RefreshCamera()
     self:SetFacing(MODEL_FACING)
@@ -220,7 +279,7 @@ function QuestPlayerMixin:setPMUnit()
 end
 
 function QuestPlayerMixin:ReadScroll()
-    self:SetAnimation(emotes.Read)
+    self:SetAnimation(emotes.IdleRead)
     self:ApplySpellVisualKit(29521, false)
 end
 
