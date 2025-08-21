@@ -1,2 +1,1 @@
-- Add support for animation kits with alternate idle types
-- Give Xal'atath her iconic hover
+- Give Widow Arak'nai custom hanging idle

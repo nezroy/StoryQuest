@@ -16,6 +16,7 @@ local emotes = {
     ["IdleHover"] = 193,
     ["IdleDead"] = 6,
     ["IdleDrowned"] = 132,
+    ["IdleHang"] = 229,
     ["IdleRead"] = 520,
     ["Talk"] = 60,
     ["FullTalk"] = 1203,
@@ -155,6 +156,7 @@ function QuestGiverMixin:setPMUnit(unit, is_dead, npc_name, npc_type)
 
     local offsetX = -110
     local offsetZ = 50
+    local pitch = 0.0
     if wideModel then
         -- static tweak for some big wide models like dragons
         offsetX = 30
@@ -179,8 +181,16 @@ function QuestGiverMixin:setPMUnit(unit, is_dead, npc_name, npc_type)
         offsetZ = 250
         self.doAnims = false
     elseif fileID == 5159886 then
+        -- xal'atath
         self.idle_anim = emotes.IdleHover
         self.half_kits = true
+    elseif creatureID == 207471 or creatureID == 227428 then
+        -- widow arak'nai
+        self.idle_anim = emotes.IdleHang
+        self.half_kits = true
+        offsetX = -150
+        offsetZ = 375
+        pitch = -0.33
     end
     self.anim_next = -1
     self.anim_playing = false
@@ -188,6 +198,7 @@ function QuestGiverMixin:setPMUnit(unit, is_dead, npc_name, npc_type)
         self:HookScript("OnAnimFinished", self.OnAnimFinished)
         self.anim_hooked = true
     end
+    self:SetPitch(pitch)
     self:SetAnimation(self.idle_anim)
     self:SetViewTranslation(offsetX, offsetZ)
 end
@@ -197,6 +208,7 @@ function QuestGiverMixin:setBoardUnit()
     self:RefreshCamera()
     self:SetModel(1822634)
     self:InitializeCamera(2.0)
+    self:SetPitch(0.0)
     self:SetViewTranslation(-400, 10)
     self.doAnims = false
 end
