@@ -1,6 +1,8 @@
 local _, PKG = ...
 local Debug = PKG.Debug
 
+local mapBGs = PKG.QUESTVIEW_MAP_BGS
+
 StoryQuestFrameMixin = {}
 local StoryQuest = StoryQuestFrameMixin
 
@@ -25,7 +27,6 @@ function StoryQuest:UpdateMapId()
     end
 end
 
-local mapBGs = PKG.QUESTVIEW_MAP_BGS
 
 local function questInfoDisplay(template, parentFrame)
     if template == QUEST_TEMPLATE_MAP_DETAILS or template == QUEST_TEMPLATE_MAP_REWARDS then
@@ -349,17 +350,18 @@ function StoryQuest:showQuestFrame()
     local npc_name = GetUnitName("questnpc")
     local npc_type = UnitCreatureType("questnpc")
     local gm = self.container.giverModel
-    if UnitIsUnit("questnpc", "player") then
+    local dbg_cid = PKG.QUESTVIEW_DEBUG_CREATURE_ID
+    if UnitIsUnit("questnpc", "player") or dbg_cid == -1 then
         -- quest giver is the player; typically for auto-accepted quests, story pushes, etc.
         gm:setBoardUnit()
-    elseif npc_name and npc_type then
-        -- quest giver has a creature type; some kind of entity with a normal model
-        gm:setPMUnit("questnpc", UnitIsDead("questnpc") and true or false, npc_name, npc_type)
-    elseif npc_name then
+    elseif (npc_name ~= nil and npc_type == nil) or dbg_cid == -2 then
         -- quest giver has a name but no type; probably an item or letter; give player a reading anim
         gm:ClearModel()
         gm:RefreshCamera()
         self.container.playerModel:ReadScroll()
+    elseif npc_name ~= nil and npc_type ~= nil then
+        -- quest giver has a creature type; some kind of entity with a normal model
+        gm:setPMUnit("questnpc", UnitIsDead("questnpc") and true or false, npc_name, npc_type)
     end
     --PlaySoundFile("Interface/AddOns/StoryQuest/sounds/dialog_open.ogg", "SFX")
 end

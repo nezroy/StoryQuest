@@ -18,7 +18,8 @@ TaintLess/TaintLess.xml
 core/debug.lua
 settings/Settings.lua
 StoryQuestData.lua
-core/QuestModels.lua
+core/QuestGiverMixin.lua
+core/QuestPlayerMixin.lua
 core/QuestReqItems.lua
 core/QuestReqItems.xml
 core/StoryQuestFrame.lua
