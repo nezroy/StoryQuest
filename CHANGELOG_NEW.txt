@@ -1,1 +1,2 @@
+- Add backgrounds and tweaks for Wrath/Northrend
 - Code refactoring to make model tweaks easier to manage

@@ -127,6 +127,9 @@ local T = {
     [1608483] = 2.0, -- maggie wiltshire
     [3657310] = 1.05, -- om'en
     [5159886] = {['sf'] = 1.2, ['idle_anim'] = emotes.IdleHover, ['half_kits'] = true}, -- xal'atath
+    [1738454] = 1.15, -- saurfang
+    [126286] = {['sf'] = 1.8, ['offsetX'] = -350}, -- waltor of pal'ea
+    [968705] = 1.1, -- elder mootoo
 }
 PKG.QUESTVIEW_MODEL_TWEAKS = T
 
@@ -178,8 +181,10 @@ local M = {
     [81]   = "Kalimdor/silithus",
     [1409] = "Misc/starter_isle",
     [971]  = "Misc/telogus_rift",
+    [114]  = "Wrath/borean",
     [115]  = "Wrath/dragonblight",
     [120]  = "Wrath/stormpeaks",
+    [125]  = "Wrath/dalaran",
     [627]  = "Legion/dalaran",
     [629]  = "Legion/dalaran_basement",
     [882]  = "Legion/eredath",
