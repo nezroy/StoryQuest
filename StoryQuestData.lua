@@ -1,7 +1,48 @@
 local _, PKG = ...
 
--- model scale factors for questview
+-- emote IDs used for SetAnimation
+local emotes = {
+    ["Idle"] = 0,
+    ["IdleHover"] = 193,
+    ["IdleDead"] = 6,
+    ["IdleDrowned"] = 132,
+    ["IdleHang"] = 229,
+    ["IdleRead"] = 520,
+    ["Talk"] = 60,
+    ["FullTalk"] = 1203,
+    ["HalfTalk"] = 1521,
+    ["Talk2"] = 1492,
+    ["FullTalk2"] = 1203,
+    ["HalfTalk2"] = 1521,
+    ["TalkExclamation"] = 64,
+    ["FullTalkExclamation"] = 1201,
+    ["HalfTalkExclamation"] = 14256,
+    ["TalkQuestion"] = 65,
+    ["FullTalkQuestion"] = 29460,
+    ["HalfTalkQuestion"] = 3216,
+    ["Bow"] = 66,
+    ["FullBow"] = 3261,
+    ["HalfBow"] = 2413,
+    ["Point"] = 84,
+    ["FullPoint"] = 4010,
+    ["HalfPoint"] = 4010,
+    ["Salute"] = 113,
+    ["FullSalute"] = 18795,
+    ["HalfSalute"] = 13678,
+    ["Yes"] = 185,
+    ["FullYes"] = 9183,
+    ["HalfYes"] = 30606,
+    ["No"] = 186,
+    ["FullNo"] = 20341,
+    ["HalfNo"] = 4772,
+}
+PKG.QUESTVIEW_EMOTES = emotes
+
+PKG.QUESTVIEW_DEBUG_CREATURE_ID = nil
+
+-- model (fileID) tweaks for questview
 local T = {
+    [1267024] = {['sf'] = 2.0, ['offsetX'] = -350, ['offsetZ'] = 250, ['idle_anim'] = -1}, -- floating scroll/khadgar's summons
     [1980608] = 1.3, -- Ulfar
     [3762412] = 1.1, -- primus
     [950080] = 1.7, -- toddy whiskers, moira
@@ -72,12 +113,11 @@ local T = {
     [589715] = 1.3, -- noli marlen
     [5550057] = 2.0, -- cogwalker
     [1890763] = 1.6, -- jarden
-    [1267024] = 2.0, -- khadgar's summons
     [5517447] = 0.9, -- miral murder-mittens
     [5763560] = 1.5, -- alyza bowblaze
     [2618947] = 0.6, -- goehi
     [5764885] = 1.6, -- monte gazlowe
-    [6658771] = 2.1, -- titan console
+    [6658771] = {['sf'] = 2.5, ['idle_anim'] = -1, ['offsetX'] = -300}, -- titan console
     [5899823] = 1.0, -- sitchoaf
     [1905018] = 0.8, -- xithixxin
     [123799] = 1.15, -- ameer
@@ -86,17 +126,23 @@ local T = {
     [5755585] = 3.0, -- chett
     [1608483] = 2.0, -- maggie wiltshire
     [3657310] = 1.05, -- om'en
-    [5159886] = 1.2, -- xal'atath
+    [5159886] = {['sf'] = 1.2, ['idle_anim'] = emotes.IdleHover, ['half_kits'] = true}, -- xal'atath
 }
 PKG.QUESTVIEW_MODEL_TWEAKS = T
 
--- NPC scale factors for questview (takes priority over model tweaks)
+-- NPC (creatureID) tweaks for questview; takes priority over model tweaks
+local n_widow_araknai = {
+    ['sf'] = 1.1, ['idle_anim'] = emotes.IdleHang, ['half_kits'] = true,
+    ['offsetX'] = -150, ['offsetZ'] = 375, ['pitch'] = -0.33,
+}
+local n_berrund  = 1.1
 local N = {
     [197478] = 2.8, -- herald flaps
     [201648] = -0.79, -- big somnikus
-    [215788] = 1.1, [215822] = 1.1, [215836] = 1.1, -- berrund
+    [215788] = n_berrund, [215822] = n_berrund, [215836] = n_berrund,
     [144154] = 1.6, -- thurgaden
     [228860] = 2.2, -- gabby gabi
+    [207471] = n_widow_araknai, [227428] = n_widow_araknai,
 }
 PKG.QUESTVIEW_NPC_TWEAKS = N
 

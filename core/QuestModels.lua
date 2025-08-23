@@ -3,6 +3,7 @@ local Debug = PKG.Debug
 
 local model_tweaks = PKG.QUESTVIEW_MODEL_TWEAKS
 local npc_tweaks = PKG.QUESTVIEW_NPC_TWEAKS
+local emotes = PKG.QUESTVIEW_EMOTES
 
 StoryQuestGiverModelMixin = {}
 local QuestGiverMixin = StoryQuestGiverModelMixin
@@ -10,44 +11,10 @@ local QuestGiverMixin = StoryQuestGiverModelMixin
 StoryQuestPlayerModelMixin = {}
 local QuestPlayerMixin = StoryQuestPlayerModelMixin
 
--- emote IDs used for SetAnimation
-local emotes = {
-    ["Idle"] = 0,
-    ["IdleHover"] = 193,
-    ["IdleDead"] = 6,
-    ["IdleDrowned"] = 132,
-    ["IdleHang"] = 229,
-    ["IdleRead"] = 520,
-    ["Talk"] = 60,
-    ["FullTalk"] = 1203,
-    ["HalfTalk"] = 1521,
-    ["Talk2"] = 1492,
-    ["FullTalk2"] = 1203,
-    ["HalfTalk2"] = 1521,
-    ["TalkExclamation"] = 64,
-    ["FullTalkExclamation"] = 1201,
-    ["HalfTalkExclamation"] = 14256,
-    ["TalkQuestion"] = 65,
-    ["FullTalkQuestion"] = 29460,
-    ["HalfTalkQuestion"] = 3216,
-    ["Bow"] = 66,
-    ["FullBow"] = 3261,
-    ["HalfBow"] = 2413,
-    ["Point"] = 84,
-    ["FullPoint"] = 4010,
-    ["HalfPoint"] = 4010,
-    ["Salute"] = 113,
-    ["FullSalute"] = 18795,
-    ["HalfSalute"] = 13678,
-    ["Yes"] = 185,
-    ["FullYes"] = 9183,
-    ["HalfYes"] = 30606,
-    ["No"] = 186,
-    ["FullNo"] = 20341,
-    ["HalfNo"] = 4772,
-}
+-- emotes used (at random) for talk sequences and end sign-off
 local mid_set = {"Talk", "Talk2", "Yes", "No", "Point"}
 local end_set = {"Bow", "Salute"}
+
 function QuestGiverMixin:OnAnimFinished()
     if self.anim_next ~= -1 then
         self.anim_playing = true
@@ -137,13 +104,26 @@ function QuestGiverMixin:setPMUnit(unit, is_dead, npc_name, npc_type)
     -- set new model/unit
     local scaleFactor = 1.25 -- can we figure this out programmatically without lookups?
     self:SetUnit(unit)
-    --self:SetCreature(191485)
     local creatureID = TutorialHelper:GetCreatureIDFromGUID(UnitGUID(unit))
+    if PKG.QUESTVIEW_DEBUG_CREATURE_ID ~= nil then
+        creatureID = PKG.QUESTVIEW_DEBUG_CREATURE_ID
+        self:SetCreature(creatureID)
+    end
     local fileID = self:GetModelFileID()
+    local tweaks = nil
+    local tweak_opts = nil
     if creatureID and npc_tweaks[creatureID] then
-        scaleFactor = npc_tweaks[creatureID]
+        tweaks = npc_tweaks[creatureID]
     elseif fileID and model_tweaks[fileID] then
-        scaleFactor = model_tweaks[fileID]
+        tweaks = model_tweaks[fileID]
+    end
+    if tweaks ~= nil and type(tweaks) == 'table' then
+        tweak_opts = tweaks
+    end
+    if tweak_opts ~= nil and tweak_opts['sf'] ~= nil then
+        scaleFactor = tweak_opts['sf']
+    elseif tweaks ~= nil then
+        scaleFactor = tweaks
     end
     local wideModel = false
     if scaleFactor < 0 then
@@ -157,41 +137,45 @@ function QuestGiverMixin:setPMUnit(unit, is_dead, npc_name, npc_type)
     local offsetX = -110
     local offsetZ = 50
     local pitch = 0.0
+    local half_kits = false
+    local idle_anim = emotes.Idle
     if wideModel then
         -- static tweak for some big wide models like dragons
         offsetX = 30
-        --offsetZ = 0
     elseif scaleFactor > 2.5 then
         -- static tweak for most smaller models
         offsetZ = 100
     end
 
+    if tweak_opts ~= nil then
+        if tweak_opts['offsetX'] ~= nil then
+            offsetX = tweak_opts['offsetX']
+        end
+        if tweak_opts['offsetZ'] ~= nil then
+            offsetZ = tweak_opts['offsetZ']
+        end
+        if tweak_opts['pitch'] ~= nil then
+            pitch = tweak_opts['pitch']
+        end
+        if tweak_opts['half_kits'] ~= nil then
+            half_kits = tweak_opts['half_kits']
+        end
+        if tweak_opts['idle_anim'] ~= nil then
+            idle_anim = tweak_opts['idle_anim']
+        end
+    end
+
     if is_dead then
         self.idle_anim = emotes.IdleDead
         self.doAnims = false
-    else
-        self.doAnims = true
-        self.idle_anim = emotes.Idle
-    end
-
-    self.half_kits = false
-    if fileID == 1267024 then
-        -- floating scroll
-        offsetX = -350
-        offsetZ = 250
+    elseif idle_anim == -1 then
+        self.idle_anim = 0
         self.doAnims = false
-    elseif fileID == 5159886 then
-        -- xal'atath
-        self.idle_anim = emotes.IdleHover
-        self.half_kits = true
-    elseif creatureID == 207471 or creatureID == 227428 then
-        -- widow arak'nai
-        self.idle_anim = emotes.IdleHang
-        self.half_kits = true
-        offsetX = -150
-        offsetZ = 375
-        pitch = -0.33
+    else
+        self.idle_anim = idle_anim
+        self.doAnims = true
     end
+    self.half_kits = half_kits
     self.anim_next = -1
     self.anim_playing = false
     if not self.anim_hooked then

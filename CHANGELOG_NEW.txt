@@ -1,1 +1,1 @@
-- Give Widow Arak'nai custom hanging idle
+- Code refactoring to make model tweaks easier to manage
