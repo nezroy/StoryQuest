@@ -53,11 +53,10 @@ end
 function QuestPlayerMixin:setPMUnit()
     self.is_clear = false
     if not self.is_unit_set then
-        self.is_unit_set = true
         self:SetUnit("player", true, true)
-    else
-        self:RefreshUnit()
     end
+    self.is_unit_set = true
+    self:RefreshUnit()
 end
 
 function QuestPlayerMixin:ClearAll()
@@ -71,7 +70,7 @@ function QuestPlayerMixin:OnHide()
 end
 
 function QuestPlayerMixin:OnModelLoaded()
-    if self.is_clear then
+    if self.is_clear or not self.is_unit_set then
         return
     end
     Debug("player model loaded")
