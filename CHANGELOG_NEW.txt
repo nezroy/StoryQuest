@@ -2,5 +2,6 @@
 - Hide StoryQuest during cinematics or loading screens
 - Fix issues with "push" quests on first load
 - Fix issues with taking quests from Hero/Warchief boards
+- Better handling for worgen and drachthyr player forms
 - Add more quest board model types
 - Code refactoring to make model tweaks easier to manage

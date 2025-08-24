@@ -11,43 +11,6 @@ function QuestPlayerMixin:SetupModel()
     self:ClearAll()
     self:SetFacing(0.5)
     self.is_clear = false
-
-    local _, _, raceID = UnitRace("player")
-    local heightScale = player_scales[raceID]
-    if not heightScale then
-        heightScale = player_scales[0] -- default
-    end
-    local ps = PKG.Settings.Get("ScalePlayer")
-    Debug("player frame scale:", heightScale, "personal scale:", ps)
-    if ps then
-        heightScale = heightScale / ps
-    end
-    local foot_offset = floor((heightScale - 1.0) * -100)
-    Debug("foot_offset:", foot_offset)
-    local offsetX = -35
-
-    if raceID == 52 or raceID == 70 then
-        -- adjust for dracthyr weirdness; proper fix would check visage form
-        -- and reset these params based on current form
-        foot_offset = foot_offset - 10
-        offsetX = -90
-    elseif raceID == 10 then
-        -- tweak for blood elf
-        foot_offset = foot_offset - 15
-    elseif raceID == 22 then
-        -- tweak for worgen
-        -- TODO: would be really nice if we could figure out if we're in worgen
-        -- or human form on model refresh and adjust from that
-        foot_offset = foot_offset - 15
-        offsetX = -55
-    elseif raceID == 1 then
-        -- tweaks for humans        
-        foot_offset = foot_offset - 15
-        offsetX = -55
-    end
-    self.heightScale = heightScale
-    self.foot_offset = foot_offset
-    self.offsetX = offsetX
 end
 
 function QuestPlayerMixin:setPMUnit()
@@ -75,9 +38,54 @@ function QuestPlayerMixin:OnModelLoaded()
     end
     Debug("player model loaded")
 
+    local _, _, real_race_id = UnitRace("player")
+    -- determine effective race ID to use based on alt forms
+    local raceID = real_race_id
+    local _, is_in_alt = C_PlayerInfo.GetAlternateFormInfo()
+    if real_race_id == 52 and is_in_alt then
+        -- alliance dracthyr in blood elf visage
+        raceID = 10
+    elseif real_race_id == 70 and is_in_alt then
+        -- horde dracthyr in human visage
+        raceID = 1
+    elseif real_race_id == 22 and is_in_alt then
+        -- worgen in human form
+        raceID = 1
+    end
+
+    local heightScale = player_scales[raceID]
+    if not heightScale then
+        heightScale = player_scales[0] -- default
+    end
+    local ps = PKG.Settings.Get("ScalePlayer")
+    Debug("real race:", real_race_id, "effective race:", raceID, "in alt form:", is_in_alt, "height scale:", heightScale, "personal scale:", ps)
+    if ps then
+        heightScale = heightScale / ps
+    end
+    local foot_offset = floor((heightScale - 1.0) * -100)
+    --Debug("foot_offset:", foot_offset)
+    local offsetX = -35
+
+    if raceID == 52 or raceID == 70 then
+        -- tweak for dracthyr
+        foot_offset = foot_offset - 10
+        offsetX = -100
+    elseif raceID == 10 then
+        -- tweak for blood elf
+        foot_offset = foot_offset - 15
+    elseif raceID == 22 then
+        -- tweak for worgen
+        foot_offset = foot_offset + 10
+        offsetX = -45
+    elseif raceID == 1 then
+        -- tweaks for humans
+        foot_offset = foot_offset - 15
+        offsetX = -55
+    end
+
     self:RefreshCamera()
-    self:SetCamDistanceScale(self.heightScale)
-    self:SetViewTranslation(self.offsetX, self.foot_offset)
+    self:SetCamDistanceScale(heightScale)
+    self:SetViewTranslation(offsetX, foot_offset)
 
     local wm = PKG.Settings.Get("WeaponMode")
     local hm = PKG.Settings.Get("HelmetMode")

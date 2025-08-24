@@ -171,8 +171,8 @@ local P = {
     [34] = 1.45, -- dark iron
     [35] = 1.5, -- vulpera
     [37] = 1.5, -- mechagnome
-    [84] = 1.5, -- earthen
-    [85] = 1.5, -- earthen
+    [52] = 1.0, [70] = 1.0, -- dracthyr
+    [84] = 1.5, [85] = 1.5, -- earthen
 }
 PKG.QUESTVIEW_PLAYER_SCALES = P
 
