@@ -42,6 +42,7 @@ PKG.QUESTVIEW_DEBUG_CREATURE_ID = nil
 
 -- model (fileID) tweaks for questview
 local T = {
+    [1822634] = {['sf'] = 2.0, ['offsetX'] = -400, ['offsetZ'] = 10, ['idle_anim'] = -1, ['facing'] = -0.7}, -- quest board
     [1267024] = {['sf'] = 2.0, ['offsetX'] = -350, ['offsetZ'] = 250, ['idle_anim'] = -1}, -- floating scroll/khadgar's summons
     [1980608] = 1.3, -- Ulfar
     [3762412] = 1.1, -- primus

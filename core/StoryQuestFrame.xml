@@ -7,7 +7,7 @@
         </KeyValues>
     </Button>
 
-    <Frame name="StoryQuestFrame" hidden="true" frameStrata="HIGH" mixin="StoryQuestFrameMixin" enableMouse="true">
+    <Frame name="StoryQuestFrame" hidden="true" frameStrata="HIGH" mixin="StoryQuestFrameMixin" enableMouse="true" alpha="0">
         <Size x="1024" y="512"></Size>
         <Anchors>
             <Anchor point="center" x="0" y="0" />
@@ -38,8 +38,6 @@
                 <Animations>
                     <AnimationGroup parentKey="FadeIn" setToFinalAlpha="true">
                         <Alpha childKey="mapBG" duration="0.2" fromAlpha="0" toAlpha="1"/>
-                        <Alpha childKey="playerModel" duration="0.4" fromAlpha="0" toAlpha="1"/>
-                        <Alpha childKey="giverModel" duration="0.4" fromAlpha="0" toAlpha="1"/>
                     </AnimationGroup>
                 </Animations>
                 <Layers>
@@ -78,12 +76,31 @@
                         <Anchors>
                             <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" x="0" y="1"/>
                         </Anchors>
+                        <Scripts>
+                            <OnHide method="OnHide"/>
+                            <OnModelLoaded method="OnModelLoaded"/>
+                        </Scripts>
+                        <Animations>
+                            <AnimationGroup parentKey="FadeIn" setToFinalAlpha="true">
+                                <Alpha duration="0.3" fromAlpha="0" toAlpha="1"/>
+                            </AnimationGroup>
+                        </Animations>
                     </DressUpModel>
                     <CinematicModel parentKey="giverModel" alpha="0" mixin="StoryQuestGiverModelMixin">
                         <Size x="700" y="474"></Size>
                         <Anchors>
                             <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="1"/>
                         </Anchors>
+                        <Scripts>
+                            <OnHide method="OnHide"/>
+                            <OnModelLoaded method="OnModelLoaded"/>
+                            <OnAnimFinished method="OnAnimFinished"/>
+                        </Scripts>
+                        <Animations>
+                            <AnimationGroup parentKey="FadeIn" setToFinalAlpha="true">
+                                <Alpha duration="0.3" fromAlpha="0" toAlpha="1"/>
+                            </AnimationGroup>
+                        </Animations>
                     </CinematicModel>
                     <Frame parentKey="dialog" frameStrata="HIGH" enableMouse="true">
                         <Size x="950" y="374"></Size>

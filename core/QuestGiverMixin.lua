@@ -23,7 +23,7 @@ function QuestGiverMixin:OnAnimFinished()
         self.anim_next = -1
     elseif self.anim_playing then
         self.anim_playing = false
-        if not self.half_kits then
+        if not self.half_kits and self.idle_anim ~= -1 then
             self:SetAnimation(self.idle_anim)
         end
     end
@@ -34,7 +34,7 @@ function QuestGiverMixin:setQuestGiverAnimation(count, qString, qStringInt)
         return
     end
 
-    if not self.doAnims then
+    if not self.is_loaded or not self.doAnims then
         return
     end
 
@@ -92,23 +92,40 @@ function QuestGiverMixin:setQuestGiverAnimation(count, qString, qStringInt)
     end
 end
 
-function QuestGiverMixin:setPMUnit(unit, is_dead, npc_name, npc_type)
-    -- reset previous model/unit
-    self:ClearModel()
-    self:RefreshCamera()
+function QuestGiverMixin:setQuestUnit(npc_name, npc_type)
+    self.is_clear = false
+
+    local unit = "questnpc"
+    self.is_dead = UnitIsDead(unit) and true or false
+    self.npc_name = npc_name
+    self.npc_type = npc_type
 
     -- set new model/unit
-    local scaleFactor = 1.25 -- can we figure this out programmatically without lookups?
-    self:SetUnit(unit)
-    local creatureID = TutorialHelper:GetCreatureIDFromGUID(UnitGUID(unit))
+    self.creature_id = TutorialHelper:GetCreatureIDFromGUID(UnitGUID(unit))
+    local cid = self.creature_id
     local dbg_cid = PKG.QUESTVIEW_DEBUG_CREATURE_ID
     if dbg_cid ~= nil then
-        creatureID = dbg_cid
-        self:SetCreature(creatureID)
+        cid = dbg_cid
+        self:SetCreature(cid)
+    else
+        -- we do this solely to get the weapon equipped; otherwise can just set by creature ID
+        self:SetUnit("questnpc")
     end
-    local fileID = self:GetModelFileID()
+end
+
+function QuestGiverMixin:OnModelLoaded()
+    if self.is_clear then
+        return
+    end
+    local scaleFactor = 1.25 -- can we figure this out programmatically without lookups?
+    local fileID = self.file_id ~= nil and self.file_id or self:GetModelFileID()
     local tweaks = nil
     local tweak_opts = nil
+    local creatureID = self.creature_id
+    local npc_name = self.npc_name
+    local npc_type = self.npc_type
+    local is_dead = self.is_dead
+
     if creatureID and npc_tweaks[creatureID] then
         tweaks = npc_tweaks[creatureID]
     elseif fileID and model_tweaks[fileID] then
@@ -117,8 +134,10 @@ function QuestGiverMixin:setPMUnit(unit, is_dead, npc_name, npc_type)
     if tweaks ~= nil and type(tweaks) == 'table' then
         tweak_opts = tweaks
     end
-    if tweak_opts ~= nil and tweak_opts['sf'] ~= nil then
-        scaleFactor = tweak_opts['sf']
+    if tweak_opts ~= nil then
+        if tweak_opts['sf'] ~= nil then
+            scaleFactor = tweak_opts['sf']
+        end
     elseif tweaks ~= nil then
         scaleFactor = tweaks
     end
@@ -134,8 +153,8 @@ function QuestGiverMixin:setPMUnit(unit, is_dead, npc_name, npc_type)
     local offsetX = -110
     local offsetZ = 50
     local pitch = 0.0
-    local half_kits = false
-    local idle_anim = emotes.Idle
+    local facing = -0.5
+    self.idle_anim = emotes.Idle
     if wideModel then
         -- static tweak for some big wide models like dragons
         offsetX = 30
@@ -154,49 +173,83 @@ function QuestGiverMixin:setPMUnit(unit, is_dead, npc_name, npc_type)
         if tweak_opts['pitch'] ~= nil then
             pitch = tweak_opts['pitch']
         end
-        if tweak_opts['half_kits'] ~= nil then
-            half_kits = tweak_opts['half_kits']
+        if tweak_opts['facing'] ~= nil then
+            facing = tweak_opts['facing']
         end
         if tweak_opts['idle_anim'] ~= nil then
-            idle_anim = tweak_opts['idle_anim']
+            self.idle_anim = tweak_opts['idle_anim']
+        end
+        if tweak_opts['half_kits'] ~= nil then
+            self.half_kits = tweak_opts['half_kits']
         end
     end
 
     if is_dead then
         self.idle_anim = emotes.IdleDead
         self.doAnims = false
-    elseif idle_anim == -1 then
-        self.idle_anim = 0
-        self.doAnims = false
     else
-        self.idle_anim = idle_anim
-        self.doAnims = true
-    end
-    self.half_kits = half_kits
-    self.anim_next = -1
-    self.anim_playing = false
-    if not self.anim_hooked then
-        self:HookScript("OnAnimFinished", self.OnAnimFinished)
-        self.anim_hooked = true
+        self.doAnims = self.idle_anim ~= -1 and true or false
     end
     self:SetPitch(pitch)
-    self:SetAnimation(self.idle_anim)
+    self:SetFacing(facing)
+    if self.idle_anim ~= -1 then
+        self:SetAnimation(self.idle_anim)
+    end
     self:SetViewTranslation(offsetX, offsetZ)
+
+    self.is_loaded = true
+    self.FadeIn:Play()
+
+    -- debug stuff
+    local scale = self:GetModelScale()
+    local dist = self:GetCameraDistance()
+    local face = self:GetCameraFacing()
+    local px, py, pz = self:GetCameraPosition()
+    local tx, ty, tz = self:GetCameraTarget()
+    local wscale = self:GetWorldScale()
+    Debug(string.format("scale[%.3f] dist[%.3f] face[%.3f] px[%.3f] py[%.3f] pz[%.3f] tx[%.3f] ty[%.3f] tz[%.3f] wscale[%.3f]", scale, dist, face, px, py, pz, tx, ty, tz, wscale))
 end
 
 function QuestGiverMixin:setBoardUnit()
-    self:ClearModel()
-    self:RefreshCamera()
+    self.is_clear = false
+    self.file_id = 1822634
     self:SetModel(1822634)
-    self:InitializeCamera(2.0)
-    self:SetPitch(0.0)
-    self:SetViewTranslation(-400, 10)
-    self.doAnims = false
 end
 
 function QuestGiverMixin:SetupModel()
-    self:ClearModel()
-    self:RefreshCamera()
-    self:SetFacing(-0.5)
+    self:ClearAll()
     self:SetFacingLeft(true)
+end
+
+function QuestGiverMixin:OnHide()
+    self:ClearAll()
+end
+
+function QuestGiverMixin:ClearAll()
+    Debug("doing ClearAll")
+    self:SetCreature(0)
+    self:SetAlpha(0)
+    self:ClearModel()
+
+    self.npc_name = nil
+    self.npc_type = nil
+    self.is_dead = nil
+    self.creature_id = 0
+    self.file_id = nil
+    self.do_anims = false
+    self.idle_anim = emotes.Idle
+    self.half_kits = false
+    self.anim_next = -1
+    self.anim_playing = false
+    self.is_clear = true
+    self.is_loaded = false
+
+    self:SetPosition(0, 0, 0)
+    self:SetRoll(0)
+    self:SetFacing(0)
+    self:SetPitch(0)
+    self:ClearTransform()
+
+    self:SetCameraTarget(0, 0, 0)
+    self:SetCameraPosition(0, 0, 0)
 end

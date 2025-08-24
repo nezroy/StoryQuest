@@ -7,6 +7,7 @@ StoryQuestFrameMixin = {}
 local StoryQuest = StoryQuestFrameMixin
 
 function StoryQuest:UiScaleChanged()
+    Debug("running ui scale changed")
     local sf = PKG.Settings.Get("ScaleFrame")
     self:SetScale(UIParent:GetScale() * sf)
     self.container.playerModel:SetupModel()
@@ -15,6 +16,7 @@ function StoryQuest:UiScaleChanged()
         -- reload internal stuff
         self:showQuestFrame()
     end
+    self.defer_ui_change = false
 end
 
 function StoryQuest:UpdateMapId()
@@ -26,7 +28,6 @@ function StoryQuest:UpdateMapId()
         self.updateAttempts = 0
     end
 end
-
 
 local function questInfoDisplay(template, parentFrame)
     if template == QUEST_TEMPLATE_MAP_DETAILS or template == QUEST_TEMPLATE_MAP_REWARDS then
@@ -160,7 +161,7 @@ end
 
 function StoryQuest:HideQuestFrame()
     -- cannot actually hide it as we are stealing its elements/events and need it
-    -- to remain technially shown for the duration
+    -- to remain technically shown for the duration
     QuestFrame:SetAlpha(0.0)
 end
 
@@ -327,6 +328,7 @@ function StoryQuest:lastGossip()
 end
 
 function StoryQuest:showQuestFrame()
+    Debug("show quest frame running")
     local mapId = self.mapId or C_Map.GetBestMapForUnit("player") or 0
     local mapTex
     repeat
@@ -343,25 +345,26 @@ function StoryQuest:showQuestFrame()
     self.container.mapBG:SetTexture("Interface/AddOns/StoryQuest/textures/backgrounds/" .. mapTex)
 
     self.container.floaty.title:SetText(GetTitleText())
-    self:Show()
-
-    self.container.playerModel:setPMUnit()
 
     local npc_name = GetUnitName("questnpc")
     local npc_type = UnitCreatureType("questnpc")
-    local gm = self.container.giverModel
     local dbg_cid = PKG.QUESTVIEW_DEBUG_CREATURE_ID
-    if UnitIsUnit("questnpc", "player") or dbg_cid == -1 then
+    local is_self = UnitIsUnit("questnpc", "player")
+
+    self:Show()
+
+    local pm = self.container.playerModel
+    local gm = self.container.giverModel
+    pm:setPMUnit()
+    if is_self or dbg_cid == -1 then
         -- quest giver is the player; typically for auto-accepted quests, story pushes, etc.
         gm:setBoardUnit()
     elseif (npc_name ~= nil and npc_type == nil) or dbg_cid == -2 then
         -- quest giver has a name but no type; probably an item or letter; give player a reading anim
-        gm:ClearModel()
-        gm:RefreshCamera()
-        self.container.playerModel:ReadScroll()
+        pm:ReadScroll()
     elseif npc_name ~= nil and npc_type ~= nil then
         -- quest giver has a creature type; some kind of entity with a normal model
-        gm:setPMUnit("questnpc", UnitIsDead("questnpc") and true or false, npc_name, npc_type)
+        gm:setQuestUnit(npc_name, npc_type)
     end
     --PlaySoundFile("Interface/AddOns/StoryQuest/sounds/dialog_open.ogg", "SFX")
 end
@@ -458,8 +461,6 @@ end
 
 function StoryQuest:OnHide()
     self.container.mapBG:SetAlpha(0)
-    self.container.playerModel:SetAlpha(0)
-    self.container.giverModel:SetAlpha(0)
     self:EnableKeyboard(false)
     self:SetScript("OnKeyDown", nil)
     self:UnhideQuestFrame()
@@ -481,10 +482,13 @@ function StoryQuest:evQuestProgress()
 end
 
 function StoryQuest:evQuestDetail(questStartItemID)
-    if (questStartItemID ~= nil and questStartItemID ~= 0) or (QuestGetAutoAccept() and QuestIsFromAreaTrigger()) then
-        --AcknowledgeAutoAcceptQuest()
+    local is_qframe_shown = QuestFrame:IsShown()
+    Debug("Blizz QuestFrame:IsShown() -", is_qframe_shown)
+    if not is_qframe_shown then
         return
     end
+    --local c_info = C_PlayerChoice.GetCurrentPlayerChoiceInfo()
+    Debug("player choice frame kit:", PlayerChoiceFrame.uiTextureKit)
     if (self.questState ~= "COMPLETING") then
         self:HideQuestFrame()
         self:clearQuestReq()
@@ -577,8 +581,21 @@ function StoryQuest:OnEvent(event, ...)
     if event == "ADDON_LOADED" then
         self:evAddonLoaded(...)
     elseif event == "UI_SCALE_CHANGED" then
-        C_Timer.After(0, function() self:UiScaleChanged() end) -- pause one frame for cvars
-    elseif event == "LOADING_SCREEN_DISABLED" or event == "ZONE_CHANGED_NEW_AREA" or event == "ZONE_CHANGED" or event == "ZONE_CHANGED_INDOORS" then
+        if not self.defer_ui_change then
+            -- pause one frame for cvars but don't queue multiple of these
+            self.defer_ui_change = true
+            C_Timer.After(0, function() self:UiScaleChanged() end)
+        end
+    elseif event == "LOADING_SCREEN_ENABLED" then
+        self.in_load = true
+        self:SetAlpha(0)
+    elseif event == "LOADING_SCREEN_DISABLED" then
+        self.in_load = false
+        if not self.in_cine then
+            self:SetAlpha(1)
+        end
+        self:UpdateMapId()
+    elseif event == "ZONE_CHANGED_NEW_AREA" or event == "ZONE_CHANGED" or event == "ZONE_CHANGED_INDOORS" then
         self:UpdateMapId()
     elseif event == "QUEST_PROGRESS" then
         self:evQuestProgress()
@@ -588,6 +605,17 @@ function StoryQuest:OnEvent(event, ...)
         self:evQuestComplete()
     elseif event == "QUEST_FINISHED" then
         self:evQuestFinished()
+    elseif event == "CINEMATIC_START" then
+        local is_real = select(1, ...)
+        if is_real then
+            self.in_cine = true
+            self:SetAlpha(0)
+        end
+    elseif event == "CINEMATIC_STOP" then
+        self.in_cine = false
+        if not self.in_load then
+            self:SetAlpha(1)
+        end
     end
 end
 
@@ -665,6 +693,7 @@ function StoryQuest:OnLoad()
     self:RegisterEvent("ADDON_LOADED")
     self:RegisterEvent("UI_SCALE_CHANGED")
     self:RegisterEvent("LOADING_SCREEN_DISABLED")
+    self:RegisterEvent("LOADING_SCREEN_ENABLED")
     self:RegisterEvent("ZONE_CHANGED_NEW_AREA")
     self:RegisterEvent("ZONE_CHANGED")
     self:RegisterEvent("ZONE_CHANGED_INDOORS")
@@ -672,6 +701,8 @@ function StoryQuest:OnLoad()
     self:RegisterEvent("QUEST_FINISHED")
     self:RegisterEvent("QUEST_COMPLETE")
     self:RegisterEvent("QUEST_PROGRESS")
+    self:RegisterEvent("CINEMATIC_START")
+    self:RegisterEvent("CINEMATIC_STOP")
 
     self.container.dialog:SetScript("OnMouseUp", dialog_OnMouseUp)
     self.container.declineButton:SetScript("OnClick", decline_OnClick)

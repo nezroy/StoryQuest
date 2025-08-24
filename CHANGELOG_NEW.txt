@@ -1,2 +1,5 @@
 - Add backgrounds and tweaks for Wrath/Northrend
+- Hide StoryQuest during cinematics or loading screens
+- Fix issues with "push" quests on first load
+- Fix issues with certain quests from the Hero/Warchief board
 - Code refactoring to make model tweaks easier to manage
