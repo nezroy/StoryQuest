@@ -7,7 +7,6 @@ StoryQuestFrameMixin = {}
 local StoryQuest = StoryQuestFrameMixin
 
 function StoryQuest:UiScaleChanged()
-    Debug("running ui scale changed")
     local sf = PKG.Settings.Get("ScaleFrame")
     self:SetScale(UIParent:GetScale() * sf)
     self.container.playerModel:SetupModel()
@@ -328,7 +327,6 @@ function StoryQuest:lastGossip()
 end
 
 function StoryQuest:showQuestFrame()
-    Debug("show quest frame running")
     local mapId = self.mapId or C_Map.GetBestMapForUnit("player") or 0
     local mapTex
     repeat
@@ -351,6 +349,8 @@ function StoryQuest:showQuestFrame()
     local dbg_cid = PKG.QUESTVIEW_DEBUG_CREATURE_ID
     local is_self = UnitIsUnit("questnpc", "player")
 
+    Debug("recent player choice:", self.recent_player_choice, " kit:", PlayerChoiceFrame and PlayerChoiceFrame.uiTextureKit or "none")
+
     self:Show()
 
     local pm = self.container.playerModel
@@ -358,7 +358,11 @@ function StoryQuest:showQuestFrame()
     pm:setPMUnit()
     if is_self or dbg_cid == -1 then
         -- quest giver is the player; typically for auto-accepted quests, story pushes, etc.
-        gm:setBoardUnit()
+        local board_type = "genericplayerchoice"
+        if self.recent_player_choice and PlayerChoiceFrame and PlayerChoiceFrame.uiTextureKit then
+            board_type = PlayerChoiceFrame.uiTextureKit
+        end
+        gm:setBoardUnit(board_type)
     elseif (npc_name ~= nil and npc_type == nil) or dbg_cid == -2 then
         -- quest giver has a name but no type; probably an item or letter; give player a reading anim
         pm:ReadScroll()
@@ -487,8 +491,6 @@ function StoryQuest:evQuestDetail(questStartItemID)
     if not is_qframe_shown then
         return
     end
-    --local c_info = C_PlayerChoice.GetCurrentPlayerChoiceInfo()
-    Debug("player choice frame kit:", PlayerChoiceFrame.uiTextureKit)
     if (self.questState ~= "COMPLETING") then
         self:HideQuestFrame()
         self:clearQuestReq()
@@ -616,6 +618,9 @@ function StoryQuest:OnEvent(event, ...)
         if not self.in_load then
             self:SetAlpha(1)
         end
+    elseif event == "PLAYER_CHOICE_CLOSE" then
+        self.recent_player_choice = true
+        C_Timer.After(2, function () self.recent_player_choice = false end)
     end
 end
 
@@ -703,6 +708,8 @@ function StoryQuest:OnLoad()
     self:RegisterEvent("QUEST_PROGRESS")
     self:RegisterEvent("CINEMATIC_START")
     self:RegisterEvent("CINEMATIC_STOP")
+    self:RegisterEvent("PLAYER_CHOICE_CLOSE")
+    self:RegisterEvent("PLAYER_CHOICE_UPDATE")
 
     self.container.dialog:SetScript("OnMouseUp", dialog_OnMouseUp)
     self.container.declineButton:SetScript("OnClick", decline_OnClick)

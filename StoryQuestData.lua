@@ -42,7 +42,10 @@ PKG.QUESTVIEW_DEBUG_CREATURE_ID = nil
 
 -- model (fileID) tweaks for questview
 local T = {
-    [1822634] = {['sf'] = 2.0, ['offsetX'] = -400, ['offsetZ'] = 10, ['idle_anim'] = -1, ['facing'] = -0.7}, -- quest board
+    [1822634] = {['sf'] = 2.0, ['offsetX'] = -350, ['offsetZ'] = 10, ['idle_anim'] = -1, ['facing'] = -0.7}, -- generic quest board
+    [429102] = {['sf'] = 3.5, ['offsetX'] = -350, ['offsetZ'] = 40, ['idle_anim'] = -1, ['facing'] = -0.7}, -- hero board
+    [429104] = {['sf'] = 3.5, ['offsetX'] = -350, ['offsetZ'] = 40, ['idle_anim'] = -1, ['facing'] = -0.7}, -- command board
+    [2020272] = {['sf'] = 2.0, ['offsetX'] = -350, ['offsetZ'] = 40, ['idle_anim'] = -1, ['facing'] = -0.7}, -- marine table
     [1267024] = {['sf'] = 2.0, ['offsetX'] = -350, ['offsetZ'] = 250, ['idle_anim'] = -1}, -- floating scroll/khadgar's summons
     [1980608] = 1.3, -- Ulfar
     [3762412] = 1.1, -- primus
@@ -216,3 +219,23 @@ local M = {
     [2472] = "TWW/tazavesh",
 }
 PKG.QUESTVIEW_MAP_BGS = M
+
+-- board type model IDs related to player choice kits
+local B = {
+    ["genericplayerchoice"] = 1822634,
+    ["alliance"] = 429102,
+    ["horde"] = 429104,
+    ["marine"] = 2020272,
+    --[[
+    ["mechagon"] = 1822634,
+    ["NightFae"] = 1822634,
+    ["Venthyr"] = 1822634,
+    ["Kyrian"] = 1822634,
+    ["Dragonflight"] = 1822634,
+    ["thewarwithin"] = 1822634,
+    ["Oribos"] = 1822634,
+    ["jailerstower"] = 1822634,
+    ["cypherchoice"] = 1822634,
+    --]]
+}
+PKG.QUESTVIEW_BOARD_TYPES = B

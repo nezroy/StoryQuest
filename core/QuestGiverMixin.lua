@@ -4,6 +4,7 @@ local Debug = PKG.Debug
 local model_tweaks = PKG.QUESTVIEW_MODEL_TWEAKS
 local npc_tweaks = PKG.QUESTVIEW_NPC_TWEAKS
 local emotes = PKG.QUESTVIEW_EMOTES
+local board_types = PKG.QUESTVIEW_BOARD_TYPES
 
 StoryQuestGiverModelMixin = {}
 local QuestGiverMixin = StoryQuestGiverModelMixin
@@ -200,7 +201,7 @@ function QuestGiverMixin:OnModelLoaded()
     self.is_loaded = true
     self.FadeIn:Play()
 
-    -- debug stuff
+    --[[
     local scale = self:GetModelScale()
     local dist = self:GetCameraDistance()
     local face = self:GetCameraFacing()
@@ -208,12 +209,18 @@ function QuestGiverMixin:OnModelLoaded()
     local tx, ty, tz = self:GetCameraTarget()
     local wscale = self:GetWorldScale()
     Debug(string.format("scale[%.3f] dist[%.3f] face[%.3f] px[%.3f] py[%.3f] pz[%.3f] tx[%.3f] ty[%.3f] tz[%.3f] wscale[%.3f]", scale, dist, face, px, py, pz, tx, ty, tz, wscale))
+    --]]
 end
 
-function QuestGiverMixin:setBoardUnit()
+function QuestGiverMixin:setBoardUnit(board_type)
+    Debug("set board type:", board_type)
     self.is_clear = false
-    self.file_id = 1822634
-    self:SetModel(1822634)
+    if board_types[board_type] ~= nil then
+        self.file_id = board_types[board_type]
+    else
+        self.file_id = board_types["genericplayerchoice"]
+    end
+    self:SetModel(self.file_id)
 end
 
 function QuestGiverMixin:SetupModel()
