@@ -165,23 +165,23 @@ function QuestGiverMixin:OnModelLoaded()
     end
 
     if tweak_opts ~= nil then
-        if tweak_opts['offsetX'] ~= nil then
-            offsetX = tweak_opts['offsetX']
+        if tweak_opts.x ~= nil then
+            offsetX = tweak_opts.x
         end
-        if tweak_opts['offsetZ'] ~= nil then
-            offsetZ = tweak_opts['offsetZ']
+        if tweak_opts.z ~= nil then
+            offsetZ = tweak_opts.z
         end
-        if tweak_opts['pitch'] ~= nil then
-            pitch = tweak_opts['pitch']
+        if tweak_opts.p ~= nil then
+            pitch = tweak_opts.p
         end
-        if tweak_opts['facing'] ~= nil then
-            facing = tweak_opts['facing']
+        if tweak_opts.f ~= nil then
+            facing = tweak_opts.f
         end
-        if tweak_opts['idle_anim'] ~= nil then
-            self.idle_anim = tweak_opts['idle_anim']
+        if tweak_opts.ia ~= nil then
+            self.idle_anim = tweak_opts.ia
         end
-        if tweak_opts['half_kits'] ~= nil then
-            self.half_kits = tweak_opts['half_kits']
+        if tweak_opts.hk ~= nil then
+            self.half_kits = tweak_opts.hk
         end
     end
 
