@@ -179,7 +179,11 @@ PKG.QUESTVIEW_PLAYER_SCALES = P
 
 -- background textures to use in questview frame for various map IDs
 local M = {
+    [21]   = "EK/silverpine_forest",
     [84]   = "EK/stormwind",
+    [179]  = "EK/gilneas",
+    [202]  = "EK/gilneas_city",
+    [217]  = "EK/ruins_of_gilneas",
     [1186] = "EK/blackrock_depths",
     [2372] = "EK/arathi_highlands",
     [85]   = "Kalimdor/orgrimmar",

@@ -1,1 +1,2 @@
 - Add backgrounds and tweaks for Wrath/Northrend
+- Add backgrounds and tweaks for Eastern Kingdoms
