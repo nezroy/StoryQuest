@@ -6,6 +6,7 @@ local emotes = {
     ["IdleHover"] = 193,
     ["IdleDead"] = 6,
     ["IdleDrowned"] = 132,
+    ["IdleQuadSit"] = 219,
     ["IdleHang"] = 229,
     ["IdleRead"] = 520,
     ["Talk"] = 60,
@@ -42,11 +43,11 @@ PKG.QUESTVIEW_DEBUG_CREATURE_ID = nil
 
 -- model (fileID) tweaks for questview
 local T = {
-    [1822634] = {['sf'] = 2.0, ['offsetX'] = -350, ['offsetZ'] = 10, ['idle_anim'] = -1, ['facing'] = -0.7}, -- generic quest board
-    [429102] = {['sf'] = 3.5, ['offsetX'] = -350, ['offsetZ'] = 40, ['idle_anim'] = -1, ['facing'] = -0.7}, -- hero board
-    [429104] = {['sf'] = 3.5, ['offsetX'] = -350, ['offsetZ'] = 40, ['idle_anim'] = -1, ['facing'] = -0.7}, -- command board
-    [2020272] = {['sf'] = 2.0, ['offsetX'] = -350, ['offsetZ'] = 40, ['idle_anim'] = -1, ['facing'] = -0.7}, -- marine table
-    [1267024] = {['sf'] = 2.0, ['offsetX'] = -350, ['offsetZ'] = 250, ['idle_anim'] = -1}, -- floating scroll/khadgar's summons
+    [1822634] = {['sf'] = 2.0, ['x'] = -350, ['z'] = 10, ['ia'] = -1, ['f'] = -0.7}, -- generic quest board
+    [429102] = {['sf'] = 3.5, ['x'] = -350, ['z'] = 40, ['ia'] = -1, ['f'] = -0.7}, -- hero board
+    [429104] = {['sf'] = 3.5, ['x'] = -350, ['z'] = 40, ['ia'] = -1, ['f'] = -0.7}, -- command board
+    [2020272] = {['sf'] = 2.0, ['x'] = -350, ['z'] = 40, ['ia'] = -1, ['f'] = -0.7}, -- marine table
+    [1267024] = {['sf'] = 2.0, ['x'] = -350, ['z'] = 250, ['ia'] = -1}, -- floating scroll/khadgar's summons
     [1980608] = 1.3, -- Ulfar
     [3762412] = 1.1, -- primus
     [950080] = 1.7, -- toddy whiskers, moira
@@ -121,7 +122,7 @@ local T = {
     [5763560] = 1.5, -- alyza bowblaze
     [2618947] = 0.6, -- goehi
     [5764885] = 1.6, -- monte gazlowe
-    [6658771] = {['sf'] = 2.5, ['idle_anim'] = -1, ['offsetX'] = -300}, -- titan console
+    [6658771] = {['sf'] = 2.5, ['ia'] = -1, ['x'] = -300}, -- titan console
     [5899823] = 1.0, -- sitchoaf
     [1905018] = 0.8, -- xithixxin
     [123799] = 1.15, -- ameer
@@ -130,17 +131,17 @@ local T = {
     [5755585] = 3.0, -- chett
     [1608483] = 2.0, -- maggie wiltshire
     [3657310] = 1.05, -- om'en
-    [5159886] = {['sf'] = 1.2, ['idle_anim'] = emotes.IdleHover, ['half_kits'] = true}, -- xal'atath
+    [5159886] = {['sf'] = 1.2, ['ia'] = emotes.IdleHover, ['hk'] = true}, -- xal'atath
     [1738454] = 1.15, -- saurfang
-    [126286] = {['sf'] = 1.8, ['offsetX'] = -350}, -- waltor of pal'ea
+    [126286] = {['sf'] = 1.8, ['x'] = -350}, -- waltor of pal'ea
     [968705] = 1.1, -- elder mootoo
 }
 PKG.QUESTVIEW_MODEL_TWEAKS = T
 
 -- NPC (creatureID) tweaks for questview; takes priority over model tweaks
 local n_widow_araknai = {
-    ['sf'] = 1.1, ['idle_anim'] = emotes.IdleHang, ['half_kits'] = true,
-    ['offsetX'] = -150, ['offsetZ'] = 375, ['pitch'] = -0.33,
+    ['sf'] = 1.1, ['ia'] = emotes.IdleHang, ['hk'] = true,
+    ['x'] = -150, ['z'] = 375, ['p'] = -0.33,
 }
 local n_berrund  = 1.1
 local N = {
@@ -187,6 +188,7 @@ local M = {
     [971]  = "Misc/telogus_rift",
     [114]  = "Wrath/borean",
     [115]  = "Wrath/dragonblight",
+    [117]  = "Wrath/howling_fjord",
     [120]  = "Wrath/stormpeaks",
     [125]  = "Wrath/dalaran",
     [627]  = "Legion/dalaran",
