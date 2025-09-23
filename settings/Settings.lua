@@ -7,6 +7,7 @@ local DEFAULT_DB = {
     ["HelmetMode"] = 1,
     ["ScalePlayer"] = 1.0,
     ["WeaponMode"] = 1,
+    ["TitleStyle"] = 1,
 }
 
 local callback = nil
@@ -46,6 +47,25 @@ local function Setup(use_callback)
         local opts = Settings.CreateSliderOptions(0.5, 2.0, 0.05)
         opts:SetLabelFormatter(MinimalSliderWithSteppersMixin.Label.Right, ScaleFormatter)
         Settings.CreateSlider(category, setting, opts, tooltip)
+    end
+
+    do
+        local var = "TitleStyle"
+        local name = "Title Style"
+        local tooltip = "Adjusts the style of the title bar."
+        local defVal = DEFAULT_DB[var]
+
+        local function GetOptions()
+            local container = Settings.CreateControlTextContainer()
+            container:Add(1, "Default")
+            container:Add(2, "Thin")
+            container:Add(3, "Transparent")
+            return container:GetData()
+        end
+
+        local setting = Settings.RegisterAddOnSetting(category, var, var, STORYQUEST_DB, type(defVal), name, defVal)
+        setting:SetValueChangedCallback(OnSettingChanged)
+        Settings.CreateDropdown(category, setting, GetOptions, tooltip)
     end
 
     do

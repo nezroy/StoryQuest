@@ -1,2 +1,4 @@
-- Add backgrounds and tweaks for Wrath/Northrend
-- Add backgrounds and tweaks for Eastern Kingdoms
+- Add support for Classic (Vanilla and Mists)
+- Add option for title bar style
+- Tweak all player model settings for NPC consistency
+- Add more EK and Kalimdor backgrounds

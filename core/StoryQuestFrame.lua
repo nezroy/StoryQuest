@@ -6,6 +6,11 @@ local mapBGs = PKG.QUESTVIEW_MAP_BGS
 StoryQuestFrameMixin = {}
 local StoryQuest = StoryQuestFrameMixin
 
+local SKIP_TO_END = "Skip to End"
+if PKG.FF.SkipToEnd then
+    SKIP_TO_END = COVENANT_MISSIONS_SKIP_TO_END
+end
+
 function StoryQuest:UiScaleChanged()
     local sf = PKG.Settings.Get("ScaleFrame")
     self:SetScale(UIParent:GetScale() * sf)
@@ -84,11 +89,13 @@ local function questInfoDisplay(template, parentFrame)
     local objectives = QuestInfoObjectivesFrame.Objectives
     local index = 0
 
-    local questID = C_QuestLog.GetSelectedQuest()
-    local waypointText = C_QuestLog.GetNextWaypointText(questID)
-    if waypointText then
-        index = index + 1
-        objectives[index]:SetTextColor(1, 0.93, 0.73)
+    if PKG.FF.GetSelectedQuest then
+        local questID = C_QuestLog.GetSelectedQuest()
+        local waypointText = C_QuestLog.GetNextWaypointText(questID)
+        if waypointText then
+            index = index + 1
+            objectives[index]:SetTextColor(1, 0.93, 0.73)
+        end
     end
 
     for i = 1, GetNumQuestLeaderBoards() do
@@ -168,14 +175,44 @@ function StoryQuest:UnhideQuestFrame()
     QuestFrame:SetAlpha(1.0)
 end
 
+local function getQuestRewardCurrencies(questID)
+    local num = GetNumQuestLogRewardCurrencies(questID)
+    if num < 1 then
+        return nil
+    end
+    local currency = {}
+    for i = 1, num do
+        local c = {}
+        local name, texture, numItems, currencyId, quality = GetQuestLogRewardCurrencyInfo(i, questId)
+        c.name = name
+        c.texture = texture
+        c.currencyID = currencyId
+        c.quality = quality
+        c.totalRewardAmount = numItems
+        c.baseRewardAmount = numItems
+        c.bonusRewardAmount = 0
+        c.questRewardContextFlags = 0
+        currency[#currency + 1] = c
+    end
+    return currency
+end
+
 function StoryQuest:showRewards(showObjective)
     local questID = QuestInfoFrame.questLog and C_QuestLog.GetSelectedQuest() or GetQuestID()
 
     local xp = GetRewardXP()
     local money = GetRewardMoney()
     local title = GetRewardTitle()
-    local currency = C_QuestInfoSystem.GetQuestRewardCurrencies(questID) or {};
-    local _, _, skillPoints = GetRewardSkillPoints()
+    local currency = nil
+    if PKG.FF.GetQuestRewardCurrencies then
+        currency = C_QuestInfoSystem.GetQuestRewardCurrencies(questID) or {}
+    else
+        currency = getQuestRewardCurrencies(questID) or {}
+    end
+    local skillPoints = nil
+    if PKG.FF.GetRewardSkillPoints then
+        _, _, skillPoints = GetRewardSkillPoints()
+    end
     local items = GetNumQuestRewards()
     local spells = C_QuestInfoSystem.GetQuestRewardSpells(questID) or {}
     local choices = GetNumQuestChoices()
@@ -190,7 +227,7 @@ function StoryQuest:showRewards(showObjective)
         UIFrameFadeIn(self.container.dialog.objectiveText, 0.1, 0, 1)
     end
 
-    if (xp > 0 or money > 0 or title or #currency > 0 or skillPoints or items > 0 or #spells > 0 or choices > 0 or honor > 0) then
+    if ((PKG.FF.QuestRewardShowsXP and xp > 0) or money > 0 or title or #currency > 0 or skillPoints or items > 0 or #spells > 0 or choices > 0 or honor > 0) then
         local f = QuestInfoRewardsFrame
         UIFrameFadeIn(f, 0.1, 0, 1)
         f:SetParent(self)
@@ -289,7 +326,7 @@ function StoryQuest:nextGossip()
         if qStringInt == count then
             self:questTextCompleted()
         else
-            self.container.acceptButton:SetText(COVENANT_MISSIONS_SKIP_TO_END)
+            self.container.acceptButton:SetText(SKIP_TO_END)
             self.container.acceptButton:Show()
         end
     else
@@ -312,7 +349,7 @@ function StoryQuest:lastGossip()
         if qStringInt ~= 1 then
             PlaySound(906)
         end
-        self.container.acceptButton:SetText(COVENANT_MISSIONS_SKIP_TO_END)
+        self.container.acceptButton:SetText(SKIP_TO_END)
         self.container.acceptButton:Show()
         QuestInfoRewardsFrame:Hide()
         self.questStateSet = false
@@ -461,6 +498,9 @@ function StoryQuest:OnShow()
     self.container.declineButton:SetShown(not QuestFrame.autoQuest)
     self:EnableKeyboard(true)
     self:SetScript("OnKeyDown", self.OnKeyDown)
+    if _G.StoryQuestDebugFrame then
+        _G.StoryQuestDebugFrame:Show()
+    end
 end
 
 function StoryQuest:OnHide()
@@ -468,6 +508,9 @@ function StoryQuest:OnHide()
     self:EnableKeyboard(false)
     self:SetScript("OnKeyDown", nil)
     self:UnhideQuestFrame()
+    if _G.StoryQuestDebugFrame then
+        _G.StoryQuestDebugFrame:Hide()
+    end
 end
 
 function StoryQuest:evQuestProgress()
@@ -637,6 +680,27 @@ function StoryQuest:applyLockFrame()
     end
 end
 
+function StoryQuest:applyTitleStyle()
+    local style = PKG.Settings.Get("TitleStyle")
+    Debug("apply title style:", style)
+    if style == 2 then
+        self.container.blackout_head:SetHeight(48)
+        self.container.blackout_head:SetAlpha(1.0)
+        self.container.blackout_fade:Show()
+        self.container.floaty.title:SetHeight(48)
+    elseif style == 3 then
+        self.container.blackout_head:SetHeight(80)
+        self.container.blackout_head:SetAlpha(0.0)
+        self.container.blackout_fade:Hide()
+        self.container.floaty.title:SetHeight(80)
+    else
+        self.container.blackout_head:SetHeight(96)
+        self.container.blackout_head:SetAlpha(1.0)
+        self.container.blackout_fade:Show()
+        self.container.floaty.title:SetHeight(96)
+    end
+end
+
 function StoryQuest:settingChanged(setting, value)
     local var = setting:GetVariable()
     Debug("setting changed - ", var, " [", value, "]")
@@ -644,6 +708,8 @@ function StoryQuest:settingChanged(setting, value)
         self:applyLockFrame()
     elseif var == "ScaleFrame" or var == "ScalePlayer" then
         self:UiScaleChanged()
+    elseif var == "TitleStyle" then
+        self:applyTitleStyle()
     end
 end
 
@@ -664,6 +730,7 @@ function StoryQuest:evAddonLoaded(addon_name)
 
     self:UiScaleChanged()
     self:applyLockFrame()
+    self:applyTitleStyle()
 end
 
 function StoryQuest:OnLoad()
@@ -708,8 +775,10 @@ function StoryQuest:OnLoad()
     self:RegisterEvent("QUEST_PROGRESS")
     self:RegisterEvent("CINEMATIC_START")
     self:RegisterEvent("CINEMATIC_STOP")
-    self:RegisterEvent("PLAYER_CHOICE_CLOSE")
-    self:RegisterEvent("PLAYER_CHOICE_UPDATE")
+    if PKG.FF.PlayerChoice then
+        self:RegisterEvent("PLAYER_CHOICE_CLOSE")
+        self:RegisterEvent("PLAYER_CHOICE_UPDATE")
+    end
 
     self.container.dialog:SetScript("OnMouseUp", dialog_OnMouseUp)
     self.container.declineButton:SetScript("OnClick", decline_OnClick)

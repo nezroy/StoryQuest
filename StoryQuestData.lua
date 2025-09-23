@@ -41,78 +41,102 @@ PKG.QUESTVIEW_EMOTES = emotes
 
 PKG.QUESTVIEW_DEBUG_CREATURE_ID = nil
 
--- model (fileID) tweaks for questview
+-- model (fileID) tweaks
 local T = {
+    -- NPCs using generic player models
+    [119940] = {['sf'] = 1.45, ['x'] = -75}, -- human, male (old)
+    [1011653] = {['sf'] = 1.45, ['x'] = -75}, -- human, male (new)
+    [119563] = {['sf'] = 1.55, ['x'] = -50}, -- human, female (old)
+    [1000764] = {['sf'] = 1.55, ['x'] = -50}, -- human, female (new)
+    [119159] = {['sf'] = 2.05, ['x'] = -130}, -- gnome, male (old)
+    [900914] = {['sf'] = 2.05, ['x'] = -130}, -- gnome, male (new)
+    [119063] = {['sf'] = 2.05, ['x'] = -120}, -- gnome, female (old)
+    [940356] = {['sf'] = 2.05, ['x'] = -120}, -- gnome, female (new)
+    [118355] = {['sf'] = 1.57, ['x'] = -75}, -- dwarf, male (old)
+    [878772] = {['sf'] = 1.57, ['x'] = -75}, -- dwarf, male (new)
+    [118135] = {['sf'] = 1.57, ['x'] = -65}, -- dwarf, female (old)
+    [950080] = {['sf'] = 1.57, ['x'] = -65}, -- dwarf, female (new)
+    [122055] = {['sf'] = 1.2}, -- taruen, male (old)
+    [968705] = {['sf'] = 1.2}, -- tauren, male (new)
+    [121961] = {['sf'] = 1.26, ['x'] = -65}, -- tauren, female (old)
+    [986648] = {['sf'] = 1.26, ['x'] = -65}, -- tauren, female (new)
+    [120791] = {['sf'] = 1.25, ['x'] = -95}, -- night elf, male (old)
+    [974343] = {['sf'] = 1.25, ['x'] = -95}, -- night elf, male (new)
+    [120590] = {['sf'] = 1.35, ['x'] = -120}, -- night elf, female (old)
+    [921844] = {['sf'] = 1.35, ['x'] = -120}, -- night elf, female (new)
+    [5548259] = 1.45, -- earthen, female
+    [1100258] = 1.35, -- blood elf, female
+
+    -- non-creature items/objects
     [1822634] = {['sf'] = 2.0, ['x'] = -350, ['z'] = 10, ['ia'] = -1, ['f'] = -0.7}, -- generic quest board
     [429102] = {['sf'] = 3.5, ['x'] = -350, ['z'] = 40, ['ia'] = -1, ['f'] = -0.7}, -- hero board
     [429104] = {['sf'] = 3.5, ['x'] = -350, ['z'] = 40, ['ia'] = -1, ['f'] = -0.7}, -- command board
     [2020272] = {['sf'] = 2.0, ['x'] = -350, ['z'] = 40, ['ia'] = -1, ['f'] = -0.7}, -- marine table
     [1267024] = {['sf'] = 2.0, ['x'] = -350, ['z'] = 250, ['ia'] = -1}, -- floating scroll/khadgar's summons
+    [5755585] = {['sf'] = 3.0, ['z'] = 100, ['ia'] = -1}, -- chett
+    [6658771] = {['sf'] = 2.5, ['x'] = -300, ['ia'] = -1}, -- titan console
+
+    -- big dragons
+    [3084654] = {['sf'] = 0.79, ['x'] = 30}, -- big wrathion
+    [4227968] = {['sf'] = 0.79, ['x'] = 30}, -- big selistra
+    [4496906] = {['sf'] = 0.7, ['x'] = 30}, -- big kalec
+    [4498270] = {['sf'] = 0.7, ['x'] = 30}, -- big dormu
+    [4495214] = {['sf'] = 0.7, ['x'] = 30}, -- big alexstrasza
+    [1259122] = {['sf'] = 0.7, ['x'] = 30}, -- big senegos
+    [4416923] = {['sf'] = 0.79, ['x'] = 30}, -- big ebyssian, big surigosa
+    [5151105] = {['sf'] = 0.75, ['x'] = 30}, -- big merithra
+    [4492766] = {['sf'] = 0.55, ['x'] = 30}, -- big vyranoth
+
+    -- other stuff
     [1980608] = 1.3, -- Ulfar
     [3762412] = 1.1, -- primus
-    [950080] = 1.7, -- toddy whiskers, moira
-    [3084654] = -0.79, -- big wrathion
-    [4227968] = -0.79, -- big selistra
     [1249799] = 0.9, -- malfurion
     [4218359] = 2.0, -- chromie
     [1890759] = 1.8, -- selistra
-    [4496906] = -0.7, -- big kalec
-    [4498270] = -0.7, -- big dormu
-    [4495214] = -0.7, -- big alexstrasza
-    [1259122] = -0.7, -- big senegos
     [4216711] = 1.0, -- therazal
     [1890765] = 1.8, -- thaelin
     [4036647] = 1.6, --- huseng
     [4081379] = 1.6, -- tomul
     [4207724] = 1.4, -- vaskarn
     [4498203] = 1.65, -- emberthal
-    [900914] = 2.0, -- wulferd
     [1022938] = 1.3, -- senegos
     [119376] = 1.7, -- blixrez
-    [4416923] = -0.79, -- big ebyssian, big surigosa
+    [123698] = {['sf'] = 2.1, ['x'] = -300}, -- tarindrella, female dryads
     [917116] = 1.3, -- warchief's herald
-    [1011653] = 1.3, -- hero's herald
     [4186587] = 1.6, -- rowie
-    [878772] = 1.7, -- sully
     [3947971] = 2.0, -- nostwin
     [3950118] = 1.6, -- honeypelt
-    [4575036] = 2.6, -- newsy
+    [4575036] = {['sf'] = 2.6, ['z'] = 100}, -- newsy
     [1890761] = 1.7, -- veeno
     [1135341] = 0.85, -- brogg
     [4183015] = 1.0, -- ignax
-    [940356] = 1.9, -- sprocketspark
     [1261840] = 1.0, -- cenarius
-    [5151105] = -0.75, -- big merithra
     [3024835] = 2.0, -- moonberry
     [5011146] = 1.6, -- amrymn
-    [4278602] = -0.3, -- buri
+    [4278602] = {['sf'] = 0.3, ['x'] = 30}, -- buri
     [5154480] = 0.95, -- dreamkin
     [4883916] = 2.49, -- Q'onzu
     [1120702] = 1.0, -- aviana
-    [4492766] = -0.55, -- big vyranoth
     [1572377] = 0.8, -- locus walker
-    [1000764] = 1.35, -- tess greymane
     [1817113] = 1.35, -- wolf genn
     [5353632] = 1.3, -- magni
     [5492980] = 1.5, -- moira
     [2168127] = 1.1, -- memory of a duke
     [3952870] = 1.1, -- thrall
-    [1100258] = 1.35, -- liadrin
     [119369] = 1.8, -- izzy
     [1022598]= 1.15, -- zenata
     [959310] = 1.35, -- dalyngrigge
-    [3730980] = 2.6, -- reese
-    [5165026] = 2.6, -- squally
+    [3730980] = {['sf'] = 2.6, ['z'] = 100}, -- reese
+    [5165026] = {['sf'] = 2.6, ['z'] = 100}, -- squally
     [4066013] = 0.9, -- garz
     [5548261] = 1.4, -- baelgrim
     [5484812] = 1.35, -- brinthe
-    [5548259] = 1.35, -- rannida
     [5339030] = 1.4, -- skitter
     [5767091] = 1.5, -- dagan
     [5482015] = 1.0, -- sum'latha
     [5221517] = 0.95, -- kish'nal
     [1886724] = 1.4, -- Dolena
-    [5333438] = 2.6, -- spindle
+    [5333438] = {['sf'] = 2.6, ['z'] = 100}, -- spindle
     [5348707] = 0.81, -- vix'aron
     [5241992] = 1.05, -- ren'khat
     [589715] = 1.3, -- noli marlen
@@ -122,23 +146,21 @@ local T = {
     [5763560] = 1.5, -- alyza bowblaze
     [2618947] = 0.6, -- goehi
     [5764885] = 1.6, -- monte gazlowe
-    [6658771] = {['sf'] = 2.5, ['ia'] = -1, ['x'] = -300}, -- titan console
     [5899823] = 1.0, -- sitchoaf
     [1905018] = 0.8, -- xithixxin
     [123799] = 1.15, -- ameer
     [123791] = 0.85, -- dabiri
     [3058051] = 1.6, -- tarela
-    [5755585] = 3.0, -- chett
     [1608483] = 2.0, -- maggie wiltshire
     [3657310] = 1.05, -- om'en
     [5159886] = {['sf'] = 1.2, ['ia'] = emotes.IdleHover, ['hk'] = true}, -- xal'atath
     [1738454] = 1.15, -- saurfang
     [126286] = {['sf'] = 1.8, ['x'] = -350}, -- waltor of pal'ea
-    [968705] = 1.1, -- elder mootoo
+    [4419101] = 1.18, -- watcher koranos
 }
 PKG.QUESTVIEW_MODEL_TWEAKS = T
 
--- NPC (creatureID) tweaks for questview; takes priority over model tweaks
+-- NPC (creatureID) tweaks; takes priority over model tweaks
 local n_widow_araknai = {
     ['sf'] = 1.1, ['ia'] = emotes.IdleHang, ['hk'] = true,
     ['x'] = -150, ['z'] = 375, ['p'] = -0.33,
@@ -146,48 +168,132 @@ local n_widow_araknai = {
 local n_berrund  = 1.1
 local N = {
     [197478] = 2.8, -- herald flaps
-    [201648] = -0.79, -- big somnikus
+    [201648] = {['sf'] = 0.79, ['x'] = 30}, -- big somnikus
     [215788] = n_berrund, [215822] = n_berrund, [215836] = n_berrund,
     [144154] = 1.6, -- thurgaden
     [228860] = 2.2, -- gabby gabi
     [207471] = n_widow_araknai, [227428] = n_widow_araknai,
+    [205067] = 1.25, -- shandris feathermoon
+    [202656] = 1.18, -- mayla highmountain
 }
 PKG.QUESTVIEW_NPC_TWEAKS = N
 
--- player scale factors for questview
+-- player factors
+local p_default = {['sf'] = 1.1}
+local p_human_M = {['sf'] = 1.07, ['x'] = -55, ['z'] = -27}
+local p_human_F = {['sf'] = 1.13, ['x'] = -55, ['z'] = -33}
+local p_dwarf_M = {['sf'] = 1.2, ['x'] = -65, ['z'] = -33}
+local p_dwarf_F = {['sf'] = 1.15, ['x'] = -65, ['z'] = -33}
+local p_gnome_M = {['sf'] = 1.51, ['x'] = -65, ['z'] = -30}
+local p_gnome_F = {['sf'] = 1.5, ['x'] = -65, ['z'] = -30}
+local p_night_elf_M = {['sf'] = 0.95, ['x'] = -65, ['z'] = -7}
+local p_night_elf_F = {['sf'] = 1.01, ['x'] = -70, ['z'] = -14}
+local p_dracthyr = {['sf'] = 1.0, ['x'] = -100, ['z'] = -10}
+local p_tauren_M = {['sf'] = 0.91, ['x'] = -60, ['z'] = -15}
+local p_tauren_F = {['sf'] = 0.95, ['x'] = -70, ['z'] = -15}
+local p_troll = {['sf'] = 1.05}
+local p_goblin = {['sf'] = 1.5}
+local p_blood_elf = {['sf'] = 1.1, ['z'] = -15}
+local p_draenei = {['sf'] = 1.0}
+local p_worgen = {['sf'] = 1.05, ['x'] = -45, ['z'] = 10}
+local p_vulpera = {['sf'] = 1.5}
 local P = {
-    [0] = 1.1, -- default
-    [3] = 1.5, -- dwarf
-    [4] = 1.05, -- night elf
-    [6] = 1.0, -- tauren
-    [7] = 1.5, -- gnome
-    [8] = 1.05, -- troll
-    [9] = 1.5, -- goblin
-    [11] = 1.0, -- draenei
-    [22] = 1.05, -- worgen
-    [27] = 1.05, -- nightborne
-    [28] = 1.0, -- highmountain
-    [30] = 1.0, -- lightforged
-    [31] = 1.05, -- zandalari
-    [34] = 1.45, -- dark iron
-    [35] = 1.5, -- vulpera
-    [37] = 1.5, -- mechagnome
-    [52] = 1.0, [70] = 1.0, -- dracthyr
-    [84] = 1.5, [85] = 1.5, -- earthen
+    [0] = { -- default
+        ['new'] = {[1] = p_default, [2] = p_default, [3] = p_default}},
+    [1] = { -- human
+        ['new'] = {[2] = p_human_M, [3] = p_human_F},
+        ['old'] = {[2] = p_human_M, [3] = p_human_F}},
+    [2] = { -- orc
+        ['new'] = {[2] = p_default, [3] = p_default},
+        ['old'] = {[2] = p_default, [3] = p_default}},
+    [3] = { -- dwarf
+        ['new'] = {[2] = p_dwarf_M, [3] = p_dwarf_F},
+        ['old'] = {[2] = p_dwarf_M, [3] = p_dwarf_F}},
+    [4] = { -- night elf
+        ['new'] = {[2] = p_night_elf_M, [3] = p_night_elf_F},
+        ['old'] = {[2] = p_night_elf_M, [3] = p_night_elf_F}},
+    [5] = { -- undead
+        ['new'] = {[2] = p_default, [3] = p_default},
+        ['old'] = {[2] = p_default, [3] = p_default}},
+    [6] = { -- tauren
+        ['new'] = {[2] = p_tauren_M, [3] = p_tauren_F},
+        ['old'] = {[2] = p_tauren_M, [3] = p_tauren_F}},
+    [7] = { -- gnome
+        ['new'] = {[2] = p_gnome_M, [3] = p_gnome_F},
+        ['old'] = {[2] = p_gnome_M, [3] = p_gnome_F}},
+    [8] = { -- troll
+        ['new'] = {[2] = p_troll, [3] = p_troll},
+        ['old'] = {[2] = p_troll, [3] = p_troll}},
+    [9] = { -- goblin
+        ['new'] = {[2] = p_goblin, [3] = p_goblin},
+        ['old'] = {[2] = p_goblin, [3] = p_goblin}},
+    [10] = { -- blood elf
+        ['new'] = {[2] = p_blood_elf, [3] = p_blood_elf},
+        ['old'] = {[2] = p_blood_elf, [3] = p_blood_elf}},
+    [11] = { -- draenei
+        ['new'] = {[2] = p_draenei, [3] = p_draenei},
+        ['old'] = {[2] = p_draenei, [3] = p_draenei}},
+    [22] = { -- worgen
+        ['new'] = {[2] = p_worgen, [3] = p_worgen},
+        ['old'] = {[2] = p_worgen, [3] = p_worgen}},
+    [23] = { -- gilnean
+        ['new'] = {[2] = p_human_M, [3] = p_human_F},
+        ['old'] = {[2] = p_human_M, [3] = p_human_F}},
+    [24] = { -- pandaren, neutral
+        ['new'] = {[2] = p_default, [3] = p_default}},
+    [25] = { -- pandaren, alliance
+        ['new'] = {[2] = p_default, [3] = p_default}},
+    [26] = { -- pandaren, horde
+        ['new'] = {[2] = p_default, [3] = p_default}},
+    [27] = { -- nightborne
+        ['new'] = {[2] = p_night_elf_M, [3] = p_night_elf_F}},
+    [28] = { -- highmountain
+        ['new'] = {[2] = p_tauren_M, [3] = p_tauren_F}},
+    [29] = { -- void elf
+        ['new'] = {[2] = p_blood_elf, [3] = p_blood_elf}},
+    [30] = { -- lightforged
+        ['new'] = {[2] = p_draenei, [3] = p_draenei}},
+    [31] = { -- zandalari
+        ['new'] = {[2] = p_troll, [3] = p_troll}},
+    [32] = { -- kul tiran
+        ['new'] = {[2] = p_default, [3] = p_default}},
+    [34] = { -- dark iron
+        ['new'] = {[2] = p_dwarf_M, [3] = p_dwarf_F}},
+    [35] = { -- vulpera
+        ['new'] = {[2] = p_vulpera, [3] = p_vulpera}},
+    [36] = { -- mag'har
+        ['new'] = {[2] = p_default, [3] = p_default}},
+    [37] = { -- mechagnome
+        ['new'] = {[2] = p_gnome_M, [3] = p_gnome_F}},
+    [52] = { -- dracthyr, alliance
+        ['new'] = {[2] = p_dracthyr, [3] = p_dracthyr}},
+    [70] = { -- dracthyr, horde
+        ['new'] = {[2] = p_dracthyr, [3] = p_dracthyr}},
+    [84] = { -- earthen, horde
+        ['new'] = {[2] = p_dwarf_M, [3] = p_dwarf_F}},
+    [85] = { -- earthen, alliance
+        ['new'] = {[2] = p_dwarf_M, [3] = p_dwarf_F}},
 }
 PKG.QUESTVIEW_PLAYER_SCALES = P
 
--- background textures to use in questview frame for various map IDs
+-- background textures by mapID
 local M = {
     [21]   = "EK/silverpine_forest",
+    [27]   = "EK/dun_morogh",
+    [1426] = "EK/dun_morogh", -- pre-cata
+    [37]   = "EK/elwynn_forest",
+    [1429] = "EK/elwynn_forest", -- pre-cata
     [84]   = "EK/stormwind",
     [179]  = "EK/gilneas",
     [202]  = "EK/gilneas_city",
     [217]  = "EK/ruins_of_gilneas",
+    [427]  = "EK/coldridge_valley",
     [1186] = "EK/blackrock_depths",
     [2372] = "EK/arathi_highlands",
     [85]   = "Kalimdor/orgrimmar",
     [81]   = "Kalimdor/silithus",
+    [1412] = "Kalimdor/mulgore", -- pre-cata
+    [1438] = "Kalimdor/teldrassil", -- pre-cata
     [1409] = "Misc/starter_isle",
     [971]  = "Misc/telogus_rift",
     [114]  = "Wrath/borean",

@@ -39,6 +39,7 @@ function QuestPlayerMixin:OnModelLoaded()
     Debug("player model loaded")
 
     local _, _, real_race_id = UnitRace("player")
+    local body_type = UnitSex("player")
     -- determine effective race ID to use based on alt forms
     local raceID = real_race_id
     local _, is_in_alt = C_PlayerInfo.GetAlternateFormInfo()
@@ -53,34 +54,30 @@ function QuestPlayerMixin:OnModelLoaded()
         raceID = 1
     end
 
-    local heightScale = player_scales[raceID]
-    if not heightScale then
-        heightScale = player_scales[0] -- default
+    local race_info = player_scales[raceID]
+    if not race_info then
+        race_info = player_scales[0]
     end
+    if not PKG.FF.NewPlayerModels and race_info['old'] then
+        race_info = race_info['old']
+    else
+        race_info = race_info['new']
+    end
+    race_info = race_info[body_type]
+
+    local heightScale = race_info['sf']
     local ps = PKG.Settings.Get("ScalePlayer")
     Debug("real race:", real_race_id, "effective race:", raceID, "in alt form:", is_in_alt, "height scale:", heightScale, "personal scale:", ps)
     if ps then
         heightScale = heightScale / ps
     end
     local foot_offset = floor((heightScale - 1.0) * -100)
-    --Debug("foot_offset:", foot_offset)
+    if race_info['z'] then
+        foot_offset = foot_offset + race_info['z']
+    end
     local offsetX = -35
-
-    if raceID == 52 or raceID == 70 then
-        -- tweak for dracthyr
-        foot_offset = foot_offset - 10
-        offsetX = -100
-    elseif raceID == 10 then
-        -- tweak for blood elf
-        foot_offset = foot_offset - 15
-    elseif raceID == 22 then
-        -- tweak for worgen
-        foot_offset = foot_offset + 10
-        offsetX = -45
-    elseif raceID == 1 then
-        -- tweaks for humans
-        foot_offset = foot_offset - 15
-        offsetX = -55
+    if race_info['x'] then
+        offsetX = race_info['x']
     end
 
     self:RefreshCamera()

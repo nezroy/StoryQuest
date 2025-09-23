@@ -93,6 +93,10 @@ function QuestGiverMixin:setQuestGiverAnimation(count, qString, qStringInt)
     end
 end
 
+local function getCreatureIDFromGUID(guid)
+	return tonumber(string.match(guid, "Creature%-.-%-.-%-.-%-.-%-(.-)%-"));
+end
+
 function QuestGiverMixin:setQuestUnit(npc_name, npc_type)
     self.is_clear = false
 
@@ -102,14 +106,14 @@ function QuestGiverMixin:setQuestUnit(npc_name, npc_type)
     self.npc_type = npc_type
 
     -- set new model/unit
-    self.creature_id = TutorialHelper:GetCreatureIDFromGUID(UnitGUID(unit))
-    local cid = self.creature_id
+    self.creature_id = getCreatureIDFromGUID(UnitGUID(unit))
+    --local cid = self.creature_id
     local dbg_cid = PKG.QUESTVIEW_DEBUG_CREATURE_ID
     if dbg_cid ~= nil then
-        cid = dbg_cid
-        self:SetCreature(cid)
+        self.creature_id = dbg_cid
+        self:SetCreature(dbg_cid)
     else
-        -- we do this solely to get the weapon equipped; otherwise can just set by creature ID
+        -- we do this solely to get equipped weapon; otherwise we could just set by creature ID
         self:SetUnit("questnpc")
     end
 end
@@ -142,11 +146,6 @@ function QuestGiverMixin:OnModelLoaded()
     elseif tweaks ~= nil then
         scaleFactor = tweaks
     end
-    local wideModel = false
-    if scaleFactor < 0 then
-        wideModel = true
-        scaleFactor = -scaleFactor
-    end
 
     Debug("NPC:", npc_name, "type:", npc_type, "fileID:", fileID, "creatureID:", creatureID, "is_dead:", is_dead, "sf:", scaleFactor)
     self:InitializeCamera(scaleFactor)
@@ -156,13 +155,6 @@ function QuestGiverMixin:OnModelLoaded()
     local pitch = 0.0
     local facing = -0.5
     self.idle_anim = emotes.Idle
-    if wideModel then
-        -- static tweak for some big wide models like dragons
-        offsetX = 30
-    elseif scaleFactor > 2.5 then
-        -- static tweak for most smaller models
-        offsetZ = 100
-    end
 
     if tweak_opts ~= nil then
         if tweak_opts.x ~= nil then
@@ -200,16 +192,6 @@ function QuestGiverMixin:OnModelLoaded()
 
     self.is_loaded = true
     self.FadeIn:Play()
-
-    --[[
-    local scale = self:GetModelScale()
-    local dist = self:GetCameraDistance()
-    local face = self:GetCameraFacing()
-    local px, py, pz = self:GetCameraPosition()
-    local tx, ty, tz = self:GetCameraTarget()
-    local wscale = self:GetWorldScale()
-    Debug(string.format("scale[%.3f] dist[%.3f] face[%.3f] px[%.3f] py[%.3f] pz[%.3f] tx[%.3f] ty[%.3f] tz[%.3f] wscale[%.3f]", scale, dist, face, px, py, pz, tx, ty, tz, wscale))
-    --]]
 end
 
 function QuestGiverMixin:setBoardUnit(board_type)
@@ -234,6 +216,7 @@ end
 
 function QuestGiverMixin:ClearAll()
     Debug("doing ClearAll")
+    self:SetUnit("none")
     self:SetCreature(0)
     self:SetAlpha(0)
     self:ClearModel()

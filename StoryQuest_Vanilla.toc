@@ -1,0 +1,31 @@
+## Interface: 11507
+## Title: StoryQuest
+## Notes: Story window quest dialog, based on the GW2 style and addon.
+## OptionalDeps: _DebugLog, BugSack, ACU
+## Version: @project-version@
+## X-Website: https://www.curseforge.com/wow/addons/storyquest
+## X-Curse-Project-ID: 1094161
+## DefaultState: Enabled
+
+## Author: nezroy
+
+## SavedVariablesPerCharacter: STORYQUEST_CHAR_DB
+## SavedVariables: STORYQUEST_DB
+
+TaintLess/TaintLess.xml
+
+core/debug.lua
+core/FeatureFlags.lua
+core/Vanilla/FeatureFlags.lua
+settings/Settings.lua
+StoryQuestData.lua
+core/QuestGiverMixin.lua
+core/QuestPlayerMixin.lua
+core/QuestReqItems.lua
+core/QuestReqItems.xml
+core/StoryQuestFrame.lua
+core/StoryQuestFrame.xml
+#core/DebugFrame.lua
+#core/DebugFrame.xml
+
+StoryQuest.lua
