@@ -56,22 +56,22 @@ local T = {
     [878772] = {['sf'] = 1.57, ['x'] = -75}, -- dwarf, male (new)
     [118135] = {['sf'] = 1.57, ['x'] = -65}, -- dwarf, female (old)
     [950080] = {['sf'] = 1.57, ['x'] = -65}, -- dwarf, female (new)
-    [120791] = {['sf'] = 1.25, ['x'] = -95}, -- night elf, male (old)
-    [974343] = {['sf'] = 1.25, ['x'] = -95}, -- night elf, male (new)
-    [120590] = {['sf'] = 1.35, ['x'] = -120}, -- night elf, female (old)
-    [921844] = {['sf'] = 1.35, ['x'] = -120}, -- night elf, female (new)
+    [120791] = {['sf'] = 1.3, ['x'] = -95}, -- night elf, male (old)
+    [974343] = {['sf'] = 1.3, ['x'] = -95}, -- night elf, male (new)
+    [120590] = {['sf'] = 1.37, ['x'] = -120}, -- night elf, female (old)
+    [921844] = {['sf'] = 1.37, ['x'] = -120}, -- night elf, female (new)
     [121768] = {['sf'] = 1.5, ['x'] = -60}, -- undead, male (old)
     [121608] = {['sf'] = 1.43, ['x'] = -70}, -- undead, female (old)
-    [121287] = {['sf'] = 1.33, ['x'] = -80}, -- orc, male (old)
-    [121087] = {['sf'] = 1.37, ['x'] = -80}, -- orc, female (old)
-    [122560] = {['sf'] = 1.35, ['x'] = -120}, -- troll, male (old)
-    [122414] = {['sf'] = 1.21, ['x'] = -60}, -- troll, female (old)
+    [121287] = {['sf'] = 1.37, ['x'] = -80}, -- orc, male (old)
+    [121087] = {['sf'] = 1.39, ['x'] = -70}, -- orc, female (old)
+    [122560] = {['sf'] = 1.4, ['x'] = -120}, -- troll, male (old)
+    [122414] = {['sf'] = 1.28, ['x'] = -60}, -- troll, female (old)
     [122055] = {['sf'] = 1.2}, -- taruen, male (old)
     [968705] = {['sf'] = 1.2}, -- tauren, male (new)
     [121961] = {['sf'] = 1.26, ['x'] = -65}, -- tauren, female (old)
     [986648] = {['sf'] = 1.26, ['x'] = -65}, -- tauren, female (new)
-    [5548259] = 1.45, -- earthen, female
     [1100258] = 1.35, -- blood elf, female
+    [5548259] = 1.45, -- earthen, female
 
     -- non-creature items/objects
     [1822634] = {['sf'] = 2.0, ['x'] = -350, ['z'] = 10, ['ia'] = -1, ['f'] = -0.7}, -- generic quest board
@@ -192,22 +192,22 @@ local p_dwarf_M = {['sf'] = 1.2, ['x'] = -65, ['z'] = -33}
 local p_dwarf_F = {['sf'] = 1.15, ['x'] = -65, ['z'] = -33}
 local p_gnome_M = {['sf'] = 1.51, ['x'] = -65, ['z'] = -30}
 local p_gnome_F = {['sf'] = 1.5, ['x'] = -65, ['z'] = -30}
-local p_night_elf_M = {['sf'] = 0.95, ['x'] = -65, ['z'] = -7}
-local p_night_elf_F = {['sf'] = 1.01, ['x'] = -70, ['z'] = -14}
-local p_dracthyr = {['sf'] = 1.0, ['x'] = -100, ['z'] = -10}
+local p_night_elf_M = {['sf'] = 0.99, ['x'] = -65, ['z'] = -9}
+local p_night_elf_F = {['sf'] = 1.035, ['x'] = -70, ['z'] = -15}
 local p_tauren_M = {['sf'] = 0.91, ['x'] = -60, ['z'] = -15}
 local p_tauren_F = {['sf'] = 0.95, ['x'] = -70, ['z'] = -15}
 local p_undead_M = {['sf'] = 1.11, ['x'] = -70, ['z'] = -27}
 local p_undead_F = {['sf'] = 1.08, ['x'] = -70, ['z'] = -25}
-local p_orc_M = {['sf'] = 1.01, ['x'] = -70, ['z'] = -20}
-local p_orc_F = {['sf'] = 1.01, ['x'] = -70, ['z'] = -15}
-local p_troll_M = {['sf'] = 1.03, ['x'] = -70, ['z'] = 0}
-local p_troll_F = {['sf'] = 0.91, ['x'] = -75, ['z'] = -5}
-local p_goblin = {['sf'] = 1.5}
+local p_orc_M = {['sf'] = 1.03, ['x'] = -70, ['z'] = -22}
+local p_orc_F = {['sf'] = 1.04, ['x'] = -70, ['z'] = -13}
+local p_troll_M = {['sf'] = 1.07, ['x'] = -70, ['z'] = -4}
+local p_troll_F = {['sf'] = 0.96, ['x'] = -75, ['z'] = -12}
 local p_blood_elf = {['sf'] = 1.1, ['z'] = -15}
 local p_draenei = {['sf'] = 1.0}
+local p_goblin = {['sf'] = 1.5}
 local p_worgen = {['sf'] = 1.05, ['x'] = -45, ['z'] = 10}
 local p_vulpera = {['sf'] = 1.5}
+local p_dracthyr = {['sf'] = 1.0, ['x'] = -100, ['z'] = -10}
 local P = {
     [0] = { -- default
         ['new'] = {[1] = p_default, [2] = p_default, [3] = p_default}},
