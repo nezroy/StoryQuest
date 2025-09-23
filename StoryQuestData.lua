@@ -72,7 +72,9 @@ local T = {
     [986648] = {['sf'] = 1.26, ['x'] = -65}, -- tauren female (new)
     [117721] = {['sf'] = 1.22, ['x'] = -55, ['f'] = -0.7}, -- draenei male (old)
     [117437] = {['sf'] = 1.27, ['x'] = -70, ['f'] = -0.55}, -- draenei female (old)
-    [1100258] = 1.35, -- blood elf female (new)
+    [116921] = {['sf'] = 1.53, ['x'] = -70}, -- blood elf female (old)
+    [1100258] = {['sf'] = 1.35}, -- blood elf female (new)
+    [117170] = {['sf'] = 1.42, ['x'] = -90}, -- blood elf male (old)
     [5548259] = 1.45, -- earthen female
 
     -- non-creature items/objects
@@ -205,7 +207,8 @@ local p_orc_M = {['sf'] = 1.03, ['x'] = -70, ['z'] = -22}
 local p_orc_F = {['sf'] = 1.04, ['x'] = -70, ['z'] = -13}
 local p_troll_M = {['sf'] = 1.07, ['x'] = -70, ['z'] = -4}
 local p_troll_F = {['sf'] = 0.96, ['x'] = -75, ['z'] = -12}
-local p_blood_elf = {['sf'] = 1.1, ['z'] = -15}
+local p_blood_elf_M = {['sf'] = 1.04, ['x'] = -60, ['z'] = -28}
+local p_blood_elf_F = {['sf'] = 1.13, ['x'] = -90, ['z'] = -24}
 local p_draenei_M = {['sf'] = 0.91, ['x'] = -100, ['z'] = -15, ['f'] = 0.4}
 local p_draenei_F = {['sf'] = 0.96, ['x'] = -80, ['z'] = -17, ['f'] = 0.45}
 local p_goblin = {['sf'] = 1.5}
@@ -243,8 +246,8 @@ local P = {
         ['new'] = {[2] = p_goblin, [3] = p_goblin},
         ['old'] = {[2] = p_goblin, [3] = p_goblin}},
     [10] = { -- blood elf
-        ['new'] = {[2] = p_blood_elf, [3] = p_blood_elf},
-        ['old'] = {[2] = p_blood_elf, [3] = p_blood_elf}},
+        ['new'] = {[2] = p_blood_elf_M, [3] = p_blood_elf_F},
+        ['old'] = {[2] = p_blood_elf_M, [3] = p_blood_elf_F}},
     [11] = { -- draenei
         ['new'] = {[2] = p_draenei_M, [3] = p_draenei_F},
         ['old'] = {[2] = p_draenei_M, [3] = p_draenei_F}},
@@ -265,7 +268,7 @@ local P = {
     [28] = { -- highmountain
         ['new'] = {[2] = p_tauren_M, [3] = p_tauren_F}},
     [29] = { -- void elf
-        ['new'] = {[2] = p_blood_elf, [3] = p_blood_elf}},
+        ['new'] = {[2] = p_blood_elf_M, [3] = p_blood_elf_F}},
     [30] = { -- lightforged
         ['new'] = {[2] = p_draenei_M, [3] = p_draenei_F}},
     [31] = { -- zandalari
@@ -304,6 +307,7 @@ local M = {
     [202]  = "EK/gilneas_city",
     [217]  = "EK/ruins_of_gilneas",
     [427]  = "EK/coldridge_valley",
+    [467]  = "EK/sunstrider_isle",
     [1186] = "EK/blackrock_depths",
     [2372] = "EK/arathi_highlands",
     [85]   = "Kalimdor/orgrimmar",
