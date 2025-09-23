@@ -56,14 +56,20 @@ local T = {
     [878772] = {['sf'] = 1.57, ['x'] = -75}, -- dwarf, male (new)
     [118135] = {['sf'] = 1.57, ['x'] = -65}, -- dwarf, female (old)
     [950080] = {['sf'] = 1.57, ['x'] = -65}, -- dwarf, female (new)
-    [122055] = {['sf'] = 1.2}, -- taruen, male (old)
-    [968705] = {['sf'] = 1.2}, -- tauren, male (new)
-    [121961] = {['sf'] = 1.26, ['x'] = -65}, -- tauren, female (old)
-    [986648] = {['sf'] = 1.26, ['x'] = -65}, -- tauren, female (new)
     [120791] = {['sf'] = 1.25, ['x'] = -95}, -- night elf, male (old)
     [974343] = {['sf'] = 1.25, ['x'] = -95}, -- night elf, male (new)
     [120590] = {['sf'] = 1.35, ['x'] = -120}, -- night elf, female (old)
     [921844] = {['sf'] = 1.35, ['x'] = -120}, -- night elf, female (new)
+    [121768] = {['sf'] = 1.5, ['x'] = -60}, -- undead, male (old)
+    [121608] = {['sf'] = 1.43, ['x'] = -70}, -- undead, female (old)
+    [121287] = {['sf'] = 1.33, ['x'] = -80}, -- orc, male (old)
+    [121087] = {['sf'] = 1.37, ['x'] = -80}, -- orc, female (old)
+    [122560] = {['sf'] = 1.35, ['x'] = -120}, -- troll, male (old)
+    [122414] = {['sf'] = 1.21, ['x'] = -60}, -- troll, female (old)
+    [122055] = {['sf'] = 1.2}, -- taruen, male (old)
+    [968705] = {['sf'] = 1.2}, -- tauren, male (new)
+    [121961] = {['sf'] = 1.26, ['x'] = -65}, -- tauren, female (old)
+    [986648] = {['sf'] = 1.26, ['x'] = -65}, -- tauren, female (new)
     [5548259] = 1.45, -- earthen, female
     [1100258] = 1.35, -- blood elf, female
 
@@ -191,7 +197,12 @@ local p_night_elf_F = {['sf'] = 1.01, ['x'] = -70, ['z'] = -14}
 local p_dracthyr = {['sf'] = 1.0, ['x'] = -100, ['z'] = -10}
 local p_tauren_M = {['sf'] = 0.91, ['x'] = -60, ['z'] = -15}
 local p_tauren_F = {['sf'] = 0.95, ['x'] = -70, ['z'] = -15}
-local p_troll = {['sf'] = 1.05}
+local p_undead_M = {['sf'] = 1.11, ['x'] = -70, ['z'] = -27}
+local p_undead_F = {['sf'] = 1.08, ['x'] = -70, ['z'] = -25}
+local p_orc_M = {['sf'] = 1.01, ['x'] = -70, ['z'] = -20}
+local p_orc_F = {['sf'] = 1.01, ['x'] = -70, ['z'] = -15}
+local p_troll_M = {['sf'] = 1.03, ['x'] = -70, ['z'] = 0}
+local p_troll_F = {['sf'] = 0.91, ['x'] = -75, ['z'] = -5}
 local p_goblin = {['sf'] = 1.5}
 local p_blood_elf = {['sf'] = 1.1, ['z'] = -15}
 local p_draenei = {['sf'] = 1.0}
@@ -204,8 +215,8 @@ local P = {
         ['new'] = {[2] = p_human_M, [3] = p_human_F},
         ['old'] = {[2] = p_human_M, [3] = p_human_F}},
     [2] = { -- orc
-        ['new'] = {[2] = p_default, [3] = p_default},
-        ['old'] = {[2] = p_default, [3] = p_default}},
+        ['new'] = {[2] = p_orc_M, [3] = p_orc_F},
+        ['old'] = {[2] = p_orc_M, [3] = p_orc_F}},
     [3] = { -- dwarf
         ['new'] = {[2] = p_dwarf_M, [3] = p_dwarf_F},
         ['old'] = {[2] = p_dwarf_M, [3] = p_dwarf_F}},
@@ -213,8 +224,8 @@ local P = {
         ['new'] = {[2] = p_night_elf_M, [3] = p_night_elf_F},
         ['old'] = {[2] = p_night_elf_M, [3] = p_night_elf_F}},
     [5] = { -- undead
-        ['new'] = {[2] = p_default, [3] = p_default},
-        ['old'] = {[2] = p_default, [3] = p_default}},
+        ['new'] = {[2] = p_undead_M, [3] = p_undead_F},
+        ['old'] = {[2] = p_undead_M, [3] = p_undead_F}},
     [6] = { -- tauren
         ['new'] = {[2] = p_tauren_M, [3] = p_tauren_F},
         ['old'] = {[2] = p_tauren_M, [3] = p_tauren_F}},
@@ -222,8 +233,8 @@ local P = {
         ['new'] = {[2] = p_gnome_M, [3] = p_gnome_F},
         ['old'] = {[2] = p_gnome_M, [3] = p_gnome_F}},
     [8] = { -- troll
-        ['new'] = {[2] = p_troll, [3] = p_troll},
-        ['old'] = {[2] = p_troll, [3] = p_troll}},
+        ['new'] = {[2] = p_troll_M, [3] = p_troll_F},
+        ['old'] = {[2] = p_troll_M, [3] = p_troll_F}},
     [9] = { -- goblin
         ['new'] = {[2] = p_goblin, [3] = p_goblin},
         ['old'] = {[2] = p_goblin, [3] = p_goblin}},
@@ -254,7 +265,7 @@ local P = {
     [30] = { -- lightforged
         ['new'] = {[2] = p_draenei, [3] = p_draenei}},
     [31] = { -- zandalari
-        ['new'] = {[2] = p_troll, [3] = p_troll}},
+        ['new'] = {[2] = p_troll_M, [3] = p_troll_F}},
     [32] = { -- kul tiran
         ['new'] = {[2] = p_default, [3] = p_default}},
     [34] = { -- dark iron
@@ -262,7 +273,7 @@ local P = {
     [35] = { -- vulpera
         ['new'] = {[2] = p_vulpera, [3] = p_vulpera}},
     [36] = { -- mag'har
-        ['new'] = {[2] = p_default, [3] = p_default}},
+        ['new'] = {[2] = p_orc_M, [3] = p_orc_F}},
     [37] = { -- mechagnome
         ['new'] = {[2] = p_gnome_M, [3] = p_gnome_F}},
     [52] = { -- dracthyr, alliance
@@ -284,6 +295,7 @@ local M = {
     [37]   = "EK/elwynn_forest",
     [1429] = "EK/elwynn_forest", -- pre-cata
     [84]   = "EK/stormwind",
+    [1420] = "EK/tirisfal_glades", -- pre-cata
     [179]  = "EK/gilneas",
     [202]  = "EK/gilneas_city",
     [217]  = "EK/ruins_of_gilneas",
@@ -292,6 +304,7 @@ local M = {
     [2372] = "EK/arathi_highlands",
     [85]   = "Kalimdor/orgrimmar",
     [81]   = "Kalimdor/silithus",
+    [1411] = "Kalimdor/durotar", -- pre-cata
     [1412] = "Kalimdor/mulgore", -- pre-cata
     [1438] = "Kalimdor/teldrassil", -- pre-cata
     [1409] = "Misc/starter_isle",
