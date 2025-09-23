@@ -111,6 +111,9 @@ function QuestPlayerMixin:OnModelLoaded()
     if self.defer_read_scroll then
         self:ReadScroll()
     end
+    if self.defer_kneel then
+        self:Kneel()
+    end
     if self.defer_no then
         self:SetNo()
     end
@@ -128,6 +131,16 @@ function QuestPlayerMixin:ReadScroll()
 
     self:SetAnimation(emotes.IdleRead)
     self:ApplySpellVisualKit(29521, false)
+end
+
+function QuestPlayerMixin:Kneel()
+    if not self.is_loaded then
+        self.defer_kneel = true
+        return
+    end
+    self.defer_kneel = false
+
+    self:SetAnimation(emotes.IdleKneel)
 end
 
 function QuestPlayerMixin:SetNo()

@@ -5,6 +5,7 @@ local emotes = {
     ["Idle"] = 0,
     ["IdleHover"] = 193,
     ["IdleDead"] = 6,
+    ["IdleKneel"] = 114,
     ["IdleDrowned"] = 132,
     ["IdleQuadSit"] = 219,
     ["IdleHang"] = 229,

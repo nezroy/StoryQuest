@@ -101,7 +101,6 @@ function QuestGiverMixin:setQuestUnit(npc_name, npc_type)
     self.is_clear = false
 
     local unit = "questnpc"
-    self.is_dead = UnitIsDead(unit) and true or false
     self.npc_name = npc_name
     self.npc_type = npc_type
 
@@ -129,7 +128,6 @@ function QuestGiverMixin:OnModelLoaded()
     local creatureID = self.creature_id
     local npc_name = self.npc_name
     local npc_type = self.npc_type
-    local is_dead = self.is_dead
 
     if creatureID and npc_tweaks[creatureID] then
         tweaks = npc_tweaks[creatureID]
@@ -147,7 +145,7 @@ function QuestGiverMixin:OnModelLoaded()
         scaleFactor = tweaks
     end
 
-    Debug("NPC:", npc_name, "type:", npc_type, "fileID:", fileID, "creatureID:", creatureID, "is_dead:", is_dead, "sf:", scaleFactor)
+    Debug("NPC:", npc_name, "type:", npc_type, "fileID:", fileID, "creatureID:", creatureID, "sf:", scaleFactor)
     self:InitializeCamera(scaleFactor)
 
     local offsetX = -110
@@ -177,12 +175,7 @@ function QuestGiverMixin:OnModelLoaded()
         end
     end
 
-    if is_dead then
-        self.idle_anim = emotes.IdleDead
-        self.doAnims = false
-    else
-        self.doAnims = self.idle_anim ~= -1 and true or false
-    end
+    self.doAnims = self.idle_anim ~= -1 and true or false
     self:SetPitch(pitch)
     self:SetFacing(facing)
     if self.idle_anim ~= -1 then
@@ -223,7 +216,6 @@ function QuestGiverMixin:ClearAll()
 
     self.npc_name = nil
     self.npc_type = nil
-    self.is_dead = nil
     self.creature_id = 0
     self.file_id = nil
     self.do_anims = false

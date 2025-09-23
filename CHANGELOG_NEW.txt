@@ -2,3 +2,4 @@
 - Add option for title bar style
 - Tweak all player model settings for NPC consistency
 - Add more EK and Kalimdor backgrounds
+- Change interaction for dead quest givers

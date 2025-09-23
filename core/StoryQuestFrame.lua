@@ -385,6 +385,7 @@ function StoryQuest:showQuestFrame()
     local npc_type = UnitCreatureType("questnpc")
     local dbg_cid = PKG.QUESTVIEW_DEBUG_CREATURE_ID
     local is_self = UnitIsUnit("questnpc", "player")
+    local is_dead = UnitIsDead("questnpc")
 
     Debug("recent player choice:", self.recent_player_choice, " kit:", PlayerChoiceFrame and PlayerChoiceFrame.uiTextureKit or "none")
 
@@ -403,6 +404,8 @@ function StoryQuest:showQuestFrame()
     elseif (npc_name ~= nil and npc_type == nil) or dbg_cid == -2 then
         -- quest giver has a name but no type; probably an item or letter; give player a reading anim
         pm:ReadScroll()
+    elseif is_dead then
+        pm:Kneel()
     elseif npc_name ~= nil and npc_type ~= nil then
         -- quest giver has a creature type; some kind of entity with a normal model
         gm:setQuestUnit(npc_name, npc_type)
