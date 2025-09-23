@@ -83,6 +83,9 @@ function QuestPlayerMixin:OnModelLoaded()
     self:RefreshCamera()
     self:SetCamDistanceScale(heightScale)
     self:SetViewTranslation(offsetX, foot_offset)
+    if race_info['f'] then
+        self:SetFacing(race_info['f'])
+    end
 
     local wm = PKG.Settings.Get("WeaponMode")
     local hm = PKG.Settings.Get("HelmetMode")

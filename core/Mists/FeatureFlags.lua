@@ -1,0 +1,3 @@
+local _, PKG = ...
+
+PKG.FF.QuestRewardShowsXP = true

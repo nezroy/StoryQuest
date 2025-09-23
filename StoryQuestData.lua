@@ -44,34 +44,36 @@ PKG.QUESTVIEW_DEBUG_CREATURE_ID = nil
 -- model (fileID) tweaks
 local T = {
     -- NPCs using generic player models
-    [119940] = {['sf'] = 1.45, ['x'] = -75}, -- human, male (old)
-    [1011653] = {['sf'] = 1.45, ['x'] = -75}, -- human, male (new)
-    [119563] = {['sf'] = 1.55, ['x'] = -50}, -- human, female (old)
-    [1000764] = {['sf'] = 1.55, ['x'] = -50}, -- human, female (new)
-    [119159] = {['sf'] = 2.05, ['x'] = -130}, -- gnome, male (old)
-    [900914] = {['sf'] = 2.05, ['x'] = -130}, -- gnome, male (new)
-    [119063] = {['sf'] = 2.05, ['x'] = -120}, -- gnome, female (old)
-    [940356] = {['sf'] = 2.05, ['x'] = -120}, -- gnome, female (new)
-    [118355] = {['sf'] = 1.57, ['x'] = -75}, -- dwarf, male (old)
-    [878772] = {['sf'] = 1.57, ['x'] = -75}, -- dwarf, male (new)
-    [118135] = {['sf'] = 1.57, ['x'] = -65}, -- dwarf, female (old)
-    [950080] = {['sf'] = 1.57, ['x'] = -65}, -- dwarf, female (new)
-    [120791] = {['sf'] = 1.3, ['x'] = -95}, -- night elf, male (old)
-    [974343] = {['sf'] = 1.3, ['x'] = -95}, -- night elf, male (new)
-    [120590] = {['sf'] = 1.37, ['x'] = -120}, -- night elf, female (old)
-    [921844] = {['sf'] = 1.37, ['x'] = -120}, -- night elf, female (new)
-    [121768] = {['sf'] = 1.5, ['x'] = -60}, -- undead, male (old)
-    [121608] = {['sf'] = 1.43, ['x'] = -70}, -- undead, female (old)
-    [121287] = {['sf'] = 1.37, ['x'] = -80}, -- orc, male (old)
-    [121087] = {['sf'] = 1.39, ['x'] = -70}, -- orc, female (old)
-    [122560] = {['sf'] = 1.4, ['x'] = -120}, -- troll, male (old)
-    [122414] = {['sf'] = 1.28, ['x'] = -60}, -- troll, female (old)
-    [122055] = {['sf'] = 1.2}, -- taruen, male (old)
-    [968705] = {['sf'] = 1.2}, -- tauren, male (new)
-    [121961] = {['sf'] = 1.26, ['x'] = -65}, -- tauren, female (old)
-    [986648] = {['sf'] = 1.26, ['x'] = -65}, -- tauren, female (new)
-    [1100258] = 1.35, -- blood elf, female
-    [5548259] = 1.45, -- earthen, female
+    [119940] = {['sf'] = 1.45, ['x'] = -75}, -- human male (old)
+    [1011653] = {['sf'] = 1.45, ['x'] = -75}, -- human male (new)
+    [119563] = {['sf'] = 1.55, ['x'] = -50}, -- human female (old)
+    [1000764] = {['sf'] = 1.55, ['x'] = -50}, -- human female (new)
+    [119159] = {['sf'] = 2.05, ['x'] = -130}, -- gnome male (old)
+    [900914] = {['sf'] = 2.05, ['x'] = -130}, -- gnome male (new)
+    [119063] = {['sf'] = 2.05, ['x'] = -120}, -- gnome female (old)
+    [940356] = {['sf'] = 2.05, ['x'] = -120}, -- gnome female (new)
+    [118355] = {['sf'] = 1.57, ['x'] = -75}, -- dwarf male (old)
+    [878772] = {['sf'] = 1.57, ['x'] = -75}, -- dwarf male (new)
+    [118135] = {['sf'] = 1.57, ['x'] = -65}, -- dwarf female (old)
+    [950080] = {['sf'] = 1.57, ['x'] = -65}, -- dwarf female (new)
+    [120791] = {['sf'] = 1.3, ['x'] = -95}, -- night elf male (old)
+    [974343] = {['sf'] = 1.3, ['x'] = -95}, -- night elf male (new)
+    [120590] = {['sf'] = 1.37, ['x'] = -120}, -- night elf female (old)
+    [921844] = {['sf'] = 1.37, ['x'] = -120}, -- night elf female (new)
+    [121768] = {['sf'] = 1.5, ['x'] = -60}, -- undead male (old)
+    [121608] = {['sf'] = 1.43, ['x'] = -70}, -- undead female (old)
+    [121287] = {['sf'] = 1.37, ['x'] = -80}, -- orc male (old)
+    [121087] = {['sf'] = 1.39, ['x'] = -70}, -- orc female (old)
+    [122560] = {['sf'] = 1.4, ['x'] = -120}, -- troll male (old)
+    [122414] = {['sf'] = 1.28, ['x'] = -60}, -- troll female (old)
+    [122055] = {['sf'] = 1.2}, -- taruen male (old)
+    [968705] = {['sf'] = 1.2}, -- tauren male (new)
+    [121961] = {['sf'] = 1.26, ['x'] = -65}, -- tauren female (old)
+    [986648] = {['sf'] = 1.26, ['x'] = -65}, -- tauren female (new)
+    [117721] = {['sf'] = 1.22, ['x'] = -55, ['f'] = -0.7}, -- draenei male (old)
+    [117437] = {['sf'] = 1.27, ['x'] = -70, ['f'] = -0.55}, -- draenei female (old)
+    [1100258] = 1.35, -- blood elf female (new)
+    [5548259] = 1.45, -- earthen female
 
     -- non-creature items/objects
     [1822634] = {['sf'] = 2.0, ['x'] = -350, ['z'] = 10, ['ia'] = -1, ['f'] = -0.7}, -- generic quest board
@@ -163,6 +165,7 @@ local T = {
     [1738454] = 1.15, -- saurfang
     [126286] = {['sf'] = 1.8, ['x'] = -350}, -- waltor of pal'ea
     [4419101] = 1.18, -- watcher koranos
+    [117412] = 1.35, -- lost/broken male, firmanvaar
 }
 PKG.QUESTVIEW_MODEL_TWEAKS = T
 
@@ -203,7 +206,8 @@ local p_orc_F = {['sf'] = 1.04, ['x'] = -70, ['z'] = -13}
 local p_troll_M = {['sf'] = 1.07, ['x'] = -70, ['z'] = -4}
 local p_troll_F = {['sf'] = 0.96, ['x'] = -75, ['z'] = -12}
 local p_blood_elf = {['sf'] = 1.1, ['z'] = -15}
-local p_draenei = {['sf'] = 1.0}
+local p_draenei_M = {['sf'] = 0.91, ['x'] = -100, ['z'] = -15, ['f'] = 0.4}
+local p_draenei_F = {['sf'] = 0.96, ['x'] = -80, ['z'] = -17, ['f'] = 0.45}
 local p_goblin = {['sf'] = 1.5}
 local p_worgen = {['sf'] = 1.05, ['x'] = -45, ['z'] = 10}
 local p_vulpera = {['sf'] = 1.5}
@@ -242,8 +246,8 @@ local P = {
         ['new'] = {[2] = p_blood_elf, [3] = p_blood_elf},
         ['old'] = {[2] = p_blood_elf, [3] = p_blood_elf}},
     [11] = { -- draenei
-        ['new'] = {[2] = p_draenei, [3] = p_draenei},
-        ['old'] = {[2] = p_draenei, [3] = p_draenei}},
+        ['new'] = {[2] = p_draenei_M, [3] = p_draenei_F},
+        ['old'] = {[2] = p_draenei_M, [3] = p_draenei_F}},
     [22] = { -- worgen
         ['new'] = {[2] = p_worgen, [3] = p_worgen},
         ['old'] = {[2] = p_worgen, [3] = p_worgen}},
@@ -263,7 +267,7 @@ local P = {
     [29] = { -- void elf
         ['new'] = {[2] = p_blood_elf, [3] = p_blood_elf}},
     [30] = { -- lightforged
-        ['new'] = {[2] = p_draenei, [3] = p_draenei}},
+        ['new'] = {[2] = p_draenei_M, [3] = p_draenei_F}},
     [31] = { -- zandalari
         ['new'] = {[2] = p_troll_M, [3] = p_troll_F}},
     [32] = { -- kul tiran
@@ -307,6 +311,8 @@ local M = {
     [1411] = "Kalimdor/durotar", -- pre-cata
     [1412] = "Kalimdor/mulgore", -- pre-cata
     [1438] = "Kalimdor/teldrassil", -- pre-cata
+    [468]  = "Kalimdor/ammen_vale",
+    [407]  = "Misc/darkmoon_faire",
     [1409] = "Misc/starter_isle",
     [971]  = "Misc/telogus_rift",
     [114]  = "Wrath/borean",
