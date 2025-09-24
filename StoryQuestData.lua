@@ -67,10 +67,10 @@ local T = {
     [121087] = {['sf'] = 1.39, ['x'] = -70}, -- orc female (old)
     [122560] = {['sf'] = 1.4, ['x'] = -120}, -- troll male (old)
     [122414] = {['sf'] = 1.28, ['x'] = -60}, -- troll female (old)
-    [122055] = {['sf'] = 1.2}, -- taruen male (old)
-    [968705] = {['sf'] = 1.2}, -- tauren male (new)
-    [121961] = {['sf'] = 1.26, ['x'] = -65}, -- tauren female (old)
-    [986648] = {['sf'] = 1.26, ['x'] = -65}, -- tauren female (new)
+    [122055] = {['sf'] = 1.25}, -- taruen male (old)
+    [968705] = {['sf'] = 1.25}, -- tauren male (new)
+    [121961] = {['sf'] = 1.28, ['x'] = -65}, -- tauren female (old)
+    [986648] = {['sf'] = 1.28, ['x'] = -65}, -- tauren female (new)
     [117721] = {['sf'] = 1.22, ['x'] = -55, ['f'] = -0.7}, -- draenei male (old)
     [117437] = {['sf'] = 1.27, ['x'] = -70, ['f'] = -0.55}, -- draenei female (old)
     [116921] = {['sf'] = 1.53, ['x'] = -70}, -- blood elf female (old)
@@ -194,6 +194,7 @@ local N = {
     [202656] = 1.18, -- mayla highmountain
     [37195] = 1.18, -- lord darius crowley
     [49425] = {['sf'] = 1.25, ['x'] = -60}, -- darnell
+    [36648] = 1.18, -- baine bloodhoof
 }
 PKG.QUESTVIEW_NPC_TWEAKS = N
 
@@ -207,8 +208,8 @@ local p_gnome_M = {['sf'] = 1.51, ['x'] = -65, ['z'] = -30}
 local p_gnome_F = {['sf'] = 1.5, ['x'] = -65, ['z'] = -30}
 local p_night_elf_M = {['sf'] = 0.99, ['x'] = -65, ['z'] = -9}
 local p_night_elf_F = {['sf'] = 1.035, ['x'] = -70, ['z'] = -15}
-local p_tauren_M = {['sf'] = 0.91, ['x'] = -60, ['z'] = -15}
-local p_tauren_F = {['sf'] = 0.95, ['x'] = -70, ['z'] = -15}
+local p_tauren_M = {['sf'] = 0.94, ['x'] = -60, ['z'] = -21}
+local p_tauren_F = {['sf'] = 0.97, ['x'] = -70, ['z'] = -15}
 local p_undead_M = {['sf'] = 1.11, ['x'] = -70, ['z'] = -27}
 local p_undead_F = {['sf'] = 1.08, ['x'] = -70, ['z'] = -25}
 local p_orc_M = {['sf'] = 1.03, ['x'] = -70, ['z'] = -22}
@@ -326,15 +327,19 @@ local M = {
     [1186] = "EK/blackrock_depths",
     [2372] = "EK/arathi_highlands",
     [1]    = "Kalimdor/durotar",
+    [7]    = "Kalimdor/mulgore",
+    [1412] = "Kalimdor/mulgore", -- pre-cata
     [1411] = "Kalimdor/durotar", -- pre-cata
     [57]   = "Kalimdor/teldrassil",
     [1438] = "Kalimdor/teldrassil", -- pre-cata
     [62]   = "Kalimdor/darkshore_cata",
     [85]   = "Kalimdor/orgrimmar",
+    [88]   = "Kalimdor/thunderbluff",
     [89]   = "Kalimdor/darnassus",
     [81]   = "Kalimdor/silithus",
+    [97]   = "Kalimdor/azuremyst_isle",
+    [103]  = "Kalimdor/exodar",
     [463]  = "Kalimdor/darkspear_isle",
-    [1412] = "Kalimdor/mulgore", -- pre-cata
     [468]  = "Kalimdor/ammen_vale",
     [194]  = "Misc/kezan",
     [407]  = "Misc/darkmoon_faire",
