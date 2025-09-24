@@ -108,7 +108,7 @@ local model_buttons = {
     {"tau M", 2980}, {"tau F", 2991}, {"und M", 1568}, {"und F", 1661},
     {"orc M", 10176}, {"orc F", 3145}, {"trol M", 3707}, {"trol F", 5884},
     {"belf M", 43010}, {"belf F", 15278}, {"drae M", 16475}, {"drae F", 16514},
-    {"gob M", 43010}, {"gob F", 15278}, {"worg M", 63083}, {"worg F", 50252},
+    {"gob M", 45662}, {"gob F", 34693}, {"worg M", 63083}, {"worg F", 50252},
 }
 function DebugFrame:OnLoad()
     self.bgTex = 0

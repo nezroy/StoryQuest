@@ -78,6 +78,8 @@ local T = {
     [117170] = {['sf'] = 1.42, ['x'] = -90}, -- blood elf male (old)
     [307454] = {['sf'] = 1.27}, -- worgen male (old)
     [307453] = {['sf'] = 1.1, ['x'] = -90}, -- worgen female (old)
+    [119376] = {['sf'] = 1.8, ['x'] = -150}, -- goblin male (old)
+    [119369] = {['sf'] = 1.82, ['x'] = -150}, -- goblin female (old)
 
     [5548259] = 1.45, -- earthen female
 
@@ -114,7 +116,6 @@ local T = {
     [4207724] = 1.4, -- vaskarn
     [4498203] = 1.65, -- emberthal
     [1022938] = 1.3, -- senegos
-    [119376] = 1.7, -- blixrez
     [123698] = {['sf'] = 2.1, ['x'] = -300}, -- tarindrella, female dryads
     [917116] = 1.3, -- warchief's herald
     [4186587] = 1.6, -- rowie
@@ -137,7 +138,6 @@ local T = {
     [5492980] = 1.5, -- moira
     [2168127] = 1.1, -- memory of a duke
     [3952870] = 1.1, -- thrall
-    [119369] = 1.8, -- izzy
     [1022598]= 1.15, -- zenata
     [959310] = 1.35, -- dalyngrigge
     [3730980] = {['sf'] = 2.6, ['z'] = 100}, -- reese
@@ -219,7 +219,8 @@ local p_blood_elf_M = {['sf'] = 1.04, ['x'] = -60, ['z'] = -28}
 local p_blood_elf_F = {['sf'] = 1.13, ['x'] = -90, ['z'] = -24}
 local p_draenei_M = {['sf'] = 0.91, ['x'] = -100, ['z'] = -15, ['f'] = 0.4}
 local p_draenei_F = {['sf'] = 0.96, ['x'] = -80, ['z'] = -17, ['f'] = 0.45}
-local p_goblin = {['sf'] = 1.5}
+local p_goblin_M = {['sf'] = 1.35, ['x'] = -65, ['z'] = -10}
+local p_goblin_F = {['sf'] = 1.38, ['x'] = -65, ['z'] = -15}
 local p_worgen_M = {['sf'] = 0.95, ['x'] = -60, ['z'] = -48}
 local p_worgen_F = {['sf'] = 0.80, ['x'] = -65, ['z'] = -20, ['f'] = 0.8}
 local p_vulpera = {['sf'] = 1.5}
@@ -252,8 +253,8 @@ local P = {
         ['new'] = {[2] = p_troll_M, [3] = p_troll_F},
         ['old'] = {[2] = p_troll_M, [3] = p_troll_F}},
     [9] = { -- goblin
-        ['new'] = {[2] = p_goblin, [3] = p_goblin},
-        ['old'] = {[2] = p_goblin, [3] = p_goblin}},
+        ['new'] = {[2] = p_goblin_M, [3] = p_goblin_F},
+        ['old'] = {[2] = p_goblin_M, [3] = p_goblin_F}},
     [10] = { -- blood elf
         ['new'] = {[2] = p_blood_elf_M, [3] = p_blood_elf_F},
         ['old'] = {[2] = p_blood_elf_M, [3] = p_blood_elf_F}},
@@ -335,6 +336,7 @@ local M = {
     [463]  = "Kalimdor/darkspear_isle",
     [1412] = "Kalimdor/mulgore", -- pre-cata
     [468]  = "Kalimdor/ammen_vale",
+    [194]  = "Misc/kezan",
     [407]  = "Misc/darkmoon_faire",
     [1409] = "Misc/starter_isle",
     [971]  = "Misc/telogus_rift",
