@@ -76,6 +76,9 @@ local T = {
     [116921] = {['sf'] = 1.53, ['x'] = -70}, -- blood elf female (old)
     [1100258] = {['sf'] = 1.35}, -- blood elf female (new)
     [117170] = {['sf'] = 1.42, ['x'] = -90}, -- blood elf male (old)
+    [307454] = {['sf'] = 1.27}, -- worgen male (old)
+    [307453] = {['sf'] = 1.1, ['x'] = -90}, -- worgen female (old)
+
     [5548259] = 1.45, -- earthen female
 
     -- non-creature items/objects
@@ -169,6 +172,7 @@ local T = {
     [126286] = {['sf'] = 1.8, ['x'] = -350}, -- waltor of pal'ea
     [4419101] = 1.18, -- watcher koranos
     [117412] = 1.35, -- lost/broken male, firmanvaar
+
 }
 PKG.QUESTVIEW_MODEL_TWEAKS = T
 
@@ -187,6 +191,7 @@ local N = {
     [207471] = n_widow_araknai, [227428] = n_widow_araknai,
     [205067] = 1.25, -- shandris feathermoon
     [202656] = 1.18, -- mayla highmountain
+    [37195] = 1.18, -- lord darius crowley
 }
 PKG.QUESTVIEW_NPC_TWEAKS = N
 
@@ -213,7 +218,8 @@ local p_blood_elf_F = {['sf'] = 1.13, ['x'] = -90, ['z'] = -24}
 local p_draenei_M = {['sf'] = 0.91, ['x'] = -100, ['z'] = -15, ['f'] = 0.4}
 local p_draenei_F = {['sf'] = 0.96, ['x'] = -80, ['z'] = -17, ['f'] = 0.45}
 local p_goblin = {['sf'] = 1.5}
-local p_worgen = {['sf'] = 1.05, ['x'] = -45, ['z'] = 10}
+local p_worgen_M = {['sf'] = 0.95, ['x'] = -60, ['z'] = -48}
+local p_worgen_F = {['sf'] = 0.80, ['x'] = -65, ['z'] = -20, ['f'] = 0.8}
 local p_vulpera = {['sf'] = 1.5}
 local p_dracthyr = {['sf'] = 1.0, ['x'] = -100, ['z'] = -10}
 local P = {
@@ -253,8 +259,8 @@ local P = {
         ['new'] = {[2] = p_draenei_M, [3] = p_draenei_F},
         ['old'] = {[2] = p_draenei_M, [3] = p_draenei_F}},
     [22] = { -- worgen
-        ['new'] = {[2] = p_worgen, [3] = p_worgen},
-        ['old'] = {[2] = p_worgen, [3] = p_worgen}},
+        ['new'] = {[2] = p_worgen_M, [3] = p_worgen_F},
+        ['old'] = {[2] = p_worgen_M, [3] = p_worgen_F}},
     [23] = { -- gilnean
         ['new'] = {[2] = p_human_M, [3] = p_human_F},
         ['old'] = {[2] = p_human_M, [3] = p_human_F}},
@@ -311,11 +317,14 @@ local M = {
     [467]  = "EK/sunstrider_isle",
     [1186] = "EK/blackrock_depths",
     [2372] = "EK/arathi_highlands",
+    [57]   = "Kalimdor/teldrassil",
+    [1438] = "Kalimdor/teldrassil", -- pre-cata
+    [62]   = "Kalimdor/darkshore_cata",
     [85]   = "Kalimdor/orgrimmar",
+    [89]   = "Kalimdor/darnassus",
     [81]   = "Kalimdor/silithus",
     [1411] = "Kalimdor/durotar", -- pre-cata
     [1412] = "Kalimdor/mulgore", -- pre-cata
-    [1438] = "Kalimdor/teldrassil", -- pre-cata
     [468]  = "Kalimdor/ammen_vale",
     [407]  = "Misc/darkmoon_faire",
     [1409] = "Misc/starter_isle",
