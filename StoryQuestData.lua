@@ -172,6 +172,7 @@ local T = {
     [126286] = {['sf'] = 1.8, ['x'] = -350}, -- waltor of pal'ea
     [4419101] = 1.18, -- watcher koranos
     [117412] = 1.35, -- lost/broken male, firmanvaar
+    [669393] = {['sf'] = 1.3, ['x'] = -180}, -- vol'jin
 
 }
 PKG.QUESTVIEW_MODEL_TWEAKS = T
@@ -192,6 +193,7 @@ local N = {
     [205067] = 1.25, -- shandris feathermoon
     [202656] = 1.18, -- mayla highmountain
     [37195] = 1.18, -- lord darius crowley
+    [49425] = {['sf'] = 1.25, ['x'] = -60}, -- darnell
 }
 PKG.QUESTVIEW_NPC_TWEAKS = N
 
@@ -303,27 +305,34 @@ PKG.QUESTVIEW_PLAYER_SCALES = P
 
 -- background textures by mapID
 local M = {
+    [18]   = "EK/tirisfal_glades_cata",
+    [1420] = "EK/tirisfal_glades", -- pre-cata
     [21]   = "EK/silverpine_forest",
     [27]   = "EK/dun_morogh",
     [1426] = "EK/dun_morogh", -- pre-cata
     [37]   = "EK/elwynn_forest",
     [1429] = "EK/elwynn_forest", -- pre-cata
     [84]   = "EK/stormwind",
-    [1420] = "EK/tirisfal_glades", -- pre-cata
     [179]  = "EK/gilneas",
     [202]  = "EK/gilneas_city",
     [217]  = "EK/ruins_of_gilneas",
+    [425]  = "EK/northshire_abbey",
     [427]  = "EK/coldridge_valley",
+    [465]  = "EK/deathknell",
     [467]  = "EK/sunstrider_isle",
+    [469]  = "EK/new_tinkertown",
+    [998]  = "EK/undercity",
     [1186] = "EK/blackrock_depths",
     [2372] = "EK/arathi_highlands",
+    [1]    = "Kalimdor/durotar",
+    [1411] = "Kalimdor/durotar", -- pre-cata
     [57]   = "Kalimdor/teldrassil",
     [1438] = "Kalimdor/teldrassil", -- pre-cata
     [62]   = "Kalimdor/darkshore_cata",
     [85]   = "Kalimdor/orgrimmar",
     [89]   = "Kalimdor/darnassus",
     [81]   = "Kalimdor/silithus",
-    [1411] = "Kalimdor/durotar", -- pre-cata
+    [463]  = "Kalimdor/darkspear_isle",
     [1412] = "Kalimdor/mulgore", -- pre-cata
     [468]  = "Kalimdor/ammen_vale",
     [407]  = "Misc/darkmoon_faire",
