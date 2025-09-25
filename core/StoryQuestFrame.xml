@@ -7,7 +7,7 @@
         </KeyValues>
     </Button>
 
-    <Frame name="StoryQuestFrame" hidden="true" frameStrata="HIGH" mixin="StoryQuestFrameMixin" enableMouse="true" alpha="0">
+    <Frame name="StoryQuestFrame" hidden="true" frameStrata="HIGH" mixin="StoryQuestFrameMixin" enableMouse="true">
         <Size x="1024" y="512"></Size>
         <Anchors>
             <Anchor point="center" x="0" y="0" />

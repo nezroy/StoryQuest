@@ -556,12 +556,18 @@ function StoryQuest:evQuestDetail(questStartItemID)
         self.questStringInt = 0
         self.questStateSet = false
     end
-    self:showQuestFrame()
     self.questString = splitQuest(GetQuestText())
     if self.questState ~= "COMPLETING" then
         tinsert(self.questString, "")
     end
-    self:nextGossip()
+    if self.in_cine or self.in_load then
+        -- defer actually opening this frame until after load/cinematic finishes
+        self.needs_showing = true
+    else
+        self.needs_showing = false
+        self:showQuestFrame()
+        self:nextGossip()
+    end
 end
 
 function StoryQuest:evQuestComplete()
@@ -645,11 +651,23 @@ function StoryQuest:OnEvent(event, ...)
         end
     elseif event == "LOADING_SCREEN_ENABLED" then
         self.in_load = true
-        self:SetAlpha(0)
+        if self:IsShown() then
+            self.was_showing = true
+            self:Hide()
+        else
+            self.was_showing = false
+        end
     elseif event == "LOADING_SCREEN_DISABLED" then
         self.in_load = false
         if not self.in_cine then
-            self:SetAlpha(1)
+            if self.was_showing then
+                self.was_showing = false
+                self:Show()
+            elseif self.needs_showing then
+                self.needs_showing = false
+                self:showQuestFrame()
+                self:nextGossip()
+            end
         end
         self:UpdateMapId()
     elseif event == "ZONE_CHANGED_NEW_AREA" or event == "ZONE_CHANGED" or event == "ZONE_CHANGED_INDOORS" then
@@ -666,12 +684,24 @@ function StoryQuest:OnEvent(event, ...)
         local is_real = select(1, ...)
         if is_real then
             self.in_cine = true
-            self:SetAlpha(0)
+            if self:IsShown() then
+                self.was_showing = true
+                self:Hide()
+            else
+                self.was_showing = false
+            end
         end
     elseif event == "CINEMATIC_STOP" then
         self.in_cine = false
         if not self.in_load then
-            self:SetAlpha(1)
+            if self.was_showing then
+                self.was_showing = false
+                self:Show()
+            elseif self.needs_showing then
+                self.needs_showing = false
+                self:showQuestFrame()
+                self:nextGossip()
+            end
         end
     elseif event == "PLAYER_CHOICE_CLOSE" then
         self.recent_player_choice = true
