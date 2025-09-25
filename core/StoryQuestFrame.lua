@@ -703,6 +703,9 @@ function StoryQuest:OnEvent(event, ...)
                 self:nextGossip()
             end
         end
+    elseif event == "BARBER_SHOP_RESULT" then
+        local pm = self.container.playerModel
+        pm:SetupModel()
     elseif event == "PLAYER_CHOICE_CLOSE" then
         self.recent_player_choice = true
         C_Timer.After(2, function () self.recent_player_choice = false end)
@@ -816,6 +819,7 @@ function StoryQuest:OnLoad()
     self:RegisterEvent("QUEST_PROGRESS")
     self:RegisterEvent("CINEMATIC_START")
     self:RegisterEvent("CINEMATIC_STOP")
+    self:RegisterEvent("BARBER_SHOP_RESULT")
     if PKG.FF.PlayerChoice then
         self:RegisterEvent("PLAYER_CHOICE_CLOSE")
         self:RegisterEvent("PLAYER_CHOICE_UPDATE")

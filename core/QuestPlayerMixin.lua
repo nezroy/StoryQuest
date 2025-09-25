@@ -8,32 +8,32 @@ StoryQuestPlayerModelMixin = {}
 local QuestPlayerMixin = StoryQuestPlayerModelMixin
 
 function QuestPlayerMixin:SetupModel()
+    self.is_clear = true
+    self.is_unit_set = false
+    self:SetUnit("none")
+    self:ClearModel()
     self:ClearAll()
-    self:SetFacing(0.5)
-    self.is_clear = false
 end
 
 function QuestPlayerMixin:setPMUnit()
-    self.is_clear = false
-
-    local _, _, race_id = UnitRace("player")
-    local body_type = UnitSex("player")
     local _, is_in_alt = C_PlayerInfo.GetAlternateFormInfo()
-    self.race_id = race_id
-    self.body_type = body_type
     self.is_in_alt = is_in_alt
-
+    self.is_clear = false
     if not self.is_unit_set then
-        -- Will immediately call OnModelLoaded if there is no load delay BEFORE finishing here
+        local player_loc = PlayerLocation:CreateFromUnit("player")
+        local race_id = C_PlayerInfo.GetRace(player_loc)
+        local body_type = C_PlayerInfo.GetSex(player_loc) + 2
+        self.race_id = race_id
+        self.body_type = body_type
         self.is_unit_set = true
-        self:SetUnit("player", true, true)
+        -- Will immediately call OnModelLoaded if there is no load delay BEFORE finishing here
+        self:SetUnit("player")
     else
         self:RefreshUnit()
     end
 end
 
 function QuestPlayerMixin:ClearAll()
-    self.is_clear = true
     self.is_loaded = false
     self.defer_read_scroll = false
     self.defer_kneel = false
@@ -94,6 +94,8 @@ function QuestPlayerMixin:OnModelLoaded()
     self:SetViewTranslation(offsetX, foot_offset)
     if race_info['f'] then
         self:SetFacing(race_info['f'])
+    else
+        self:SetFacing(0.5)
     end
 
     local wm = PKG.Settings.Get("WeaponMode")

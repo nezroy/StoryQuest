@@ -1,5 +1,6 @@
 - Add support for Classic (Vanilla and Mists)
 - Add option for title bar style
-- Tweak all player model settings for NPC consistency
-- Add more EK and Kalimdor backgrounds
+- Tweak all player model scales and positions for NPC consistency
+- Add more more backgrounds
 - Change interaction for dead quest givers
+- Fix an issue with body type changes at the barbershop
