@@ -196,6 +196,7 @@ local N = {
     [37195] = 1.18, -- lord darius crowley
     [49425] = {['sf'] = 1.25, ['x'] = -60}, -- darnell
     [36648] = 1.18, -- baine bloodhoof
+    [4949] = 1.22, -- classic thrall
 }
 PKG.QUESTVIEW_NPC_TWEAKS = N
 
@@ -335,6 +336,7 @@ local M = {
     [1438] = "Kalimdor/teldrassil", -- pre-cata
     [62]   = "Kalimdor/darkshore_cata",
     [85]   = "Kalimdor/orgrimmar",
+    [1454] = "Kalimdor/orgrimmar_classic", -- pre-cata
     [88]   = "Kalimdor/thunderbluff",
     [89]   = "Kalimdor/darnassus",
     [81]   = "Kalimdor/silithus",
