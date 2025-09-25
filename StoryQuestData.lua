@@ -37,10 +37,11 @@ local emotes = {
     ["No"] = 186,
     ["FullNo"] = 20341,
     ["HalfNo"] = 4772,
+    ["Eat"] = 61,
+    ["Sheath"] = 89,
+    ["Train"] = 195,
 }
 PKG.QUESTVIEW_EMOTES = emotes
-
-PKG.QUESTVIEW_DEBUG_CREATURE_ID = nil
 
 -- model (fileID) tweaks
 local T = {

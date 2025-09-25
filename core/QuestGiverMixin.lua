@@ -59,7 +59,6 @@ function QuestGiverMixin:setQuestGiverAnimation(count, qString, qStringInt)
             if a == "Talk" then
                 a = mid_set[math.random(1, #mid_set)]
             end
-            Debug("anim is playing; next anim:", prefix, a)
             if self:HasAnimation(emotes[a]) then
                 self.anim_next = emotes[prefix .. a]
             elseif not overwrite_next then
@@ -76,7 +75,6 @@ function QuestGiverMixin:setQuestGiverAnimation(count, qString, qStringInt)
                 a = mid_set[math.random(1, #mid_set)]
             end
         end
-        Debug("no anim playing; next anim:", prefix, a)
         local play_anim = nil
         if self:HasAnimation(emotes[a]) then
             play_anim = emotes[prefix .. a]
@@ -97,23 +95,23 @@ local function getCreatureIDFromGUID(guid)
 	return tonumber(string.match(guid, "Creature%-.-%-.-%-.-%-.-%-(.-)%-"));
 end
 
-function QuestGiverMixin:setQuestUnit(npc_name, npc_type)
+function QuestGiverMixin:SetQuestUnit(creature_id)
     self.is_clear = false
 
-    local unit = "questnpc"
-    self.npc_name = npc_name
-    self.npc_type = npc_type
-
-    -- set new model/unit
-    self.creature_id = getCreatureIDFromGUID(UnitGUID(unit))
-    --local cid = self.creature_id
-    local dbg_cid = PKG.QUESTVIEW_DEBUG_CREATURE_ID
-    if dbg_cid ~= nil then
-        self.creature_id = dbg_cid
-        self:SetCreature(dbg_cid)
+    -- SetCreature/SetUnit will immediately call OnModelLoaded if there
+    -- is no load delay, BEFORE completing execution here
+    if creature_id ~= nil then
+        self.creature_id = creature_id
+        self:SetCreature(creature_id)
+        return true
     else
-        -- we do this solely to get equipped weapon; otherwise we could just set by creature ID
-        self:SetUnit("questnpc")
+        -- we do it this way to get equipped weapon; otherwise we could just set by creature ID
+        self.creature_id = getCreatureIDFromGUID(UnitGUID("questnpc"))
+        local did_set_unit = self:SetUnit("questnpc")
+        if not did_set_unit then
+            self.creature_id = 0
+        end
+        return did_set_unit
     end
 end
 
@@ -126,8 +124,6 @@ function QuestGiverMixin:OnModelLoaded()
     local tweaks = nil
     local tweak_opts = nil
     local creatureID = self.creature_id
-    local npc_name = self.npc_name
-    local npc_type = self.npc_type
 
     if creatureID and npc_tweaks[creatureID] then
         tweaks = npc_tweaks[creatureID]
@@ -145,7 +141,7 @@ function QuestGiverMixin:OnModelLoaded()
         scaleFactor = tweaks
     end
 
-    Debug("NPC:", npc_name, "type:", npc_type, "fileID:", fileID, "creatureID:", creatureID, "sf:", scaleFactor)
+    Debug("giver model - fileID:[", fileID, "] creatureID:[", creatureID, "] sf:[", scaleFactor, "]")
     self:InitializeCamera(scaleFactor)
 
     local offsetX = -110
@@ -187,8 +183,7 @@ function QuestGiverMixin:OnModelLoaded()
     self.FadeIn:Play()
 end
 
-function QuestGiverMixin:setBoardUnit(board_type)
-    Debug("set board type:", board_type)
+function QuestGiverMixin:SetBoardUnit(board_type)
     self.is_clear = false
     if board_types[board_type] ~= nil then
         self.file_id = board_types[board_type]
@@ -208,14 +203,11 @@ function QuestGiverMixin:OnHide()
 end
 
 function QuestGiverMixin:ClearAll()
-    Debug("doing ClearAll")
     self:SetUnit("none")
     self:SetCreature(0)
     self:SetAlpha(0)
     self:ClearModel()
 
-    self.npc_name = nil
-    self.npc_type = nil
     self.creature_id = 0
     self.file_id = nil
     self.do_anims = false

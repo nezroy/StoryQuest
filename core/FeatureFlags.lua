@@ -9,3 +9,4 @@ PKG.FF.GetQuestRewardCurrencies = false
 PKG.FF.GetRewardSkillPoints = false
 PKG.FF.SkipToEnd = false
 PKG.FF.QuestRewardShowsXP = false
+PKG.FF.ReadingKit = false

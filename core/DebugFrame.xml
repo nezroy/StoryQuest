@@ -67,6 +67,11 @@
                             <Anchor point="TOPRIGHT" x="0" y="0"/>
                         </Anchors>
                     </Button>
+                    <Button parentKey="kitButton" inherits="StoryQuestDebugButtonTemplate" text="Kit">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="0" y="-32"/>
+                        </Anchors>
+                    </Button>
                     <Button parentKey="setButton" inherits="StoryQuestDebugButtonTemplate" text="Set">
                         <Anchors>
                             <Anchor point="TOPRIGHT" x="0" y="-32"/>

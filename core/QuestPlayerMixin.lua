@@ -15,17 +15,30 @@ end
 
 function QuestPlayerMixin:setPMUnit()
     self.is_clear = false
+
+    local _, _, race_id = UnitRace("player")
+    local body_type = UnitSex("player")
+    local _, is_in_alt = C_PlayerInfo.GetAlternateFormInfo()
+    self.race_id = race_id
+    self.body_type = body_type
+    self.is_in_alt = is_in_alt
+
     if not self.is_unit_set then
+        -- Will immediately call OnModelLoaded if there is no load delay BEFORE finishing here
+        self.is_unit_set = true
         self:SetUnit("player", true, true)
+    else
+        self:RefreshUnit()
     end
-    self.is_unit_set = true
-    self:RefreshUnit()
 end
 
 function QuestPlayerMixin:ClearAll()
     self.is_clear = true
     self.is_loaded = false
-    self.read_scroll = false
+    self.defer_read_scroll = false
+    self.defer_kneel = false
+    self.defer_yes = false
+    self.defer_no = false
 end
 
 function QuestPlayerMixin:OnHide()
@@ -36,20 +49,16 @@ function QuestPlayerMixin:OnModelLoaded()
     if self.is_clear or not self.is_unit_set then
         return
     end
-    Debug("player model loaded")
 
-    local _, _, real_race_id = UnitRace("player")
-    local body_type = UnitSex("player")
     -- determine effective race ID to use based on alt forms
-    local raceID = real_race_id
-    local _, is_in_alt = C_PlayerInfo.GetAlternateFormInfo()
-    if real_race_id == 52 and is_in_alt then
+    local raceID = self.race_id
+    if self.race_id == 52 and self.is_in_alt then
         -- alliance dracthyr in blood elf visage
         raceID = 10
-    elseif real_race_id == 70 and is_in_alt then
+    elseif self.race_id == 70 and self.is_in_alt then
         -- horde dracthyr in human visage
         raceID = 1
-    elseif real_race_id == 22 and is_in_alt then
+    elseif self.race_id == 22 and self.is_in_alt then
         -- worgen in human form
         raceID = 1
     end
@@ -63,11 +72,11 @@ function QuestPlayerMixin:OnModelLoaded()
     else
         race_info = race_info['new']
     end
-    race_info = race_info[body_type]
+    race_info = race_info[self.body_type]
 
     local heightScale = race_info['sf']
     local ps = PKG.Settings.Get("ScalePlayer")
-    Debug("real race:", real_race_id, "effective race:", raceID, "in alt form:", is_in_alt, "height scale:", heightScale, "personal scale:", ps)
+    Debug("player - race:[", self.race_id, "] eff_race:[", raceID, "] alt_form:[", self.is_in_alt, "] hScale:[", heightScale, "] pScale:[", ps, "]")
     if ps then
         heightScale = heightScale / ps
     end
@@ -106,6 +115,8 @@ function QuestPlayerMixin:OnModelLoaded()
         self:SetSheathed(true, true)
     end
 
+    self:SetAnimation(emotes.Idle)
+
     self.is_loaded = true
     self.FadeIn:Play()
     if self.defer_read_scroll then
@@ -122,6 +133,21 @@ function QuestPlayerMixin:OnModelLoaded()
     end
 end
 
+local NO_KIT_FRAMES = {
+    [1] = { [2] = -150, [3] = -180 }, -- human
+    [2] = { [2] = 180, [3] = 280 }, -- orc
+    [3] = { [2] = 150, [3] = 180 }, -- dwarf
+    [4] = { [2] = 150, [3] = -40 }, -- night elf
+    [5] = { [2] = 230, [3] = 140 }, -- undead
+    [6] = { [2] = 180, [3] = 100 }, -- tauren
+    [7] = { [2] = 90, [3] = 0 }, -- gnome
+    [8] = { [2] = -120, [3] = 180 }, -- troll
+    [9] = { [2] = 180, [3] = 180 }, -- goblin
+    [10] = { [2] = 180, [3] = 180 }, -- blood elf
+    [11] = { [2] = 180, [3] = 180 }, -- draenei
+    [22] = { [2] = 180, [3] = 180 }, -- worgen
+    -- don't need any others because by MOP races we have the scroll kit
+}
 function QuestPlayerMixin:ReadScroll()
     if not self.is_loaded then
         self.defer_read_scroll = true
@@ -129,8 +155,19 @@ function QuestPlayerMixin:ReadScroll()
     end
     self.defer_read_scroll = false
 
-    self:SetAnimation(emotes.IdleRead)
-    self:ApplySpellVisualKit(29521, false)
+    self:SetSheathed(true, false)
+    if PKG.FF.ReadingKit then
+        self:SetAnimation(emotes.IdleRead)
+        self:ApplySpellVisualKit(29521, false)
+    else
+        local frame = NO_KIT_FRAMES[self.race_id][self.body_type]
+        if frame < 0 then
+            self:FreezeAnimation(emotes.Sheath, 0, -frame)
+        else
+            self:FreezeAnimation(emotes.Train, 0, frame)
+        end
+        self:ApplySpellVisualKit(230853, false)
+    end
 end
 
 function QuestPlayerMixin:Kneel()

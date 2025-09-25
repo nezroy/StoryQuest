@@ -382,33 +382,42 @@ function StoryQuest:showQuestFrame()
     self.container.floaty.title:SetText(GetTitleText())
 
     local npc_name = GetUnitName("questnpc")
-    local npc_type = UnitCreatureType("questnpc")
-    local dbg_cid = PKG.QUESTVIEW_DEBUG_CREATURE_ID
     local is_self = UnitIsUnit("questnpc", "player")
     local is_dead = UnitIsDead("questnpc")
 
-    Debug("recent player choice:", self.recent_player_choice, " kit:", PlayerChoiceFrame and PlayerChoiceFrame.uiTextureKit or "none")
+    local PC_kit = self.recent_player_choice and PlayerChoiceFrame and PlayerChoiceFrame.uiTextureKit
+    Debug("quest giver - name:[", npc_name, "] self:[", is_self, "] dead:[", is_dead, "] PC_kit:[", PC_kit, "]")
 
     self:Show()
 
     local pm = self.container.playerModel
     local gm = self.container.giverModel
     pm:setPMUnit()
-    if is_self or dbg_cid == -1 then
-        -- quest giver is the player; typically for auto-accepted quests, story pushes, etc.
-        local board_type = "genericplayerchoice"
-        if self.recent_player_choice and PlayerChoiceFrame and PlayerChoiceFrame.uiTextureKit then
-            board_type = PlayerChoiceFrame.uiTextureKit
-        end
-        gm:setBoardUnit(board_type)
-    elseif (npc_name ~= nil and npc_type == nil) or dbg_cid == -2 then
-        -- quest giver has a name but no type; probably an item or letter; give player a reading anim
+    if PKG.FF.PlayerChoice and is_self and PC_kit then
+        -- a recent player choice popup was made, use the relevant kit/board
+        gm:SetBoardUnit(PC_kit)
+    elseif is_self then
+        -- typical for auto-accepted quests, story pushes, etc.; have the player read a scroll
         pm:ReadScroll()
     elseif is_dead then
+        -- quest giver is a dead NPC; have the player kneel
         pm:Kneel()
-    elseif npc_name ~= nil and npc_type ~= nil then
-        -- quest giver has a creature type; some kind of entity with a normal model
-        gm:setQuestUnit(npc_name, npc_type)
+    else
+        -- attempt to set the questnpc unit, check for success
+        local did_set_unit = gm:SetQuestUnit()
+        Debug("attempted set unit:", did_set_unit)
+        if not did_set_unit then
+            -- could not set the model automatically, try to figure out some common cases
+            -- (TODO: some of these use English localized names, which only works for English clients)
+            if npc_name == "Warchief's Command Board" then
+                gm:SetBoardUnit("horde")
+            elseif npc_name == "Hero's Call Board" then
+                gm:SetBoardUnit("alliance")
+            else
+                -- if we can't figure out a better option, have the player read a scroll
+                pm:ReadScroll()
+            end
+        end
     end
     --PlaySoundFile("Interface/AddOns/StoryQuest/sounds/dialog_open.ogg", "SFX")
 end
@@ -685,7 +694,6 @@ end
 
 function StoryQuest:applyTitleStyle()
     local style = PKG.Settings.Get("TitleStyle")
-    Debug("apply title style:", style)
     if style == 2 then
         self.container.blackout_head:SetHeight(48)
         self.container.blackout_head:SetAlpha(1.0)
