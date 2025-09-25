@@ -81,6 +81,8 @@ local T = {
     [307453] = {['sf'] = 1.1, ['x'] = -90}, -- worgen female (old)
     [119376] = {['sf'] = 1.8, ['x'] = -150}, -- goblin male (old)
     [119369] = {['sf'] = 1.82, ['x'] = -150}, -- goblin female (old)
+    [535052] = {['sf'] = 1.2, ['x'] = -60}, -- pandaren male
+    [589715] = {['sf'] = 1.48, ['x'] = -45}, -- pandaren female
 
     [5548259] = 1.45, -- earthen female
 
@@ -154,7 +156,6 @@ local T = {
     [5333438] = {['sf'] = 2.6, ['z'] = 100}, -- spindle
     [5348707] = 0.81, -- vix'aron
     [5241992] = 1.05, -- ren'khat
-    [589715] = 1.3, -- noli marlen
     [5550057] = 2.0, -- cogwalker
     [1890763] = 1.6, -- jarden
     [5517447] = 0.9, -- miral murder-mittens
@@ -226,6 +227,8 @@ local p_goblin_M = {['sf'] = 1.35, ['x'] = -65, ['z'] = -10}
 local p_goblin_F = {['sf'] = 1.38, ['x'] = -65, ['z'] = -15}
 local p_worgen_M = {['sf'] = 0.95, ['x'] = -60, ['z'] = -48}
 local p_worgen_F = {['sf'] = 0.80, ['x'] = -65, ['z'] = -20, ['f'] = 0.8}
+local p_pandaren_M = {['sf'] = 0.9, ['x'] = -65, ['z'] = -9}
+local p_pandaren_F = {['sf'] = 1.14, ['x'] = -80, ['z'] = 0}
 local p_vulpera = {['sf'] = 1.5}
 local p_dracthyr = {['sf'] = 1.0, ['x'] = -100, ['z'] = -10}
 local P = {
@@ -271,11 +274,11 @@ local P = {
         ['new'] = {[2] = p_human_M, [3] = p_human_F},
         ['old'] = {[2] = p_human_M, [3] = p_human_F}},
     [24] = { -- pandaren, neutral
-        ['new'] = {[2] = p_default, [3] = p_default}},
+        ['new'] = {[2] = p_pandaren_M, [3] = p_pandaren_F}},
     [25] = { -- pandaren, alliance
-        ['new'] = {[2] = p_default, [3] = p_default}},
+        ['new'] = {[2] = p_pandaren_M, [3] = p_pandaren_F}},
     [26] = { -- pandaren, horde
-        ['new'] = {[2] = p_default, [3] = p_default}},
+        ['new'] = {[2] = p_pandaren_M, [3] = p_pandaren_F}},
     [27] = { -- nightborne
         ['new'] = {[2] = p_night_elf_M, [3] = p_night_elf_F}},
     [28] = { -- highmountain
