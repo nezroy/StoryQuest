@@ -353,6 +353,7 @@ local M = {
     [117]  = "Wrath/howling_fjord",
     [120]  = "Wrath/stormpeaks",
     [125]  = "Wrath/dalaran",
+    [378]  = "Mists/wandering_isle",
     [627]  = "Legion/dalaran",
     [629]  = "Legion/dalaran_basement",
     [882]  = "Legion/eredath",
