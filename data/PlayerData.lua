@@ -1,38 +1,40 @@
 local _, PKG = ...
 
 -- player factors
-local p_default = {['sf'] = 1.1}
-local p_human_M = {['sf'] = 1.07, ['x'] = -55, ['z'] = -27}
-local p_human_F = {['sf'] = 1.13, ['x'] = -55, ['z'] = -33}
-local p_dwarf_M = {['sf'] = 1.2, ['x'] = -65, ['z'] = -33}
-local p_dwarf_F = {['sf'] = 1.15, ['x'] = -65, ['z'] = -33}
-local p_gnome_M = {['sf'] = 1.51, ['x'] = -65, ['z'] = -30}
-local p_gnome_F = {['sf'] = 1.5, ['x'] = -65, ['z'] = -30}
-local p_night_elf_M = {['sf'] = 0.99, ['x'] = -65, ['z'] = -9}
-local p_night_elf_F = {['sf'] = 1.035, ['x'] = -70, ['z'] = -15}
-local p_tauren_M = {['sf'] = 0.94, ['x'] = -60, ['z'] = -21}
-local p_tauren_F = {['sf'] = 0.97, ['x'] = -70, ['z'] = -15}
-local p_undead_M = {['sf'] = 1.11, ['x'] = -70, ['z'] = -27}
-local p_undead_F = {['sf'] = 1.08, ['x'] = -70, ['z'] = -25}
-local p_orc_M = {['sf'] = 1.03, ['x'] = -70, ['z'] = -22}
-local p_orc_F = {['sf'] = 1.04, ['x'] = -70, ['z'] = -13}
-local p_troll_M = {['sf'] = 1.07, ['x'] = -70, ['z'] = -4}
-local p_troll_F = {['sf'] = 0.96, ['x'] = -75, ['z'] = -12}
-local p_blood_elf_M = {['sf'] = 1.04, ['x'] = -60, ['z'] = -28}
-local p_blood_elf_F = {['sf'] = 1.13, ['x'] = -90, ['z'] = -24}
-local p_draenei_M = {['sf'] = 0.91, ['x'] = -100, ['z'] = -15, ['f'] = 0.4}
-local p_draenei_F = {['sf'] = 0.96, ['x'] = -80, ['z'] = -17, ['f'] = 0.45}
-local p_goblin_M = {['sf'] = 1.35, ['x'] = -65, ['z'] = -10}
-local p_goblin_F = {['sf'] = 1.38, ['x'] = -65, ['z'] = -15}
-local p_worgen_M = {['sf'] = 0.95, ['x'] = -60, ['z'] = -48}
-local p_worgen_F = {['sf'] = 0.80, ['x'] = -65, ['z'] = -20, ['f'] = 0.8}
-local p_pandaren_M = {['sf'] = 0.9, ['x'] = -65, ['z'] = -9}
-local p_pandaren_F = {['sf'] = 1.14, ['x'] = -80, ['z'] = 0}
-local p_vulpera = {['sf'] = 1.5}
-local p_dracthyr = {['sf'] = 1.0, ['x'] = -100, ['z'] = -10}
+-- sf: percent bigger(+) or smaller(-) from default size
+-- x: right(+) or left(-) offset
+-- z: up(+) or down(-) offset
+-- f: percent change in facing toward cam(+) or away from cam(-)
+local p_default = {['sf'] = -10}
+local p_human_M = {['sf'] = -6.5, ['x'] = 15, ['z'] = 5}
+local p_human_F = {['sf'] = -11.5, ['x'] = 15, ['z'] = -6}
+local p_dwarf_M = {['sf'] = -16.5, ['x'] = 5, ['z'] = -13}
+local p_dwarf_F = {['sf'] = -13, ['x'] = 5, ['z'] = -8}
+local p_gnome_M = {['sf'] = -33.8, ['x'] = 5, ['z'] = -41}
+local p_gnome_F = {['sf'] = -33.3, ['x'] = 5, ['z'] = -40}
+local p_night_elf_M = {['sf'] = 1, ['x'] = 5, ['z'] = 32}
+local p_night_elf_F = {['sf'] = -3.4, ['x'] = 0, ['z'] = 21}
+local p_tauren_M = {['sf'] = 6.4, ['x'] = 10, ['z'] = 25}
+local p_tauren_F = {['sf'] = 3.1, ['x'] = 0, ['z'] = 28}
+local p_undead_M = {['sf'] = -9.9, ['x'] = 0, ['z'] = 1}
+local p_undead_F = {['sf'] = -7.4, ['x'] = 0, ['z'] = 6}
+local p_orc_M = {['sf'] = -2.9, ['x'] = 0, ['z'] = 14}
+local p_orc_F = {['sf'] = -3.8, ['x'] = 0, ['z'] = 22}
+local p_troll_M = {['sf'] = -6.5, ['x'] = 0, ['z'] = 28}
+local p_troll_F = {['sf'] = 4, ['x'] = -5, ['z'] = 32}
+local p_blood_elf_M = {['sf'] = -3.8, ['x'] = 10, ['z'] = 7}
+local p_blood_elf_F = {['sf'] = -11.5, ['x'] = -20, ['z'] = 3}
+local p_draenei_M = {['sf'] = 9.9, ['x'] = -30, ['z'] = 33, ['f'] = 20}
+local p_draenei_F = {['sf'] = 4.2, ['x'] = -10, ['z'] = 27, ['f'] = 10}
+local p_goblin_M = {['sf'] = -25.9, ['x'] = 5, ['z'] = -6}
+local p_goblin_F = {['sf'] = -27.5, ['x'] = 5, ['z'] = -13}
+local p_worgen_M = {['sf'] = 5.2, ['x'] = 10, ['z'] = -3}
+local p_worgen_F = {['sf'] = 25, ['x'] = 5, ['z'] = 39, ['f'] = -60}
+local p_pandaren_M = {['sf'] = 11.1, ['x'] = 5, ['z'] = 40}
+local p_pandaren_F = {['sf'] = -12.3, ['x'] = -10, ['z'] = 26}
+local p_vulpera = {['sf'] = -33.3}
+local p_dracthyr = {['sf'] = 0, ['x'] = -30, ['z'] = -10}
 local P = {
-    [0] = { -- default
-        ['new'] = {[1] = p_default, [2] = p_default, [3] = p_default}},
     [1] = { -- human
         ['new'] = {[2] = p_human_M, [3] = p_human_F},
         ['old'] = {[2] = p_human_M, [3] = p_human_F}},

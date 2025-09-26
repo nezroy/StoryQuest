@@ -1,36 +1,17 @@
 local _, PKG = ...
 local Debug = PKG.Debug
 
-local player_scales = PKG.PLAYER_SCALES
 local emotes = PKG.EMOTES
 
 StoryQuestPlayerModelMixin = {}
 local QuestPlayerMixin = StoryQuestPlayerModelMixin
 
 function QuestPlayerMixin:SetupModel()
-    self.is_clear = true
+    self.skip_model_load = true -- ClearModel will cause a model load event we ignore
     self.is_unit_set = false
     self:SetUnit("none")
     self:ClearModel()
     self:ClearAll()
-end
-
-function QuestPlayerMixin:setPMUnit()
-    local _, is_in_alt = C_PlayerInfo.GetAlternateFormInfo()
-    self.is_in_alt = is_in_alt
-    self.is_clear = false
-    if not self.is_unit_set then
-        local player_loc = PlayerLocation:CreateFromUnit("player")
-        local race_id = C_PlayerInfo.GetRace(player_loc)
-        local body_type = C_PlayerInfo.GetSex(player_loc) + 2
-        self.race_id = race_id
-        self.body_type = body_type
-        self.is_unit_set = true
-        -- Will immediately call OnModelLoaded if there is no load delay BEFORE finishing here
-        self:SetUnit("player")
-    else
-        self:RefreshUnit()
-    end
 end
 
 function QuestPlayerMixin:ClearAll()
@@ -41,62 +22,91 @@ function QuestPlayerMixin:ClearAll()
     self.defer_no = false
 end
 
+function QuestPlayerMixin:OnShow()
+    local _, is_in_alt = C_PlayerInfo.GetAlternateFormInfo()
+    self.is_in_alt = is_in_alt
+    self.skip_model_load = false
+    if not self.is_unit_set then
+        local player_loc = PlayerLocation:CreateFromUnit("player")
+        local race_id = C_PlayerInfo.GetRace(player_loc)
+        local body_type = C_PlayerInfo.GetSex(player_loc) + 2
+        self.race_id = race_id
+        self.body_type = body_type
+        self.is_unit_set = true
+        self:SetUnit("player")
+    else
+        self:RefreshUnit()
+    end
+    -- NOTE: the above Set/RefreshUnit calls will immediately call OnModelLoaded
+    -- if there is no load delay BEFORE continuing on in here; don't add anything
+    -- after those calls without considering the timing issue
+end
+
 function QuestPlayerMixin:OnHide()
+    -- model will load when frame first gets re-shown, but we don't want to
+    -- actually handle that until after the OnShow handler runs
+    self.skip_model_load = true
     self:ClearAll()
 end
 
 function QuestPlayerMixin:OnModelLoaded()
-    if self.is_clear or not self.is_unit_set then
+    if self.skip_model_load or not self.is_unit_set then
         return
     end
 
-    -- determine effective race ID to use based on alt forms
-    local raceID = self.race_id
+    -- determine effective race based on alt forms
+    local race_id = self.race_id
     if self.race_id == 52 and self.is_in_alt then
-        -- alliance dracthyr in blood elf visage
-        raceID = 10
+        race_id = 10 -- alliance dracthyr in blood elf visage
     elseif self.race_id == 70 and self.is_in_alt then
-        -- horde dracthyr in human visage
-        raceID = 1
+        race_id = 1 -- horde dracthyr in human visage
     elseif self.race_id == 22 and self.is_in_alt then
-        -- worgen in human form
-        raceID = 1
+        race_id = 1 -- worgen in human form
     end
 
-    local race_info = player_scales[raceID]
-    if not race_info then
-        race_info = player_scales[0]
+    local p_info = PKG.PLAYER_SCALES[race_id]
+    if p_info then
+        if not PKG.FF.NewPlayerModels and p_info.old then
+            p_info = p_info.old
+        else
+            p_info = p_info.new
+        end
     end
-    if not PKG.FF.NewPlayerModels and race_info['old'] then
-        race_info = race_info['old']
-    else
-        race_info = race_info['new']
+    if p_info then
+        p_info = p_info[self.body_type]
     end
-    race_info = race_info[self.body_type]
 
-    local heightScale = race_info['sf']
+    local x = -70
+    local z = -40
+    local sf = 1.0
+    local f = 0.5
+
     local ps = PKG.Settings.Get("ScalePlayer")
-    Debug("player - race:[", self.race_id, "] eff_race:[", raceID, "] alt_form:[", self.is_in_alt, "] hScale:[", heightScale, "] pScale:[", ps, "]")
-    if ps then
-        heightScale = heightScale / ps
+    if p_info then
+        if p_info.x then
+            x = x + p_info.x
+        end
+        if p_info.z then
+            z = z + p_info.z
+        end
+        if p_info.sf then
+            sf = sf * (1/((100 + p_info.sf)/100))
+            --if ps then
+            --    heightScale = heightScale / ps
+            --end
+        end
+        if p_info.f then
+            f = f * ((100 - p_info.f)/100)
+        end
     end
-    local foot_offset = floor((heightScale - 1.0) * -100)
-    if race_info['z'] then
-        foot_offset = foot_offset + race_info['z']
-    end
-    local offsetX = -35
-    if race_info['x'] then
-        offsetX = race_info['x']
-    end
+
+--    Debug("INFO - final_z:", foot_offset, "(", heightScale, ")")
+    Debug("player - race:", self.race_id, "| eff_race:", race_id, "| alt_form:", self.is_in_alt, "| sf:", sf, "| ps:", ps, "| x:", x, "| z:", z, "| f:", f)
 
     self:RefreshCamera()
-    self:SetCamDistanceScale(heightScale)
-    self:SetViewTranslation(offsetX, foot_offset)
-    if race_info['f'] then
-        self:SetFacing(race_info['f'])
-    else
-        self:SetFacing(0.5)
-    end
+    self:SetCamDistanceScale(sf)
+    self:SetViewTranslation(x, z)
+    self:SetFacing(f)
 
     local wm = PKG.Settings.Get("WeaponMode")
     local hm = PKG.Settings.Get("HelmetMode")

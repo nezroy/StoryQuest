@@ -339,7 +339,6 @@ function StoryQuest:showQuestFrame()
 
     local pm = self.container.playerModel
     local gm = self.container.giverModel
-    pm:setPMUnit()
     if PKG.FF.PlayerChoice and is_self and PC_kit then
         -- a recent player choice popup was made, use the relevant kit/board
         gm:SetBoardUnit(PC_kit)
