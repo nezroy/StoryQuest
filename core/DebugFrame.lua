@@ -88,7 +88,7 @@ end
 local function kit_OnClick()
     local pm = StoryQuestFrame.container.playerModel
 
-    pm:ReadScroll()
+    pm:SetAction("read")
     --[[
     if pm.freeze_frame then
         -- 128

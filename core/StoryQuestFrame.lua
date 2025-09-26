@@ -193,7 +193,7 @@ function StoryQuest:questTextCompleted()
         else
             local s = string.sub(self.questString[self.questStringInt], -1)
             if s == "?" then
-                self.container.playerModel:SetNo()
+                self.container.playerModel:SetAction("no")
             end
             self.container.acceptButton:Hide()
             self.container.declineButton:SetText(CANCEL)
@@ -237,7 +237,7 @@ function StoryQuest:nextGossip()
         self.container.dialog.objectiveText:Hide()
         self.container.acceptButton:Hide()
         self.container.declineButton:Hide()
-        self.container.playerModel:SetYes()
+        self.container.playerModel:SetAction("yes")
         CompleteQuest()
         return
     end
@@ -344,10 +344,10 @@ function StoryQuest:showQuestFrame()
         gm:SetBoardUnit(PC_kit)
     elseif is_self then
         -- typical for auto-accepted quests, story pushes, etc.; have the player read a scroll
-        pm:ReadScroll()
+        pm:SetAction("read")
     elseif is_dead then
         -- quest giver is a dead NPC; have the player kneel
-        pm:Kneel()
+        pm:SetAction("kneel")
     else
         -- attempt to set the questnpc unit, check for success
         local did_set_unit = gm:SetQuestUnit()
@@ -361,7 +361,7 @@ function StoryQuest:showQuestFrame()
                 gm:SetBoardUnit("alliance")
             else
                 -- if we can't figure out a better option, have the player read a scroll
-                pm:ReadScroll()
+                pm:SetAction("read")
             end
         end
     end

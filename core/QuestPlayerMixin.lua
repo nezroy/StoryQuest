@@ -16,10 +16,7 @@ end
 
 function QuestPlayerMixin:ClearAll()
     self.is_loaded = false
-    self.defer_read_scroll = false
-    self.defer_kneel = false
-    self.defer_yes = false
-    self.defer_no = false
+    self.defer_action = false
 end
 
 function QuestPlayerMixin:OnShow()
@@ -91,16 +88,13 @@ function QuestPlayerMixin:OnModelLoaded()
         end
         if p_info.sf then
             sf = sf * (1/((100 + p_info.sf)/100))
-            --if ps then
-            --    heightScale = heightScale / ps
-            --end
+            -- TODO: apply personal scale setting here
         end
         if p_info.f then
             f = f * ((100 - p_info.f)/100)
         end
     end
 
---    Debug("INFO - final_z:", foot_offset, "(", heightScale, ")")
     Debug("player - race:", self.race_id, "| eff_race:", race_id, "| alt_form:", self.is_in_alt, "| sf:", sf, "| ps:", ps, "| x:", x, "| z:", z, "| f:", f)
 
     self:RefreshCamera()
@@ -131,17 +125,8 @@ function QuestPlayerMixin:OnModelLoaded()
 
     self.is_loaded = true
     self.FadeIn:Play()
-    if self.defer_read_scroll then
-        self:ReadScroll()
-    end
-    if self.defer_kneel then
-        self:Kneel()
-    end
-    if self.defer_no then
-        self:SetNo()
-    end
-    if self.defer_yes then
-        self:SetYes()
+    if self.defer_action then
+        self:SetAction(self.defer_action)
     end
 end
 
@@ -160,54 +145,32 @@ local NO_KIT_FRAMES = {
     [22] = { [2] = 180, [3] = 180 }, -- worgen
     -- don't need any others because by MOP races we have the scroll kit
 }
-function QuestPlayerMixin:ReadScroll()
+function QuestPlayerMixin:SetAction(action)
     if not self.is_loaded then
-        self.defer_read_scroll = true
+        self.defer_action = action
         return
     end
-    self.defer_read_scroll = false
+    self.defer_action = false
 
-    self:SetSheathed(true, false)
-    if PKG.FF.ReadingKit then
-        self:SetAnimation(emotes.IdleRead)
-        self:ApplySpellVisualKit(29521, false)
-    else
-        local frame = NO_KIT_FRAMES[self.race_id][self.body_type]
-        if frame < 0 then
-            self:FreezeAnimation(emotes.Sheath, 0, -frame)
+    if action == "read" then
+        self:SetSheathed(true, false)
+        if PKG.FF.ReadingKit then
+            self:SetAnimation(emotes.IdleRead)
+            self:ApplySpellVisualKit(29521, false)
         else
-            self:FreezeAnimation(emotes.Train, 0, frame)
+            local frame = NO_KIT_FRAMES[self.race_id][self.body_type]
+            if frame < 0 then
+                self:FreezeAnimation(emotes.Sheath, 0, -frame)
+            else
+                self:FreezeAnimation(emotes.Train, 0, frame)
+            end
+            self:ApplySpellVisualKit(230853, false)
         end
-        self:ApplySpellVisualKit(230853, false)
+    elseif action == "kneel" then
+        self:SetAnimation(emotes.IdleKneel)
+    elseif action == "no" then
+        self:SetAnimation(emotes.No)
+    elseif action == "yes" then
+        self:SetAnimation(emotes.Yes)
     end
-end
-
-function QuestPlayerMixin:Kneel()
-    if not self.is_loaded then
-        self.defer_kneel = true
-        return
-    end
-    self.defer_kneel = false
-
-    self:SetAnimation(emotes.IdleKneel)
-end
-
-function QuestPlayerMixin:SetNo()
-    if not self.is_loaded then
-        self.defer_no = true
-        return
-    end
-    self.defer_no = false
-
-    self:SetAnimation(emotes.No)
-end
-
-function QuestPlayerMixin:SetYes()
-    if not self.is_loaded then
-        self.defer_yes = true
-        return
-    end
-    self.defer_yes = false
-
-    self:SetAnimation(emotes.Yes)
 end
