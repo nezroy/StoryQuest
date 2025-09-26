@@ -1,4 +1,5 @@
 local _, PKG = ...
+local Debug = PKG.Debug
 
 StoryQuestReqItemsFrameMixin = {}
 local ReqItemsMixin = StoryQuestReqItemsFrameMixin
@@ -21,18 +22,31 @@ function ReqItemsMixin:UpdateFrame()
         self.reqItem1:SetPoint("TOPLEFT", self.required, "BOTTOMLEFT", 5, -10)
     end
 
-    for i = 1, #qReq["stuff"], 1 do
+    for i = 1, #qReq["stuff"] do
         local f = self["reqItem" .. i]
+        local r = qReq["stuff"][i]
+
         f.type = "required"
         f.objectType = "item"
         f:SetID(i)
-        local name = qReq["stuff"][i][1]
-        local texture = qReq["stuff"][i][2]
-        local numItems = qReq["stuff"][i][3]
-        SetItemButtonCount(f, numItems)
-        SetItemButtonTexture(f, texture)
-        f.Name:SetText(name)
-        f:Show()
+        SetItemButtonCount(f, r.count)
+
+        if not r.name and r.id then
+            -- if item not cached but we have an ID to use then do a modern lookup
+            Debug("doing fancy modern item lookup for id:", r.id)
+            local item = Item:CreateFromItemID(r.id)
+            item:ContinueOnItemLoad(function()
+                Debug("in item load callback for id:", r.id)
+                SetItemButtonTexture(f, item:GetItemIcon())
+                f.Name:SetText(item:GetItemName())
+                f:Show()
+            end)
+        else
+            -- otherwise, take what we've got
+            SetItemButtonTexture(f, r.icon)
+            f.Name:SetText(r.name)
+            f:Show()
+        end
     end
 
     local btnOffset = #qReq["stuff"]
@@ -76,13 +90,16 @@ end
 function ReqItemsMixin:UpdateInfo()
     self:ClearInfo()
     self.questReq["money"] = GetQuestMoneyToGet()
-    for i = GetNumQuestItems(), 1, -1 do
+    local item_idx = 1
+    for i = 1, GetNumQuestItems() do
         if (IsQuestItemHidden(i) == 0) then
-            tinsert(self.questReq["stuff"], 1, {GetQuestItemInfo("required", i)})
+            local name, icon, count, _, _, item_id = GetQuestItemInfo("required", i)
+            self.questReq["stuff"][item_idx] = {["id"] = item_id, ["name"] = name, ["icon"] = icon, ["count"] = count}
+            item_idx = item_idx + 1
         end
     end
-    for i = GetNumQuestCurrencies(), 1, -1 do
-        tinsert(self.questReq["currency"], 1, C_QuestOffer.GetQuestRequiredCurrencyInfo(i))
+    for i = 1, GetNumQuestCurrencies() do
+        self.questReq["currency"][i] = C_QuestOffer.GetQuestRequiredCurrencyInfo(i)
     end
 end
 
