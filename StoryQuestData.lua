@@ -335,6 +335,7 @@ local M = {
     [7]    = "Kalimdor/mulgore",
     [1412] = "Kalimdor/mulgore", -- pre-cata
     [1411] = "Kalimdor/durotar", -- pre-cata
+    [1413] = "Kalimdor/barrens",
     [57]   = "Kalimdor/teldrassil",
     [1438] = "Kalimdor/teldrassil", -- pre-cata
     [62]   = "Kalimdor/darkshore_cata",
