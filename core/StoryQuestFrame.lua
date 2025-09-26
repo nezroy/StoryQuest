@@ -33,88 +33,6 @@ function StoryQuest:UpdateMapId()
     end
 end
 
-local function questInfoDisplay(template, parentFrame)
-    if template == QUEST_TEMPLATE_MAP_DETAILS or template == QUEST_TEMPLATE_MAP_REWARDS then
-        return
-    end
-
-    local fInfo = QuestInfoFrame
-    local fRwd = fInfo.rewardsFrame
-
-    for i, questItem in ipairs(fRwd.RewardButtons) do
-        local point, relativeTo, relativePoint, _, y = questItem:GetPoint()
-        if point and relativeTo and relativePoint then
-            if i == 1 then
-                questItem:SetPoint(point, relativeTo, relativePoint, 0, y)
-            elseif relativePoint == "BOTTOMLEFT" then
-                questItem:SetPoint(point, relativeTo, relativePoint, 0, -4)
-            else
-                questItem:SetPoint(point, relativeTo, relativePoint, 4, 0)
-            end
-        end
-    end
-
-    QuestInfoTitleHeader:SetTextColor(1, 0.8, 0.1)
-    QuestInfoDescriptionHeader:SetTextColor(1, 0.8, 0.1)
-    QuestInfoDescriptionText:SetTextColor(1, 1, 1)
-    QuestInfoObjectivesHeader:SetTextColor(1, 0.8, 0.1)
-    QuestInfoObjectivesText:SetTextColor(1, 1, 1)
-    QuestInfoGroupSize:SetTextColor(1, 1, 1)
-    QuestInfoRewardText:SetTextColor(1, 1, 1)
-    QuestInfoQuestType:SetTextColor(1, 1, 1)
-    fRwd.ItemChooseText:SetTextColor(1, 1, 1)
-    fRwd.ItemChooseText:SetShadowColor(0, 0, 0, 1)
-    fRwd.ItemChooseText:SetShadowOffset(1, -1)
-    fRwd.ItemReceiveText:SetTextColor(1, 1, 1)
-    fRwd.ItemReceiveText:SetShadowColor(0, 0, 0, 1)
-    fRwd.ItemReceiveText:SetShadowOffset(1, -1)
-    QuestInfoXPFrame.ReceiveText:SetShadowColor(0, 0, 0, 1)
-    QuestInfoXPFrame.ReceiveText:SetShadowOffset(1, -1)
-
-    fRwd.Header:SetTextColor(1, 1, 1)
-    fRwd.Header:SetShadowColor(0, 0, 0, 1)
-
-    if fRwd.SpellLearnText then
-        fRwd.SpellLearnText:SetTextColor(1, 1, 1)
-    end
-
-    if fRwd.PlayerTitleText then
-        fRwd.PlayerTitleText:SetTextColor(1, 1, 1)
-    end
-
-    if fRwd.XPFrame.ReceiveText then
-        fRwd.XPFrame.ReceiveText:SetTextColor(1, 1, 1)
-    end
-
-    local objectives = QuestInfoObjectivesFrame.Objectives
-    local index = 0
-
-    if PKG.FF.GetSelectedQuest then
-        local questID = C_QuestLog.GetSelectedQuest()
-        local waypointText = C_QuestLog.GetNextWaypointText(questID)
-        if waypointText then
-            index = index + 1
-            objectives[index]:SetTextColor(1, 0.93, 0.73)
-        end
-    end
-
-    for i = 1, GetNumQuestLeaderBoards() do
-        local _, objectiveType, isCompleted = GetQuestLogLeaderBoard(i)
-        if objectiveType ~= "spell" and objectiveType ~= "log" and index < MAX_OBJECTIVES then
-            index = index + 1
-
-            local objective = objectives[index]
-            if objective then
-                if isCompleted then
-                    objective:SetTextColor(0.2, 1, 0.2)
-                else
-                    objective:SetTextColor(1, 1, 1)
-                end
-            end
-        end
-    end
-end
-
 local pat_sep = "[\\.|!|?|\n]%s+"
 local pat_uwu = "^<[^>]*>"
 local function splitQuest(inputstr)
@@ -165,81 +83,99 @@ local function splitQuest(inputstr)
     return t
 end
 
-function StoryQuest:HideQuestFrame()
-    -- cannot actually hide it as we are stealing its elements/events and need it
-    -- to remain technically shown for the duration
-    QuestFrame:SetAlpha(0.0)
+local function styleBlizzRewards()
+    local f_rewards = QuestInfoRewardsFrame
+    if not f_rewards then
+        return
+    end
+
+    if f_rewards.RewardButtons then
+        for i, quest_item in ipairs(f_rewards.RewardButtons) do
+            local point, relativeTo, relativePoint, _, y = quest_item:GetPoint()
+            if point and relativeTo and relativePoint then
+                if i == 1 then
+                    quest_item:SetPoint(point, relativeTo, relativePoint, 0, y)
+                elseif relativePoint == "BOTTOMLEFT" then
+                    quest_item:SetPoint(point, relativeTo, relativePoint, 0, -4)
+                else
+                    quest_item:SetPoint(point, relativeTo, relativePoint, 4, 0)
+                end
+            end
+        end
+    end
+
+    local styleText = function(text)
+        if not text then
+            return
+        end
+        text:SetTextColor(1, 1, 1)
+        text:SetShadowColor(0, 0, 0, 1)
+        text:SetShadowOffset(1, -1)
+    end
+
+    styleText(QuestInfoRewardText)
+    styleText(f_rewards.ItemChooseText)
+    styleText(f_rewards.ItemReceiveText)
+    styleText(QuestInfoXPFrame and QuestInfoXPFrame.ReceiveText)
+    styleText(f_rewards.Header)
+    styleText(f_rewards.SpellLearnText)
+    styleText(f_rewards.PlayerTitleText)
+    styleText(f_rewards.XPFrame and f_rewards.XPFrame.ReceiveText)
 end
 
-function StoryQuest:UnhideQuestFrame()
-    QuestFrame:SetAlpha(1.0)
-end
+local function unstyleBlizzRewards()
+    local f_rewards = QuestInfoRewardsFrame
+    if not f_rewards then
+        return
+    end
 
-local function getQuestRewardCurrencies(questID)
-    local num = GetNumQuestLogRewardCurrencies(questID)
-    if num < 1 then
-        return nil
+    local unstyleText = function(text)
+        if not text then
+            return
+        end
+        text:SetTextColor(0, 0, 0)
+        text:SetShadowColor(0, 0, 0, 0)
+        text:SetShadowOffset(0, 0)
     end
-    local currency = {}
-    for i = 1, num do
-        local c = {}
-        local name, texture, numItems, currencyId, quality = GetQuestLogRewardCurrencyInfo(i, questId)
-        c.name = name
-        c.texture = texture
-        c.currencyID = currencyId
-        c.quality = quality
-        c.totalRewardAmount = numItems
-        c.baseRewardAmount = numItems
-        c.bonusRewardAmount = 0
-        c.questRewardContextFlags = 0
-        currency[#currency + 1] = c
-    end
-    return currency
+
+    unstyleText(QuestInfoRewardText)
+    unstyleText(f_rewards.ItemChooseText)
+    unstyleText(f_rewards.ItemReceiveText)
+    unstyleText(QuestInfoXPFrame and QuestInfoXPFrame.ReceiveText)
+    unstyleText(f_rewards.Header)
+    unstyleText(f_rewards.SpellLearnText)
+    unstyleText(f_rewards.PlayerTitleText)
+    unstyleText(f_rewards.XPFrame and f_rewards.XPFrame.ReceiveText)
 end
 
 function StoryQuest:showRewards(showObjective)
-    local questID = QuestInfoFrame.questLog and C_QuestLog.GetSelectedQuest() or GetQuestID()
-
-    local xp = GetRewardXP()
-    local money = GetRewardMoney()
-    local title = GetRewardTitle()
-    local currency = nil
-    if PKG.FF.GetQuestRewardCurrencies then
-        currency = C_QuestInfoSystem.GetQuestRewardCurrencies(questID) or {}
-    else
-        currency = getQuestRewardCurrencies(questID) or {}
-    end
-    local skillPoints = nil
-    if PKG.FF.GetRewardSkillPoints then
-        _, _, skillPoints = GetRewardSkillPoints()
-    end
-    local items = GetNumQuestRewards()
-    local spells = C_QuestInfoSystem.GetQuestRewardSpells(questID) or {}
-    local choices = GetNumQuestChoices()
-    local honor = GetRewardHonor()
-
-    local qinfoHeight = 300
-    local qinfoTop = -20
-
     if showObjective then
         self.container.dialog.objectiveText:SetText(GetObjectiveText())
         UIFrameFadeIn(self.container.dialog.objectiveHeader, 0.1, 0, 1)
         UIFrameFadeIn(self.container.dialog.objectiveText, 0.1, 0, 1)
     end
 
-    if ((PKG.FF.QuestRewardShowsXP and xp > 0) or money > 0 or title or #currency > 0 or skillPoints or items > 0 or #spells > 0 or choices > 0 or honor > 0) then
-        local f = QuestInfoRewardsFrame
-        UIFrameFadeIn(f, 0.1, 0, 1)
-        f:SetParent(self)
-        f:SetHeight(qinfoHeight)
-        f:ClearAllPoints()
-        f:SetFrameLevel(5)
-        if showObjective then
-            f:SetPoint("TOPLEFT", self.container.dialog.objectiveText, "BOTTOMLEFT", 0, -15)
-        else
-            f:SetPoint("CENTER", self, "CENTER", -5, qinfoTop)
-        end
+    local f_rwd = QuestInfoRewardsFrame
+    if (not f_rwd or not f_rwd:IsShown()) then
+        return
     end
+
+    -- restyle and then steal Blizz's quest reward frame
+    -- TODO: not a fan of just stealing the blizz reward panel despite the simplicity
+    -- see Blizzard_UIPanels_Game/Mainline/QuestInfo.xml to clone/mimic this eventually
+    local qinfoHeight = 300
+    local qinfoTop = -20
+    styleBlizzRewards()
+    f_rwd:SetParent(self)
+    f_rwd:SetHeight(qinfoHeight)
+    f_rwd:ClearAllPoints()
+    f_rwd:SetFrameLevel(5)
+    if showObjective then
+        f_rwd:SetPoint("TOPLEFT", self.container.dialog.objectiveText, "BOTTOMLEFT", 0, -15)
+    else
+        f_rwd:SetPoint("CENTER", self, "CENTER", -5, qinfoTop)
+    end
+    UIFrameFadeIn(f_rwd, 0.1, 0, 1)
 end
 
 function StoryQuest:questTextCompleted()
@@ -361,6 +297,17 @@ function StoryQuest:lastGossip()
     else
         self:questTextCompleted()
     end
+end
+
+function StoryQuest:HideQuestFrame()
+    -- cannot actually hide it as we are stealing its elements/events and need it
+    -- to remain technically shown for the duration
+    QuestFrame:SetAlpha(0.0)
+end
+
+function StoryQuest:UnhideQuestFrame()
+    unstyleBlizzRewards()
+    QuestFrame:SetAlpha(1.0)
 end
 
 function StoryQuest:showQuestFrame()
@@ -786,22 +733,6 @@ function StoryQuest:OnLoad()
     self.container.floaty.inset:SetTextureSliceMargins(64, 64, 64, 64)
     self.container.floaty.inset:SetTextureSliceMode(Enum.UITextureSliceMode.Stretched)
 
-    self.container.floaty.title:SetTextColor(1.0, 0.77, 0.15)
-    self.container.floaty.title:SetFont(STANDARD_TEXT_FONT, 24)
-    self.container.floaty.title:SetShadowColor(0, 0, 0, 1)
-    self.container.floaty.title:SetShadowOffset(2, -2)
-
-    self.container.dialog.text:SetFont(STANDARD_TEXT_FONT, 15)
-    self.container.dialog.text:SetTextColor(1, 1, 1)
-
-    self.container.dialog.objectiveHeader:SetTextColor(1, 1, 1)
-    self.container.dialog.objectiveHeader:SetShadowColor(0, 0, 0, 1)
-    self.container.dialog.objectiveHeader:SetText(QUEST_OBJECTIVES)
-
-    self.container.dialog.objectiveText:SetTextColor(1, 1, 1)
-    self.container.dialog.objectiveText:SetShadowColor(0, 0, 0, 1)
-    self.container.dialog.objectiveText:SetShadowOffset(1, -1)
-
     self:SetScript("OnShow", self.OnShow)
     self:SetScript("OnHide", self.OnHide)
     self:SetScript("OnEvent", self.OnEvent)
@@ -832,6 +763,4 @@ function StoryQuest:OnLoad()
     self:clearQuestReq()
     self:SetClampedToScreen(true)
     self:SetMovable(true)
-
-    hooksecurefunc("QuestInfo_Display", questInfoDisplay)
 end

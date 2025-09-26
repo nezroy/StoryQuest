@@ -87,9 +87,5 @@ function ReqItemsMixin:UpdateInfo()
 end
 
 function ReqItemsMixin:OnLoad()
-    self.required:SetFont("UNIT_NAME_FONT", 14)
-    self.required:SetTextColor(1, 1, 1)
-    self.required:SetShadowColor(0, 0, 0, 1)
-
     self:ClearInfo()
 end

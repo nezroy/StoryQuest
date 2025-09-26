@@ -3,7 +3,7 @@
         <Size x="295" y="190"></Size>
         <Layers>
             <Layer level="OVERLAY" textureSubLevel="2">
-                <FontString parentKey="required" inherits="QuestTitleFont" text="TURN_IN_ITEMS" justifyH="LEFT">
+                <FontString parentKey="required" inherits="StoryQuestHeaderFont" text="TURN_IN_ITEMS" justifyH="LEFT">
                     <Anchors>
                         <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="0" y="0"/>
                     </Anchors>

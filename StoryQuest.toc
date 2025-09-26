@@ -18,6 +18,7 @@ TaintLess/TaintLess.xml
 core/debug.lua
 core/FeatureFlags.lua
 core/[Game]/FeatureFlags.lua
+core/SharedItems.xml
 settings/Settings.lua
 StoryQuestData.lua
 core/QuestGiverMixin.lua
