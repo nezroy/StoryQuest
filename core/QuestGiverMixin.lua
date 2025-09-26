@@ -1,10 +1,10 @@
 local _, PKG = ...
 local Debug = PKG.Debug
 
-local model_tweaks = PKG.QUESTVIEW_MODEL_TWEAKS
-local npc_tweaks = PKG.QUESTVIEW_NPC_TWEAKS
-local emotes = PKG.QUESTVIEW_EMOTES
-local board_types = PKG.QUESTVIEW_BOARD_TYPES
+local model_tweaks = PKG.MODEL_TWEAKS
+local npc_tweaks = PKG.NPC_TWEAKS
+local emotes = PKG.EMOTES
+local board_types = PKG.BOARD_TYPES
 
 StoryQuestGiverModelMixin = {}
 local QuestGiverMixin = StoryQuestGiverModelMixin

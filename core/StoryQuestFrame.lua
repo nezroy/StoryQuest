@@ -1,7 +1,7 @@
 local _, PKG = ...
 local Debug = PKG.Debug
 
-local mapBGs = PKG.QUESTVIEW_MAP_BGS
+local mapBGs = PKG.MAP_BGS
 
 StoryQuestFrameMixin = {}
 local StoryQuest = StoryQuestFrameMixin

@@ -1,8 +1,8 @@
 local _, PKG = ...
 local Debug = PKG.Debug
 
-local player_scales = PKG.QUESTVIEW_PLAYER_SCALES
-local emotes = PKG.QUESTVIEW_EMOTES
+local player_scales = PKG.PLAYER_SCALES
+local emotes = PKG.EMOTES
 
 StoryQuestPlayerModelMixin = {}
 local QuestPlayerMixin = StoryQuestPlayerModelMixin

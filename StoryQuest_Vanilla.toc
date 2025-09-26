@@ -14,12 +14,16 @@
 
 TaintLess/TaintLess.xml
 
+data/MiscData.lua
+data/MapData.lua
+data/ModelData.lua
+data/PlayerData.lua
+
 core/debug.lua
 core/FeatureFlags.lua
 core/Vanilla/FeatureFlags.lua
 core/SharedItems.xml
 settings/Settings.lua
-StoryQuestData.lua
 core/QuestGiverMixin.lua
 core/QuestPlayerMixin.lua
 core/QuestReqItems.lua
