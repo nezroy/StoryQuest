@@ -311,20 +311,20 @@ function StoryQuest:UnhideQuestFrame()
 end
 
 function StoryQuest:showQuestFrame()
-    local mapId = self.mapId or C_Map.GetBestMapForUnit("player") or 0
-    local mapTex
+    local map_id = self.mapId or C_Map.GetBestMapForUnit("player") or 0
+    local map_bg
     repeat
-        local mapInfo = C_Map.GetMapInfo(mapId)
-        if mapInfo then
-            Debug("current map", mapInfo.mapID, mapInfo.name, mapInfo.mapType, mapInfo.parentMapID)
-            mapTex = mapBGs[mapInfo.mapID] or mapBGs[mapInfo.parentMapID]
-            mapId = mapInfo.parentMapID
+        local map = C_Map.GetMapInfo(map_id)
+        if map then
+            Debug("map - id:", map.mapID, "| name:", map.name, "| type:", map.mapType, "| parent:", map.parentMapID)
+            map_bg = mapBGs[map.mapID] or mapBGs[map.parentMapID]
+            map_id = map.parentMapID
         end
-    until not mapInfo or mapTex or mapInfo.parentMapID == 0
-    if not mapTex then
-        mapTex = "Misc/default"
+    until not map or map_bg or map.parentMapID == 0
+    if not map_bg then
+        map_bg = "Misc/default"
     end
-    self.container.mapBG:SetTexture("Interface/AddOns/StoryQuest/textures/backgrounds/" .. mapTex)
+    self.container.mapBG:SetTexture("Interface/AddOns/StoryQuest/textures/backgrounds/" .. map_bg)
 
     self.container.floaty.title:SetText(GetTitleText())
 

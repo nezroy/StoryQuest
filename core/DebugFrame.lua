@@ -115,9 +115,9 @@ local function kit_OnClick()
     --]]
 end
 
-local function set_unit(cid)
+local function set_unit(cid, did)
     local gm = StoryQuestFrame.container.giverModel
-    gm:SetQuestUnit(cid)
+    gm:SetQuestUnit(cid, did)
     gm:Show()
 end
 
@@ -141,20 +141,38 @@ local function reset_OnClick(self)
     C_Timer.After(0, set_unit)
 end
 
-local function show_creature(cid)
+local function show_creature(cid, did)
     local gm = StoryQuestFrame.container.giverModel
     gm:Hide()
-    C_Timer.After(0, function () set_unit(cid) end)
+    C_Timer.After(0, function () set_unit(cid, did) end)
 end
 
 local model_buttons = {
-    {"gnm M", 8416}, {"gnm F", 6376}, {"dwf M", 658}, {"dwf F", 2878},
-    {"hmn M", 197}, {"hmn F", 9296}, {"nelf M", 2079}, {"nelf F", 8583},
-    {"tau M", 2980}, {"tau F", 2991}, {"und M", 1568}, {"und F", 1661},
-    {"orc M", 10176}, {"orc F", 3145}, {"trol M", 3707}, {"trol F", 5884},
-    {"belf M", 43010}, {"belf F", 15278}, {"drae M", 16475}, {"drae F", 16514},
-    {"gob M", 45662}, {"gob F", 34693}, {"worg M", 63083}, {"worg F", 50252},
-    {"pand M", 54943}, {"pand F", 54567},
+    -- core races
+    {"gnm M", 5519}, {"gnm F", 6579}, {"dwf M", 5511}, {"dwf F", 5512},
+    {"hmn M", 1432}, {"hmn F", 6740}, {"nelf M", 5500}, {"nelf F", 5566},
+    {"tau M", 13417}, {"tau F", 3322}, {"und M", 1568}, {"und F", 1661},
+    {"orc M", 3313}, {"orc F", 6929}, {"trol M", 3400}, {"trol F", 3399},
+    -- bc races
+    {"belf M", 23128}, {"belf F", 17098}, {"drae M", 19848}, {"drae F", 16514},
+    -- cata races
+    {"gob M", 45347}, {"gob F", 45563}, {"worg M", 63083}, {"worg F", 50252},
+    -- mop races
+    {"pand M", 69334}, {"pand F", 70296},
+    -- df races
+    {"drac M", 230743, 108879}, {"drac F", 230743, 104842},
+    -- allied races
+    {"void M", 158123, 93417}, {"void F", 158123, 93415},
+    {"lfrg M", 158125, 83229}, {"lfrg F", 158125, 83230},
+    {"hmtn M", 133218, 82746}, {"hmtn F", 133218, 82748},
+    {"nbrn M", 133185, 82765}, {"nbrn F", 133185, 82764},
+    {"mech M", 159569}, {"mech F", 159568},
+    {"kult M", 158119, 81532}, {"kult F", 158119, 93409},
+    {"dirn M", 158120, 93412}, {"dirn F", 158120, 93410},
+    {"zand M", 138126, 79861}, {"zand F", 138126, 79862},
+    {"magh M", 158141, 93436}, {"magh F", 158141, 93434},
+    {"vulp M", 226681, 79321}, {"vulp F", 226681, 79463},
+    {"erth M", 226676, 117358}, {"erth F", 226676, 118452},
 }
 function DebugFrame:OnLoad()
     self.bgTex = 0
@@ -173,7 +191,7 @@ function DebugFrame:OnLoad()
         local mod_idx = (i - 1) % 4
         local btn = CreateFrame("Button", nil, self.container, "StoryQuestDebugButtonTemplate")
         btn:SetText(btn_def[1])
-        btn:SetScript("OnClick", function () show_creature(btn_def[2]) end)
+        btn:SetScript("OnClick", function () show_creature(btn_def[2], btn_def[3]) end)
         if mod_idx == 0 then
             btn:SetPoint("TOPLEFT", self.container, "TOPLEFT", 0, y_off)
         elseif mod_idx == 1 then

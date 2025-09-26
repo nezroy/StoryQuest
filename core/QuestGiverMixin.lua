@@ -95,14 +95,14 @@ local function getCreatureIDFromGUID(guid)
 	return tonumber(string.match(guid, "Creature%-.-%-.-%-.-%-.-%-(.-)%-"));
 end
 
-function QuestGiverMixin:SetQuestUnit(creature_id)
+function QuestGiverMixin:SetQuestUnit(creature_id, display_id)
     self.is_clear = false
 
     -- SetCreature/SetUnit will immediately call OnModelLoaded if there
     -- is no load delay, BEFORE completing execution here
     if creature_id ~= nil then
         self.creature_id = creature_id
-        self:SetCreature(creature_id)
+        self:SetCreature(creature_id, display_id or 0)
         return true
     else
         -- we do it this way to get equipped weapon; otherwise we could just set by creature ID
@@ -119,11 +119,16 @@ function QuestGiverMixin:OnModelLoaded()
     if self.is_clear then
         return
     end
-    local scaleFactor = 1.25 -- can we figure this out programmatically without lookups?
     local fileID = self.file_id ~= nil and self.file_id or self:GetModelFileID()
     local tweaks = nil
     local tweak_opts = nil
     local creatureID = self.creature_id
+
+    local sf = 1.25 -- can we figure this out programmatically without lookups?
+    local z = 60
+    local x = -100
+    local p = 0.0
+    local f = -0.5
 
     if creatureID and npc_tweaks[creatureID] then
         tweaks = npc_tweaks[creatureID]
@@ -135,33 +140,29 @@ function QuestGiverMixin:OnModelLoaded()
     end
     if tweak_opts ~= nil then
         if tweak_opts['sf'] ~= nil then
-            scaleFactor = tweak_opts['sf']
+            sf = tweak_opts['sf']
         end
     elseif tweaks ~= nil then
-        scaleFactor = tweaks
+        sf = tweaks
     end
 
-    Debug("giver model - fileID:[", fileID, "] creatureID:[", creatureID, "] sf:[", scaleFactor, "]")
-    self:InitializeCamera(scaleFactor)
+    Debug("giver model - fileID:", fileID, "| creatureID:", creatureID, "| sf:", sf, "| dID:", self:GetDisplayInfo())
+    self:InitializeCamera(sf)
 
-    local offsetX = -110
-    local offsetZ = 50
-    local pitch = 0.0
-    local facing = -0.5
     self.idle_anim = emotes.Idle
 
     if tweak_opts ~= nil then
-        if tweak_opts.x ~= nil then
-            offsetX = tweak_opts.x
+        if tweak_opts.x then
+            x = x + tweak_opts.x
         end
-        if tweak_opts.z ~= nil then
-            offsetZ = tweak_opts.z
+        if tweak_opts.z then
+            z = z + tweak_opts.z
         end
         if tweak_opts.p ~= nil then
-            pitch = tweak_opts.p
+            p = tweak_opts.p
         end
         if tweak_opts.f ~= nil then
-            facing = tweak_opts.f
+            f = tweak_opts.f
         end
         if tweak_opts.ia ~= nil then
             self.idle_anim = tweak_opts.ia
@@ -172,12 +173,12 @@ function QuestGiverMixin:OnModelLoaded()
     end
 
     self.doAnims = self.idle_anim ~= -1 and true or false
-    self:SetPitch(pitch)
-    self:SetFacing(facing)
+    self:SetPitch(p)
+    self:SetFacing(f)
     if self.idle_anim ~= -1 then
         self:SetAnimation(self.idle_anim)
     end
-    self:SetViewTranslation(offsetX, offsetZ)
+    self:SetViewTranslation(x, z)
 
     self.is_loaded = true
     self.FadeIn:Play()
@@ -203,11 +204,6 @@ function QuestGiverMixin:OnHide()
 end
 
 function QuestGiverMixin:ClearAll()
-    self:SetUnit("none")
-    self:SetCreature(0)
-    self:SetAlpha(0)
-    self:ClearModel()
-
     self.creature_id = 0
     self.file_id = nil
     self.do_anims = false
@@ -217,6 +213,11 @@ function QuestGiverMixin:ClearAll()
     self.anim_playing = false
     self.is_clear = true
     self.is_loaded = false
+
+    self:SetUnit("none")
+    self:SetCreature(0)
+    self:SetAlpha(0)
+    self:ClearModel()
 
     self:SetPosition(0, 0, 0)
     self:SetRoll(0)

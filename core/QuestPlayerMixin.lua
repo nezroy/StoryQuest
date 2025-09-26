@@ -74,7 +74,7 @@ function QuestPlayerMixin:OnModelLoaded()
     end
 
     local x = -70
-    local z = -40
+    local z = -30
     local sf = 1.0
     local f = 0.5
 
