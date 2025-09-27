@@ -58,8 +58,11 @@ function QuestPlayerMixin:OnModelLoaded()
     local z = -40
     local sf = 1.0
     local f = 0.5
-
     local ps = PKG.Settings.Get("ScalePlayer")
+    if ps ~= 1.0 then
+        sf = sf/ps
+    end
+
     if p_info then
         if p_info.x then
             x = x + p_info.x

@@ -175,6 +175,7 @@ local model_buttons = {
     {"drac M", 230743, 108879}, {"drac F", 230743, 104842},
     -- tww races
     {"erth M", 226676, 117358}, {"erth F", 226676, 118452},
+    {"xal", 230658}, {"widow", 207471},
 }
 function DebugFrame:OnLoad()
     self.bgTex = 0

@@ -54,8 +54,12 @@ local T = {
     [1022598] = {['sf'] = -19, ['x'] = -40}, -- draenei female
     [1100087] = {['sf'] = -25.9, ['x'] = 10}, -- blood elf male
     [1100258] = {['sf'] = -30.5, ['x'] = 30}, -- blood elf female
-    [307454] = PKG.FF.NewWorgenModel and {['sf'] = -29, ['x'] = -30} or {['sf'] = -21.9}, -- worgen male
-    [307453] = PKG.FF.NewWorgenModel and {['sf'] = -30, ['x'] = 10} or {['sf'] = -8.3, ['x'] = 10}, -- worgen female
+    [307454] = PKG.FF.NewWorgenModel and
+        {['sf'] = -29, ['x'] = -30} or -- worgen male
+        {['sf'] = -21.9},              -- worgen male (old)
+    [307453] = PKG.FF.NewWorgenModel and
+        {['sf'] = -30, ['x'] = 10} or -- worgen female
+        {['sf'] = -8.3, ['x'] = 10},  -- worgen female (old)
     [119376] = {['sf'] = -42.5, ['x'] = -50}, -- goblin male
     [119369] = {['sf'] = -45.1, ['x'] = -50}, -- goblin female
     [535052] = {['sf'] = -14.5, ['x'] = 40}, -- pandaren male
@@ -94,15 +98,15 @@ local T = {
     [6658771] = {['sf'] = -60, ['x'] = -200, ['ia'] = -1}, -- titan console
 
     -- big dragons
-    [3084654] = {['sf'] = 26.6, ['x'] = 130}, -- big wrathion
-    [4227968] = {['sf'] = 26.6, ['x'] = 130}, -- big selistra
-    [4496906] = {['sf'] = 42.8, ['x'] = 130}, -- big kalec
-    [4498270] = {['sf'] = 42.8, ['x'] = 130}, -- big dormu
-    [4495214] = {['sf'] = 42.8, ['x'] = 130}, -- big alexstrasza
-    [1259122] = {['sf'] = 42.8, ['x'] = 130}, -- big senegos
-    [4416923] = {['sf'] = 26.6, ['x'] = 130}, -- big ebyssian, big surigosa
-    [5151105] = {['sf'] = 33.3, ['x'] = 130}, -- big merithra
-    [4492766] = {['sf'] = 81.8, ['x'] = 130}, -- big vyranoth
+    [3084654] = {['sf'] = 26.6, ['x'] = 130, ['z'] = -30}, -- big wrathion
+    [4227968] = {['sf'] = 26.6, ['x'] = 130, ['z'] = -30}, -- big selistra
+    [4496906] = {['sf'] = 42.8, ['x'] = 130, ['z'] = -30}, -- big kalec
+    [4498270] = {['sf'] = 42.8, ['x'] = 130, ['z'] = -30}, -- big dormu
+    [4495214] = {['sf'] = 42.8, ['x'] = 130, ['z'] = -30}, -- big alexstrasza
+    [1259122] = {['sf'] = 42.8, ['x'] = 130, ['z'] = -30}, -- big senegos
+    [4416923] = {['sf'] = 26.6, ['x'] = 130, ['z'] = -30}, -- big ebyssian, big surigosa
+    [5151105] = {['sf'] = 33.3, ['x'] = 130, ['z'] = -30}, -- big merithra
+    [4492766] = {['sf'] = 81.8, ['x'] = 130, ['z'] = -30}, -- big vyranoth
 
     -- other stuff
     [1980608] = -23.1, -- Ulfar
@@ -114,7 +118,7 @@ local T = {
     [4036647] = -37.5, --- huseng
     [4081379] = -37.5, -- tomul
     --[4207724] = -28.5, -- vaskarn
-    [4498203] = -39.4, -- emberthal
+    [4498203] = -40, -- emberthal
     [123698] = {['sf'] = -52.4, ['x'] = -200}, -- tarindrella, female dryads
     [4186587] = -37.5, -- rowie
     [3947971] = -50, -- nostwin
