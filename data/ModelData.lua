@@ -32,10 +32,6 @@ local T = {
     [117437] = {['sf'] = -21.9, ['x'] = 30}, -- draenei female (old)
     [117170] = {['sf'] = -25.9, ['x'] = 10}, -- blood elf male (old)
     [116921] = {['sf'] = -30.5, ['x'] = 30}, -- blood elf female (old)
-    [307454] = PKG.FF.NewPlayerModels and {['sf'] = -29, ['x'] = -30} or {['sf'] = -21.9}, -- worgen male
-    [307453] = PKG.FF.NewPlayerModels and {['sf'] = -30, ['x'] = 10} or {['sf'] = -8.3, ['x'] = 10}, -- worgen female
-    [119376] = {['sf'] = -42.5, ['x'] = -50}, -- goblin male (old)
-    [119369] = {['sf'] = -45.1, ['x'] = -50}, -- goblin female (old)
 
     -- NPCs using generic player models
     [1011653] = {['sf'] = -28.5, ['x'] = 25}, -- human male
@@ -48,20 +44,45 @@ local T = {
     [921844] = {['sf'] = -27, ['x'] = -20}, -- night elf female
     [959310] = {['sf'] = -30, ['x'] = 40}, -- undead male
     [997378] = {['sf'] = -27, ['x'] = -30}, -- undead female
-    [917116] = {['sf'] = -26, ['x'] = 20}, -- orc male
+    [917116] = {['sf'] = -28, ['x'] = 20}, -- orc male
     [949470] = {['sf'] = -28, ['x'] = 30}, -- orc female
     [1022938] = {['sf'] = -28.5, ['x'] = -30}, -- troll male
     [1018060] = {['sf'] = -28.5, ['x'] = 40}, -- troll female
-    [968705] = {['sf'] = -18, ['x'] = 20}, -- tauren male
+    [968705] = {['sf'] = -17, ['x'] = 20}, -- tauren male
     [986648] = {['sf'] = -23, ['x'] = 45}, -- tauren female
     [1005887] = {['sf'] = -14, ['x'] = 15, ['f'] = -0.7}, -- draenei male
     [1022598] = {['sf'] = -19, ['x'] = -40}, -- draenei female
     [1100087] = {['sf'] = -25.9, ['x'] = 10}, -- blood elf male
     [1100258] = {['sf'] = -30.5, ['x'] = 30}, -- blood elf female
-    -- worgen male & female uses feature flag ternary op up in old model section
+    [307454] = PKG.FF.NewPlayerModels and {['sf'] = -29, ['x'] = -30} or {['sf'] = -21.9}, -- worgen male
+    [307453] = PKG.FF.NewPlayerModels and {['sf'] = -30, ['x'] = 10} or {['sf'] = -8.3, ['x'] = 10}, -- worgen female
+    [119376] = {['sf'] = -42.5, ['x'] = -50}, -- goblin male
+    [119369] = {['sf'] = -45.1, ['x'] = -50}, -- goblin female
     [535052] = {['sf'] = -14.5, ['x'] = 40}, -- pandaren male
     [589715] = {['sf'] = -30.5, ['x'] = 55}, -- pandaren female
-    [5548259] = -31, -- earthen female
+    [1734034] = {['sf'] = -25.9, ['x'] = 10}, -- void elf male
+    [1733758] = {['sf'] = -30.5, ['x'] = 30}, -- void elf female
+    [1620605] = {['sf'] = -25, ['x'] = 15, ['f'] = -0.7}, -- lightforge male
+    [1593999] = {['sf'] = -23, ['x'] = 15, ['z'] = 10}, -- lightforge female
+    [1630218] = {['sf'] = -17, ['x'] = 20}, -- highmountain male
+    [1630402] = {['sf'] = -23, ['x'] = 45}, -- highmountain female
+    [1814471] = {['sf'] = -23, ['x'] = 0}, -- nightborne male
+    [1810676] = {['sf'] = -26, ['x'] = -10}, -- nightborne female
+    [2622502] = {['sf'] = -47, ['x'] = -30}, -- mechagnome male
+    [2564806] = {['sf'] = -50, ['x'] = 0}, -- mechagnome female
+    [1721003] = {['sf'] = -19, ['x'] = -25}, -- kul tiran male
+    [1886724] = {['sf'] = -28, ['x'] = -25}, -- kul tiran female
+    [1890765] = {['sf'] = -39, ['x'] = -40}, -- dark iron male
+    [1890763] = {['sf'] = -37, ['x'] = 38}, -- dark iron female
+    [1630447] = {['sf'] = -21, ['x'] = 10}, -- zandalari male
+    [1662187] = {['sf'] = -25.5, ['x'] = 50}, -- zandalari female
+    [1968587] = {['sf'] = -14, ['x'] = 30}, -- mag'har male
+    -- mag'har female uses same model/stats as orc female
+    [1890761] = {['sf'] = -40, ['x'] = -20}, -- vulpera male
+    [1890759] = {['sf'] = -44.5, ['x'] = -20}, -- vulpera female
+    [4207724] = {['sf'] = -32, ['x'] = 30}, -- dracthyr male & female
+    [5548261] = {['sf'] = -35, ['x'] = -40}, -- earthen male
+    [5548259] = {['sf'] = -34, ['x'] = 38}, -- earthen female
 
     -- non-creature items/objects
     [1822634] = {['sf'] = -50, ['x'] = -250, ['z'] = -40, ['ia'] = -1, ['f'] = -0.7}, -- generic quest board
@@ -88,19 +109,18 @@ local T = {
     [3762412] = -9.1, -- primus
     [1249799] = 11.1, -- malfurion
     [4218359] = -50, -- chromie
-    [1890759] = -44.4, -- selistra
+    --[1890759] = -44.4, -- selistra
     [4216711] = 0, -- therazal
-    [1890765] = -44.4, -- thaelin
     [4036647] = -37.5, --- huseng
     [4081379] = -37.5, -- tomul
-    [4207724] = -28.5, -- vaskarn
+    --[4207724] = -28.5, -- vaskarn
     [4498203] = -39.4, -- emberthal
     [123698] = {['sf'] = -52.4, ['x'] = -200}, -- tarindrella, female dryads
     [4186587] = -37.5, -- rowie
     [3947971] = -50, -- nostwin
     [3950118] = -37.5, -- honeypelt
     [4575036] = {['sf'] = -61.5, ['z'] = 50}, -- newsy
-    [1890761] = -41.2, -- veeno
+    --[1890761] = -41.2, -- veeno
     [1135341] = 17.6, -- brogg
     [4183015] = 0, -- ignax
     [1261840] = 0, -- cenarius
@@ -119,18 +139,16 @@ local T = {
     [3730980] = {['sf'] = -61.5, ['z'] = 50}, -- reese
     [5165026] = {['sf'] = -61.5, ['z'] = 50}, -- squally
     [4066013] = 11.1, -- garz
-    [5548261] = -28.5, -- baelgrim
+    --[5548261] = -28.5, -- baelgrim
     [5484812] = -26, -- brinthe
     [5339030] = -28.5, -- skitter
     [5767091] = -33.3, -- dagan
     [5482015] = 0, -- sum'latha
     [5221517] = 5.3, -- kish'nal
-    [1886724] = -28.5, -- Dolena
     [5333438] = {['sf'] = -61.5, ['z'] = 50}, -- spindle
     [5348707] = 23.5, -- vix'aron
     [5241992] = -4.8, -- ren'khat
     [5550057] = -50, -- cogwalker
-    [1890763] = -37.5, -- jarden
     [5517447] = 11.1, -- miral murder-mittens
     [5763560] = -33.3, -- alyza bowblaze
     [2618947] = 66.7, -- goehi
@@ -149,7 +167,6 @@ local T = {
     [117412] = -26, -- lost/broken male, firmanvaar
     [669393] = {['sf'] = -23.1, ['x'] = -80}, -- vol'jin
     [1697869] = -33.3, -- katherine proudmoore
-
 }
 PKG.MODEL_TWEAKS = T
 

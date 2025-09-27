@@ -125,7 +125,7 @@ function QuestGiverMixin:OnModelLoaded()
     local creatureID = self.creature_id
 
     local sf = 1.0
-    local z = 60
+    local z = 50
     local x = -100
     local p = 0.0
     local f = -0.5
