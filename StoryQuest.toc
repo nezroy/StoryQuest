@@ -15,14 +15,15 @@
 
 TaintLess/TaintLess.xml
 
+core/debug.lua
+core/FeatureFlags.lua
+core/[Game]/FeatureFlags.lua
+
 data/MiscData.lua
 data/MapData.lua
 data/ModelData.lua
 data/PlayerData.lua
 
-core/debug.lua
-core/FeatureFlags.lua
-core/[Game]/FeatureFlags.lua
 core/SharedItems.xml
 settings/Settings.lua
 core/QuestGiverMixin.lua

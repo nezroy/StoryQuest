@@ -124,7 +124,7 @@ function QuestGiverMixin:OnModelLoaded()
     local tweak_opts = nil
     local creatureID = self.creature_id
 
-    local sf = 1.25 -- can we figure this out programmatically without lookups?
+    local sf = 1.0
     local z = 60
     local x = -100
     local p = 0.0
@@ -138,13 +138,15 @@ function QuestGiverMixin:OnModelLoaded()
     if tweaks ~= nil and type(tweaks) == 'table' then
         tweak_opts = tweaks
     end
+    local mod_sf = -20 -- default if not changed results in sf of 1.25
     if tweak_opts ~= nil then
         if tweak_opts['sf'] ~= nil then
-            sf = tweak_opts['sf']
+            mod_sf = tweak_opts['sf']
         end
     elseif tweaks ~= nil then
-        sf = tweaks
+        mod_sf = tweaks
     end
+    sf = sf * (1/((100 + mod_sf)/100))
 
     Debug("giver model - fileID:", fileID, "| creatureID:", creatureID, "| sf:", sf, "| dID:", self:GetDisplayInfo())
     self:InitializeCamera(sf)
