@@ -333,7 +333,7 @@ function StoryQuest:showQuestFrame()
     local is_dead = UnitIsDead("questnpc")
 
     local PC_kit = self.recent_player_choice and PlayerChoiceFrame and PlayerChoiceFrame.uiTextureKit
-    Debug("quest giver - name:[", npc_name, "] self:[", is_self, "] dead:[", is_dead, "] PC_kit:[", PC_kit, "]")
+    Debug("quest giver - name:", npc_name, "| self:", is_self, "| dead:", is_dead, "| PC_kit:", PC_kit)
 
     self:Show()
 
@@ -649,9 +649,6 @@ function StoryQuest:OnEvent(event, ...)
                 self:nextGossip()
             end
         end
-    elseif event == "BARBER_SHOP_RESULT" then
-        local pm = self.container.playerModel
-        pm:SetupModel()
     elseif event == "PLAYER_CHOICE_CLOSE" then
         self.recent_player_choice = true
         C_Timer.After(2, function () self.recent_player_choice = false end)
@@ -749,7 +746,6 @@ function StoryQuest:OnLoad()
     self:RegisterEvent("QUEST_PROGRESS")
     self:RegisterEvent("CINEMATIC_START")
     self:RegisterEvent("CINEMATIC_STOP")
-    self:RegisterEvent("BARBER_SHOP_RESULT")
     if PKG.FF.PlayerChoice then
         self:RegisterEvent("PLAYER_CHOICE_CLOSE")
         self:RegisterEvent("PLAYER_CHOICE_UPDATE")
@@ -762,4 +758,5 @@ function StoryQuest:OnLoad()
     self:clearQuestReq()
     self:SetClampedToScreen(true)
     self:SetMovable(true)
+    self.container.playerModel:OnLoad()
 end

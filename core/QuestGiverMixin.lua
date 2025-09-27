@@ -130,10 +130,16 @@ function QuestGiverMixin:OnModelLoaded()
     local p = 0.0
     local f = -0.5
 
-    if creatureID and npc_tweaks[creatureID] then
-        tweaks = npc_tweaks[creatureID]
-    elseif fileID and model_tweaks[fileID] then
-        tweaks = model_tweaks[fileID]
+    local c_tweaks = creatureID and npc_tweaks[creatureID]
+    local m_tweaks = fileID and model_tweaks[fileID]
+    if c_tweaks ~= nil and type(c_tweaks) ~= 'table' and m_tweaks and type(m_tweaks) == 'table' then
+        -- merge scalar sf changes from creature override into existing model table
+        tweaks = m_tweaks
+        m_tweaks.sf = c_tweaks
+    elseif c_tweaks then
+        tweaks = c_tweaks
+    elseif m_tweaks then
+        tweaks = m_tweaks
     end
     if tweaks ~= nil and type(tweaks) == 'table' then
         tweak_opts = tweaks
@@ -148,7 +154,6 @@ function QuestGiverMixin:OnModelLoaded()
     end
     sf = sf * (1/((100 + mod_sf)/100))
 
-    Debug("giver model - fileID:", fileID, "| creatureID:", creatureID, "| sf:", sf, "| dID:", self:GetDisplayInfo())
     self:InitializeCamera(sf)
 
     self.idle_anim = emotes.Idle
@@ -173,6 +178,8 @@ function QuestGiverMixin:OnModelLoaded()
             self.half_kits = tweak_opts.hk
         end
     end
+
+    Debug("giver model - fileID:", fileID, "| creatureID:", creatureID, "| sf:", sf, "| dID:", self:GetDisplayInfo(), "| f:", f)
 
     self.doAnims = self.idle_anim ~= -1 and true or false
     self:SetPitch(p)

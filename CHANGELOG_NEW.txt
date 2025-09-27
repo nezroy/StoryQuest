@@ -1,6 +1,7 @@
 - Add support for Classic (Vanilla and Mists)
 - Add option for title bar style
 - Tweak all player model scales and positions for NPC consistency
+- Add missing adjustments for all player races
 - Add more more backgrounds
 - Change interaction for dead quest givers
-- Fix an issue with body type changes at the barbershop
+- Fix an issue when changing body type at the barbershop

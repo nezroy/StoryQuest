@@ -54,16 +54,16 @@ local T = {
     [1022598] = {['sf'] = -19, ['x'] = -40}, -- draenei female
     [1100087] = {['sf'] = -25.9, ['x'] = 10}, -- blood elf male
     [1100258] = {['sf'] = -30.5, ['x'] = 30}, -- blood elf female
-    [307454] = PKG.FF.NewPlayerModels and {['sf'] = -29, ['x'] = -30} or {['sf'] = -21.9}, -- worgen male
-    [307453] = PKG.FF.NewPlayerModels and {['sf'] = -30, ['x'] = 10} or {['sf'] = -8.3, ['x'] = 10}, -- worgen female
+    [307454] = PKG.FF.NewWorgenModel and {['sf'] = -29, ['x'] = -30} or {['sf'] = -21.9}, -- worgen male
+    [307453] = PKG.FF.NewWorgenModel and {['sf'] = -30, ['x'] = 10} or {['sf'] = -8.3, ['x'] = 10}, -- worgen female
     [119376] = {['sf'] = -42.5, ['x'] = -50}, -- goblin male
     [119369] = {['sf'] = -45.1, ['x'] = -50}, -- goblin female
     [535052] = {['sf'] = -14.5, ['x'] = 40}, -- pandaren male
     [589715] = {['sf'] = -30.5, ['x'] = 55}, -- pandaren female
     [1734034] = {['sf'] = -25.9, ['x'] = 10}, -- void elf male
     [1733758] = {['sf'] = -30.5, ['x'] = 30}, -- void elf female
-    [1620605] = {['sf'] = -25, ['x'] = 15, ['f'] = -0.7}, -- lightforge male
-    [1593999] = {['sf'] = -23, ['x'] = 15, ['z'] = 10}, -- lightforge female
+    [1620605] = {['sf'] = -25, ['x'] = 15, ['f'] = -0.7}, -- lightforged male
+    [1593999] = {['sf'] = -23, ['x'] = 15, ['z'] = 10}, -- lightforged female
     [1630218] = {['sf'] = -17, ['x'] = 20}, -- highmountain male
     [1630402] = {['sf'] = -23, ['x'] = 45}, -- highmountain female
     [1814471] = {['sf'] = -23, ['x'] = 0}, -- nightborne male
@@ -76,13 +76,13 @@ local T = {
     [1890763] = {['sf'] = -37, ['x'] = 38}, -- dark iron female
     [1630447] = {['sf'] = -21, ['x'] = 10}, -- zandalari male
     [1662187] = {['sf'] = -25.5, ['x'] = 50}, -- zandalari female
-    [1968587] = {['sf'] = -14, ['x'] = 30}, -- mag'har male
+    [1968587] = {['sf'] = -14, ['x'] = 25, ['f'] = -0.8}, -- mag'har male
     -- mag'har female uses same model/stats as orc female
     [1890761] = {['sf'] = -40, ['x'] = -20}, -- vulpera male
     [1890759] = {['sf'] = -44.5, ['x'] = -20}, -- vulpera female
     [4207724] = {['sf'] = -32, ['x'] = 30}, -- dracthyr male & female
-    [5548261] = {['sf'] = -35, ['x'] = -40}, -- earthen male
-    [5548259] = {['sf'] = -34, ['x'] = 38}, -- earthen female
+    [5548261] = {['sf'] = -34, ['x'] = -40}, -- earthen male
+    [5548259] = {['sf'] = -33, ['x'] = 38}, -- earthen female
 
     -- non-creature items/objects
     [1822634] = {['sf'] = -50, ['x'] = -250, ['z'] = -40, ['ia'] = -1, ['f'] = -0.7}, -- generic quest board
@@ -167,6 +167,7 @@ local T = {
     [117412] = -26, -- lost/broken male, firmanvaar
     [669393] = {['sf'] = -23.1, ['x'] = -80}, -- vol'jin
     [1697869] = -33.3, -- katherine proudmoore
+    [2448981] = {['sf'] = -45, ['x'] = -20}, -- mekkatorque
 }
 PKG.MODEL_TWEAKS = T
 
@@ -175,7 +176,8 @@ local n_widow_araknai = {
     ['sf'] = -9.1, ['ia'] = emotes.IdleHang, ['hk'] = true,
     ['x'] = -50, ['z'] = 325, ['p'] = -0.33,
 }
-local n_berrund  = 1.1
+local n_berrund  = -9.1
+local n_mayla = -17
 local N = {
     [197478] = -64.3, -- herald flaps
     [201648] = {['sf'] = 26.6, ['x'] = 130}, -- big somnikus
@@ -184,10 +186,11 @@ local N = {
     [228860] = -54.5, -- gabby gabi
     [207471] = n_widow_araknai, [227428] = n_widow_araknai,
     [205067] = -20, -- shandris feathermoon
-    [202656] = -15.3, -- mayla highmountain
+    [202656] = n_mayla, [93826] = n_mayla, -- mayla highmountain
     [37195] = -15.3, -- lord darius crowley
     [49425] = {['sf'] = -20, ['x'] = 40}, -- darnell
     [36648] = -15.3, -- baine bloodhoof
     [4949] = -18, -- classic thrall
+    [130993] = {['sf'] = -15, ['x'] = 15}, -- fareeya
 }
 PKG.NPC_TWEAKS = N

@@ -1,6 +1,6 @@
 local _, PKG = ...
 
-PKG.FF.NewPlayerModels = true
+PKG.FF.NewWorgenModel = true
 PKG.FF.PlayerChoice = true
 PKG.FF.GetQuestRewardCurrencies = true
 PKG.FF.GetRewardSkillPoints = true

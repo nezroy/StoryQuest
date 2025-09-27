@@ -79,7 +79,7 @@ end
 local function face_OnClick(self)
     local pm = StoryQuestFrame.container.playerModel
     if pm:GetFacing() == -0.5 then
-        pm:SetFacing(0.55)
+        pm:SetFacing(0.5)
     else
         pm:SetFacing(-0.5)
     end
@@ -136,7 +136,7 @@ local function reset_OnClick(self)
         b:Show()
         cb:Show()
     end
-    pm:SetFacing(0.55)
+    pm:SetFacing(0.5)
     gm:Hide()
     C_Timer.After(0, set_unit)
 end

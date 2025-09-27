@@ -20,15 +20,15 @@ function QuestPlayerMixin:ClearAll()
 end
 
 function QuestPlayerMixin:OnShow()
-    local _, is_in_alt = C_PlayerInfo.GetAlternateFormInfo()
-    self.is_in_alt = is_in_alt
     self.skip_model_load = false
     if not self.is_unit_set then
-        local player_loc = PlayerLocation:CreateFromUnit("player")
-        local race_id = C_PlayerInfo.GetRace(player_loc)
-        local body_type = C_PlayerInfo.GetSex(player_loc) + 2
-        self.race_id = race_id
-        self.body_type = body_type
+        if not PKG.FF.ReadingKit then
+            local player_loc = PlayerLocation:CreateFromUnit("player")
+            local race_id = C_PlayerInfo.GetRace(player_loc)
+            local body_type = C_PlayerInfo.GetSex(player_loc) + 2
+            self.race_id = race_id
+            self.body_type = body_type
+        end
         self.is_unit_set = true
         self:SetUnit("player")
     else
@@ -51,27 +51,8 @@ function QuestPlayerMixin:OnModelLoaded()
         return
     end
 
-    -- determine effective race based on alt forms
-    local race_id = self.race_id
-    if self.race_id == 52 and self.is_in_alt then
-        race_id = 10 -- alliance dracthyr in blood elf visage
-    elseif self.race_id == 70 and self.is_in_alt then
-        race_id = 1 -- horde dracthyr in human visage
-    elseif self.race_id == 22 and self.is_in_alt then
-        race_id = 1 -- worgen in human form
-    end
-
-    local p_info = PKG.PLAYER_SCALES[race_id]
-    if p_info then
-        if not PKG.FF.NewPlayerModels and p_info.old then
-            p_info = p_info.old
-        else
-            p_info = p_info.new
-        end
-    end
-    if p_info then
-        p_info = p_info[self.body_type]
-    end
+    local file_id = self:GetModelFileID()
+    local p_info = PKG.PLAYER_SCALES[file_id]
 
     local x = -70
     local z = -40
@@ -95,7 +76,7 @@ function QuestPlayerMixin:OnModelLoaded()
         end
     end
 
-    Debug("player - race:", self.race_id, "| eff_race:", race_id, "| alt_form:", self.is_in_alt, "| sf:", sf, "| ps:", ps, "| x:", x, "| z:", z, "| f:", f)
+    Debug("player - fileID:", file_id, "| sf:", sf, "| ps:", ps, "| x:", x, "| z:", z, "| f:", f)
 
     self:RefreshCamera()
     self:SetCamDistanceScale(sf)
@@ -172,5 +153,20 @@ function QuestPlayerMixin:SetAction(action)
         self:SetAnimation(emotes.No)
     elseif action == "yes" then
         self:SetAnimation(emotes.Yes)
+    end
+end
+
+function QuestPlayerMixin:OnEvent(event, ...)
+    Debug("QuestPlayerMixin event handling", event, ...)
+    if event == "BARBER_SHOP_RESULT" then
+        self:SetupModel()
+    end
+end
+
+function QuestPlayerMixin:OnLoad()
+    self:SetScript("OnEvent", self.OnEvent)
+    if not PKG.FF.ReadingKit then
+        -- we only need race/body type info if we have to custom animate "reading"
+        self:RegisterEvent("BARBER_SHOP_RESULT")
     end
 end
