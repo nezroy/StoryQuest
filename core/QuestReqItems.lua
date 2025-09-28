@@ -88,7 +88,6 @@ function ReqItemsMixin:ClearInfo()
 end
 
 function ReqItemsMixin:UpdateInfo()
-    self:ClearInfo()
     self.questReq["money"] = GetQuestMoneyToGet()
     local item_idx = 1
     for i = 1, GetNumQuestItems() do
@@ -101,8 +100,4 @@ function ReqItemsMixin:UpdateInfo()
     for i = 1, GetNumQuestCurrencies() do
         self.questReq["currency"][i] = C_QuestOffer.GetQuestRequiredCurrencyInfo(i)
     end
-end
-
-function ReqItemsMixin:OnLoad()
-    self:ClearInfo()
 end

@@ -117,26 +117,13 @@
                                         <Anchor point="BOTTOM" relativePoint="BOTTOM" x="0" y="10"/>
                                     </Anchors>
                                 </FontString>
-                                <FontString parentKey="objectiveHeader" inherits="StoryQuestHeaderFont" justifyH="LEFT" hidden="true" text="QUEST_OBJECTIVES">
-                                    <Anchors>
-                                        <Anchor point="LEFT" relativePoint="CENTER" x="-150" y="160"/>
-                                    </Anchors>
-                                </FontString>
-                                <FontString parentKey="objectiveText" inherits="StoryQuestObjectiveFont" justifyH="LEFT" hidden="true">
-                                    <Size x="300" y="0"/>
-                                    <Anchors>
-                                        <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeKey="$parent.objectiveHeader" x="0" y="-5"/>
-                                    </Anchors>
-                                </FontString>
                             </Layer>
                         </Layers>
-                        <Frames>
-                            <Frame inherits="StoryQuestReqItemsFrameTemplate" parentKey="reqItems" hidden="true">
-                                <Anchors>
-                                    <Anchor point="BOTTOM" relativePoint="BOTTOM" x="0" y="100"/>
-                                </Anchors>
-                            </Frame>
-                        </Frames>
+                    </Frame>
+                    <Frame inherits="StoryQuestSummaryFrameTemplate" parentKey="summary" hidden="true">
+                        <Anchors>
+                            <Anchor point="center" x="0" y="-50"/>
+                        </Anchors>
                     </Frame>
                     <Frame parentKey="floaty">
                         <Size x="952" y="474"></Size>
@@ -161,12 +148,12 @@
                         </Layers>
                     </Frame>
 
-                    <Button parentKey="acceptButton" inherits="StoryQuestButtonTemplate" frameLevel="10">
+                    <Button parentKey="acceptButton" inherits="StoryQuestButtonTemplate" frameLevel="10" hidden="true">
                         <Anchors>
                             <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" x="5" y="10"/>
                         </Anchors>
                     </Button>
-                    <Button parentKey="declineButton" inherits="StoryQuestButtonTemplate" frameLevel="10">
+                    <Button parentKey="cancelButton" inherits="StoryQuestButtonTemplate" frameLevel="10" hidden="true">
                         <Anchors>
                             <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="-5" y="10"/>
                         </Anchors>

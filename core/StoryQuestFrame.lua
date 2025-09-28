@@ -23,14 +23,23 @@ function StoryQuest:UiScaleChanged()
     self.defer_ui_change = false
 end
 
-function StoryQuest:UpdateMapId()
+local function updateMap(self)
     self.mapId = C_Map.GetBestMapForUnit("player")
-    if not self.mapId and self.updateAttempts < 10 then
-        self.updateAttempts = self.updateAttempts + 1
-        C_Timer.After(0.5, function() self:UpdateMapId() end)
+    if not self.mapId and self.update_map_attempt < 6 then
+        self.update_map_attempt = self.update_map_attempt + 1
+        C_Timer.After(0.5, function() updateMap(self) end)
     else
-        self.updateAttempts = 0
+        self.update_map_attempt = 0
+        self.update_map_mutex = false
     end
+end
+
+function StoryQuest:UpdateMapId()
+    if self.update_map_mutex then
+        return
+    end
+    self.update_map_mutex = true
+    updateMap(self)
 end
 
 local pat_sep = "[\\.|!|?|\n]%s+"
@@ -83,128 +92,29 @@ local function splitQuest(inputstr)
     return t
 end
 
-local function styleBlizzRewards()
-    local f_rewards = QuestInfoRewardsFrame
-    if not f_rewards then
-        return
-    end
-
-    if f_rewards.RewardButtons then
-        for i, quest_item in ipairs(f_rewards.RewardButtons) do
-            local point, relativeTo, relativePoint, _, y = quest_item:GetPoint()
-            if point and relativeTo and relativePoint then
-                if i == 1 then
-                    quest_item:SetPoint(point, relativeTo, relativePoint, 0, y)
-                elseif relativePoint == "BOTTOMLEFT" then
-                    quest_item:SetPoint(point, relativeTo, relativePoint, 0, -4)
-                else
-                    quest_item:SetPoint(point, relativeTo, relativePoint, 4, 0)
-                end
-            end
-        end
-    end
-
-    local styleText = function(text)
-        if not text then
-            return
-        end
-        text:SetTextColor(1, 1, 1)
-        text:SetShadowColor(0, 0, 0, 1)
-        text:SetShadowOffset(1, -1)
-    end
-
-    styleText(QuestInfoRewardText)
-    styleText(f_rewards.ItemChooseText)
-    styleText(f_rewards.ItemReceiveText)
-    styleText(QuestInfoXPFrame and QuestInfoXPFrame.ReceiveText)
-    styleText(f_rewards.Header)
-    styleText(f_rewards.SpellLearnText)
-    styleText(f_rewards.PlayerTitleText)
-    styleText(f_rewards.XPFrame and f_rewards.XPFrame.ReceiveText)
-end
-
-local function unstyleBlizzRewards()
-    local f_rewards = QuestInfoRewardsFrame
-    if not f_rewards then
-        return
-    end
-
-    local unstyleText = function(text)
-        if not text then
-            return
-        end
-        text:SetTextColor(0, 0, 0)
-        text:SetShadowColor(0, 0, 0, 0)
-        text:SetShadowOffset(0, 0)
-    end
-
-    unstyleText(QuestInfoRewardText)
-    unstyleText(f_rewards.ItemChooseText)
-    unstyleText(f_rewards.ItemReceiveText)
-    unstyleText(QuestInfoXPFrame and QuestInfoXPFrame.ReceiveText)
-    unstyleText(f_rewards.Header)
-    unstyleText(f_rewards.SpellLearnText)
-    unstyleText(f_rewards.PlayerTitleText)
-    unstyleText(f_rewards.XPFrame and f_rewards.XPFrame.ReceiveText)
-end
-
-function StoryQuest:showRewards(showObjective)
-    if showObjective then
-        self.container.dialog.objectiveText:SetText(GetObjectiveText())
-        UIFrameFadeIn(self.container.dialog.objectiveHeader, 0.1, 0, 1)
-        UIFrameFadeIn(self.container.dialog.objectiveText, 0.1, 0, 1)
-    end
-
-    local f_rwd = QuestInfoRewardsFrame
-    if (not f_rwd or not f_rwd:IsShown()) then
-        return
-    end
-
-    -- restyle and then steal Blizz's quest reward frame
-    -- TODO: not a fan of just stealing the blizz reward panel despite the simplicity
-    -- see Blizzard_UIPanels_Game/Mainline/QuestInfo.xml to clone/mimic this eventually
-    local qinfoHeight = 300
-    local qinfoTop = -20
-    styleBlizzRewards()
-    f_rwd:SetParent(self)
-    f_rwd:SetHeight(qinfoHeight)
-    f_rwd:ClearAllPoints()
-    f_rwd:SetFrameLevel(5)
-    if showObjective then
-        f_rwd:SetPoint("TOPLEFT", self.container.dialog.objectiveText, "BOTTOMLEFT", 0, -15)
-    else
-        f_rwd:SetPoint("CENTER", self, "CENTER", -5, qinfoTop)
-    end
-    UIFrameFadeIn(f_rwd, 0.1, 0, 1)
-end
-
 function StoryQuest:questTextCompleted()
-    if self.questStateSet then
-        return
+    if not self.container.summary:IsShown() and not self.container.summary:IsEmpty() then
+        UIFrameFadeIn(self.container.summary, 0.1, 0, 1)
     end
     if self.questState == "COMPLETE" then
-        self:showRewards(false)
         self.container.acceptButton:SetText(COMPLETE_QUEST)
         self.container.acceptButton:Show()
     elseif self.questState == "PROGRESS" then
-        if IsQuestCompletable() then
+        if self.quest_can_turnin then
             self.container.acceptButton:SetText(CONTINUE)
-            self.questState = "NEEDCOMPLETE"
+            self.container.acceptButton:Show()
         else
             local s = string.sub(self.questString[self.questStringInt], -1)
             if s == "?" then
                 self.container.playerModel:SetAction("no")
             end
             self.container.acceptButton:Hide()
-            self.container.declineButton:SetText(CANCEL)
-            self.container.declineButton:Show()
         end
     else
-        self:showRewards(true)
         self.container.acceptButton:SetText(ACCEPT)
         self.container.acceptButton:Show()
+        self.container.cancelButton:SetText(DECLINE)
     end
-    self.questStateSet = true
 end
 
 local MAX_TEXT_WIDTH = 750
@@ -227,32 +137,10 @@ function StoryQuest:setBalancedText(text)
 end
 
 function StoryQuest:nextGossip()
-    if self.questState and self.questState == "NEEDCOMPLETE" then
-        self.questState = "COMPLETING"
-        -- there will be a QUEST_COMPLETE event shortly
-        self:clearDialog()
-        self.container.dialog.reqItems:ClearInfo()
-        self.container.dialog.reqItems:Hide()
-        self.container.dialog.objectiveHeader:Hide()
-        self.container.dialog.objectiveText:Hide()
-        self.container.acceptButton:Hide()
-        self.container.declineButton:Hide()
-        self.container.playerModel:SetAction("yes")
-        CompleteQuest()
-        return
-    end
-    if self.questStateSet then
-        return
-    end
     self.questStringInt = self.questStringInt + 1
     local qStringInt = self.questStringInt
     local count = #self.questString
 
-    if (self.container.dialog.reqItems:HasRequiredItems()) then
-        self.container.dialog.reqItems:Show()
-    else
-        self.container.dialog.reqItems:Hide()
-    end
     if qStringInt <= count then
         self:setBalancedText(self.questString[qStringInt])
         self.container.giverModel:setQuestGiverAnimation(count, self.questString, qStringInt)
@@ -271,7 +159,7 @@ function StoryQuest:nextGossip()
     end
 end
 
-function StoryQuest:lastGossip()
+function StoryQuest:prevGossip()
     if self.questStringInt == 1 then
         return
     end
@@ -287,32 +175,30 @@ function StoryQuest:lastGossip()
         end
         self.container.acceptButton:SetText(SKIP_TO_END)
         self.container.acceptButton:Show()
-        QuestInfoRewardsFrame:Hide()
-        self.questStateSet = false
         if self.questState ~= "PROGRESS" then
-            self.container.dialog.reqItems:Hide()
+            self.container.summary:Hide()
         end
-        self.container.dialog.objectiveHeader:Hide()
-        self.container.dialog.objectiveText:Hide()
     else
         self:questTextCompleted()
     end
 end
 
-function StoryQuest:HideQuestFrame()
+function StoryQuest:HideBlizzQuestFrame()
     -- cannot actually hide it as we are stealing its elements/events and need it
     -- to remain technically shown for the duration
     QuestFrame:SetAlpha(0.0)
 end
 
-function StoryQuest:UnhideQuestFrame()
-    unstyleBlizzRewards()
+function StoryQuest:UnhideBlizzQuestFrame()
     QuestFrame:SetAlpha(1.0)
 end
 
-function StoryQuest:showQuestFrame()
-    local map_id = self.mapId or C_Map.GetBestMapForUnit("player") or 0
-    local map_bg
+local function getMapBackground(self)
+    map_id = self.mapID or C_Map.GetBestMapForUnit("player") or 0
+    local map_bg = "Misc/default"
+    if not map_id then
+        return map_bg
+    end
     repeat
         local map = C_Map.GetMapInfo(map_id)
         if map then
@@ -321,9 +207,11 @@ function StoryQuest:showQuestFrame()
             map_id = map.parentMapID
         end
     until not map or map_bg or map.parentMapID == 0
-    if not map_bg then
-        map_bg = "Misc/default"
-    end
+    return map_bg
+end
+
+function StoryQuest:showQuestFrame()
+    local map_bg = getMapBackground(self)
     self.container.mapBG:SetTexture("Interface/AddOns/StoryQuest/textures/backgrounds/" .. map_bg)
 
     self.container.floaty.title:SetText(GetTitleText())
@@ -365,7 +253,6 @@ function StoryQuest:showQuestFrame()
             end
         end
     end
-    --PlaySoundFile("Interface/AddOns/StoryQuest/sounds/dialog_open.ogg", "SFX")
 end
 
 function StoryQuest:clearDialog()
@@ -381,156 +268,127 @@ end
 
 function StoryQuest:clearQuestReq()
     self.questState = "NONE"
-    self.questStateSet = false
+    self.was_showing = false
+    self.quest_id = nil
+    self.quest_idx = nil
+    self.quest_can_turnin = false
     self:clearDialog()
-    self.container.dialog.objectiveHeader:Hide()
-    self.container.dialog.objectiveText:Hide()
-end
-
-function StoryQuest:acceptQuest()
-    if self.questState == "TAKE" then
-        if (QuestFlagsPVP()) then
-            QuestFrame.dialog = StaticPopup_Show("CONFIRM_ACCEPT_PVP_QUEST")
-        else
-            if (QuestFrame.autoQuest) then
-                AcknowledgeAutoAcceptQuest()
-            else
-                AcceptQuest()
-                CloseQuest()
-            end
-        end
-        if self:IsShown() then self:Hide() end
-    elseif self.questState == "PROGRESS" then
-        CloseQuest()
-    else
-        if (GetNumQuestChoices() == 0) then
-            GetQuestReward(0)
-            CloseQuest()
-        elseif (GetNumQuestChoices() == 1) then
-            GetQuestReward(1)
-            CloseQuest()
-        else
-            if (QuestInfoFrame.itemChoice == 0) then
-                QuestChooseRewardError()
-            else
-                GetQuestReward(QuestInfoFrame.itemChoice)
-                CloseQuest()
-            end
-        end
-    end
-end
-
-function StoryQuest:OnKeyDown(key)
-    local inCombat = InCombatLockdown()
-    local interact1,interact2 = GetBindingKey("INTERACTTARGET")
-    if key == "SPACE" or ((key == interact1 and interact1 ~= nil) or (key == interact2 and interact2 ~= nil)) then
-        if not inCombat then
-            self:SetPropagateKeyboardInput(false)
-        end
-        local Stringcount = #self.questString
-
-        if self.questStringInt < Stringcount then
-            self:nextGossip()
-        else
-            if self.questState == "NEEDCOMPLETE" then
-                self:nextGossip()
-            else
-                self:acceptQuest()
-            end
-        end
-    elseif key == "BACKSPACE" then
-        if not inCombat then
-            self:SetPropagateKeyboardInput(false)
-        end
-        self:lastGossip()
-    else
-        if not inCombat then
-            self:SetPropagateKeyboardInput(true)
-        end
-    end
+    self.container.summary:ClearInfo()
+    self.container.summary:Hide()
+    self.container.acceptButton:SetText(CONTINUE)
+    self.container.acceptButton:Hide()
+    self.container.cancelButton:SetText(CANCEL)
+    self.container.cancelButton:Hide()
 end
 
 function StoryQuest:OnShow()
-    self.container.FadeIn:Play()
-    self.container.declineButton:SetText(DECLINE)
-    self.container.declineButton:SetShown(not QuestFrame.autoQuest)
-    self:EnableKeyboard(true)
-    self:SetScript("OnKeyDown", self.OnKeyDown)
     if _G.StoryQuestDebugFrame then
         _G.StoryQuestDebugFrame:Show()
     end
+    self:EnableKeyboard(true)
+    self:SetScript("OnKeyDown", self.OnKeyDown)
+    if self.was_showing then
+        -- this was just a temporary hide from the load/cinematic handler, don't setup
+        return
+    end
+    self.container.FadeIn:Play()
+    self.container.cancelButton:SetShown(not QuestFrame.autoQuest)
 end
 
 function StoryQuest:OnHide()
-    self.container.mapBG:SetAlpha(0)
-    self:EnableKeyboard(false)
-    self:SetScript("OnKeyDown", nil)
-    self:UnhideQuestFrame()
     if _G.StoryQuestDebugFrame then
         _G.StoryQuestDebugFrame:Hide()
     end
-end
-
-function StoryQuest:evQuestProgress()
-    self:HideQuestFrame()
-    self:clearQuestReq()
-
-    self.container.dialog.reqItems:UpdateInfo()
-    if (self.container.dialog.reqItems:HasRequiredItems()) then
-        self.questReqText = splitQuest(GetProgressText())
-        self.container.dialog.reqItems:UpdateFrame()
-    end
-    self:showQuestFrame()
-    self.questString = splitQuest(GetProgressText())
-    self.questState = "PROGRESS"
-    self:nextGossip()
-end
-
-function StoryQuest:evQuestDetail(questStartItemID)
-    local is_qframe_shown = QuestFrame:IsShown()
-    Debug("Blizz QuestFrame:IsShown() -", is_qframe_shown)
-    if not is_qframe_shown then
+    self:EnableKeyboard(false)
+    self:SetScript("OnKeyDown", nil)
+    if self.was_showing then
+        -- this is just a temporary hide from the load/cinematic handler, don't clean up
         return
     end
-    if (self.questState ~= "COMPLETING") then
-        self:HideQuestFrame()
-        self:clearQuestReq()
-        self.container.dialog.reqItems:ClearInfo()
-        self.container.dialog.reqItems:Hide()
-        self.questState = "TAKE"
+    self.container.summary:ReleaseRewards()
+    self:UnhideBlizzQuestFrame()
+end
+
+local function getQuestIndex(quest_id)
+    if C_QuestLog.GetLogIndexForQuestID then
+        return C_QuestLog.GetLogIndexForQuestID(quest_id)
     else
-        self.questStringInt = 0
-        self.questStateSet = false
+        return GetQuestLogIndexByID(quest_id)
     end
-    self.questString = splitQuest(GetQuestText())
-    if self.questState ~= "COMPLETING" then
-        tinsert(self.questString, "")
-    end
+end
+
+local function deferShow(self)
     if self.in_cine or self.in_load then
         -- defer actually opening this frame until after load/cinematic finishes
         self.needs_showing = true
     else
         self.needs_showing = false
-        self:showQuestFrame()
+        if not self:IsShown() then
+            self:showQuestFrame()
+        end
         self:nextGossip()
     end
 end
 
+function StoryQuest:evQuestProgress()
+    self:HideBlizzQuestFrame()
+    self:clearQuestReq()
+
+    self.questState = "PROGRESS"
+    self.quest_id = GetQuestID()
+    self.quest_idx = getQuestIndex(self.quest_id)
+    self.quest_can_turnin = IsQuestCompletable()
+    Debug("progress - questID:", self.quest_id, "| index:", self.quest_idx)
+    if self.quest_idx then
+        local _, objective_text = GetQuestLogQuestText(self.quest_idx)
+        self.container.summary:SetObjectiveText(objective_text)
+    end
+    self.container.summary:UpdateInfo(self.quest_id, self.quest_idx, self.questState)
+    self.questString = splitQuest(GetProgressText())
+    self.container.cancelButton:SetText(CANCEL)
+
+    UIFrameFadeIn(self.container.summary, 0.1, 0, 1)
+    deferShow(self)
+end
+
+function StoryQuest:evQuestDetail(questStartItemID)
+    if not QuestFrame:IsShown() then
+        return
+    end
+    if self.questState ~= "COMPLETING" then
+        self:HideBlizzQuestFrame()
+        self:clearQuestReq()
+        self.questState = "OFFER"
+    else
+        self.questStringInt = 0
+    end
+    self.quest_id = GetQuestID()
+    self.quest_idx = getQuestIndex(self.quest_id)
+    Debug("detail - questID:", self.quest_id, "| index:", self.quest_idx, "| auto:", QuestFrame.autoQuest)
+    self.container.summary:SetObjectiveText(GetObjectiveText())
+    self.container.summary:UpdateInfo(self.quest_id, self.quest_idx, self.questState)
+    self.questString = splitQuest(GetQuestText())
+    if self.questState ~= "COMPLETING" and not self.container.summary:IsEmpty() then
+        tinsert(self.questString, "")
+    end
+    deferShow(self)
+end
+
 function StoryQuest:evQuestComplete()
     if (self.questState ~= "COMPLETING") then
-        self:HideQuestFrame()
+        self:HideBlizzQuestFrame()
         self:clearQuestReq()
-        self.container.dialog.reqItems:ClearInfo()
-        self.container.dialog.reqItems:Hide()
     else
-        self.container.declineButton:SetText(CANCEL)
-        self.container.declineButton:SetShown(not QuestFrame.autoQuest)
+        self.container.cancelButton:SetText(CANCEL)
+        self.container.cancelButton:SetShown(not QuestFrame.autoQuest)
         self.questStringInt = 0
-        self.questStateSet = false
     end
-    if not self:IsShown() then
-        self:showQuestFrame()
-    end
+    self.questState = "COMPLETE"
+    self.quest_id = GetQuestID()
+    self.quest_idx = getQuestIndex(self.quest_id)
+    Debug("complete - questID:", self.quest_id, "| index:", self.quest_idx, "| auto:", QuestFrame.autoQuest)
+    self.container.summary:ClearInfo()
+    self.container.summary:UpdateInfo(self.quest_id, self.quest_idx, self.questState)
     self.questString = splitQuest(GetRewardText())
     local qText = self.questReqText
     if (#qText > 0) then
@@ -538,50 +396,151 @@ function StoryQuest:evQuestComplete()
             tinsert(self.questString, 1, qText[i])
         end
     end
-    self.questState = "COMPLETE"
-    self:nextGossip()
+    deferShow(self)
 end
 
 function StoryQuest:evQuestFinished()
-    QuestInfoRewardsFrame:Hide()
-    self:clearQuestReq()
-    self.container.dialog.reqItems:ClearInfo()
-    self.container.dialog.reqItems:Hide()
-    self:Hide()
-    if (self.questState ~= "PROGRESS") then
-        --PlaySoundFile("Interface/AddOns/StoryQuest/sounds/dialog_close.ogg", "SFX")
+    if self.questState ~= "COMPLETING" then
+        self:clearQuestReq()
+        self:Hide()
+    end
+    -- else, we expect a QUEST_COMPLETE event to follow shortly
+end
+
+local function acceptQuest(self)
+    if (QuestFlagsPVP()) then
+        QuestFrame.dialog = StaticPopup_Show("CONFIRM_ACCEPT_PVP_QUEST")
+    else
+        if (QuestFrame.autoQuest) then
+            AcknowledgeAutoAcceptQuest()
+        else
+            AcceptQuest()
+            CloseQuest()
+        end
+    end
+    if self:IsShown() then
+        self:Hide()
+    end
+end
+
+local function turnInQuest(self)
+    self.questState = "COMPLETING"
+    self:clearDialog()
+    self.container.summary:ClearInfo()
+    self.container.summary:Hide()
+    self.container.acceptButton:Hide()
+    self.container.cancelButton:Hide()
+    self.container.playerModel:SetAction("yes")
+    CompleteQuest()
+end
+
+local function completeQuest(self)
+    if (GetNumQuestChoices() == 0) then
+        GetQuestReward(0)
+        CloseQuest()
+    elseif (GetNumQuestChoices() == 1) then
+        GetQuestReward(1)
+        CloseQuest()
+    else
+        if (QuestInfoFrame.itemChoice == 0) then
+            QuestChooseRewardError()
+        else
+            GetQuestReward(QuestInfoFrame.itemChoice)
+            CloseQuest()
+        end
+    end
+end
+
+local function advance(self, do_not_accept, skip_to_end)
+    local count = #self.questString
+    if self.questStringInt < count then
+        if skip_to_end then
+            self.questStringInt = count - 1
+        end
+        self:nextGossip()
+    else
+        if self.questState == "PROGRESS" then
+            if self.quest_can_turnin then
+                turnInQuest(self)
+            end
+        elseif self.questState == "OFFER" then
+            if not do_not_accept then
+                acceptQuest(self)
+            end
+        elseif self.questState == "COMPLETE" then
+            if not do_not_accept then
+                completeQuest(self)
+            end
+        end
+    end
+end
+
+function StoryQuest:OnKeyDown(key)
+    local inCombat = InCombatLockdown()
+    local interact1, interact2 = GetBindingKey("INTERACTTARGET")
+    if key == "SPACE" or ((key == interact1 and interact1 ~= nil) or (key == interact2 and interact2 ~= nil)) then
+        if not inCombat then
+            self:SetPropagateKeyboardInput(false)
+        end
+        advance(self)
+    elseif key == "BACKSPACE" then
+        if not inCombat then
+            self:SetPropagateKeyboardInput(false)
+        end
+        self:prevGossip()
+    else
+        if not inCombat then
+            self:SetPropagateKeyboardInput(true)
+        end
     end
 end
 
 local function dialog_OnMouseUp(self, button, isInside)
-    if not isInside or not (button == "LeftButton" or button == "RightButton") then
+    if not isInside or (button ~= "LeftButton" and button ~= "RightButton") then
         return
     end
     local qview = self:GetParent():GetParent()
     if button == "RightButton" then
-        qview:lastGossip()
+        qview:prevGossip()
     else
-        qview:nextGossip()
+        advance(qview, true)
     end
-end
-
-local function decline_OnClick()
-    CloseQuest()
 end
 
 local function accept_OnClick(self)
     local qview = self:GetParent():GetParent()
-    local Stringcount = #qview.questString
+    advance(qview, false, true)
+end
 
-    if qview.questStringInt < Stringcount then
-        qview.questStringInt = Stringcount - 1
-        qview:nextGossip()
+local function cancel_OnClick()
+    CloseQuest()
+end
+
+local function deferredHide(self)
+    if self:IsShown() then
+        self.was_showing = true
+        self:Hide()
     else
-        if qview.questState == "NEEDCOMPLETE" then
-            qview:nextGossip()
-        else
-            qview:acceptQuest()
-        end
+        self.was_showing = false
+    end
+end
+
+local function deferredShow(self)
+    if self.in_cine or self.in_load then
+        return
+    end
+    if self.was_showing then
+        self:Show()
+        C_Timer.After(0, function() self.was_showing = false end)
+    elseif self.needs_showing then
+        self.needs_showing = false
+        self:HideBlizzQuestFrame()
+        -- usually this path happens because a cinematic finished
+        -- whatever re-shows the UI is probably doing a timed fadein
+        -- so we need to re-hide the quest window again just in case
+        C_Timer.After(0.11, function() self:HideBlizzQuestFrame() end)
+        self:showQuestFrame()
+        self:nextGossip()
     end
 end
 
@@ -597,25 +556,11 @@ function StoryQuest:OnEvent(event, ...)
         end
     elseif event == "LOADING_SCREEN_ENABLED" then
         self.in_load = true
-        if self:IsShown() then
-            self.was_showing = true
-            self:Hide()
-        else
-            self.was_showing = false
-        end
+        deferredHide(self)
     elseif event == "LOADING_SCREEN_DISABLED" then
         self.in_load = false
-        if not self.in_cine then
-            if self.was_showing then
-                self.was_showing = false
-                self:Show()
-            elseif self.needs_showing then
-                self.needs_showing = false
-                self:showQuestFrame()
-                self:nextGossip()
-            end
-        end
         self:UpdateMapId()
+        deferredShow(self)
     elseif event == "ZONE_CHANGED_NEW_AREA" or event == "ZONE_CHANGED" or event == "ZONE_CHANGED_INDOORS" then
         self:UpdateMapId()
     elseif event == "QUEST_PROGRESS" then
@@ -630,25 +575,11 @@ function StoryQuest:OnEvent(event, ...)
         local is_real = select(1, ...)
         if is_real then
             self.in_cine = true
-            if self:IsShown() then
-                self.was_showing = true
-                self:Hide()
-            else
-                self.was_showing = false
-            end
+            deferredHide(self)
         end
     elseif event == "CINEMATIC_STOP" then
         self.in_cine = false
-        if not self.in_load then
-            if self.was_showing then
-                self.was_showing = false
-                self:Show()
-            elseif self.needs_showing then
-                self.needs_showing = false
-                self:showQuestFrame()
-                self:nextGossip()
-            end
-        end
+        deferredShow(self)
     elseif event == "PLAYER_CHOICE_CLOSE" then
         self.recent_player_choice = true
         C_Timer.After(2, function () self.recent_player_choice = false end)
@@ -752,7 +683,7 @@ function StoryQuest:OnLoad()
     end
 
     self.container.dialog:SetScript("OnMouseUp", dialog_OnMouseUp)
-    self.container.declineButton:SetScript("OnClick", decline_OnClick)
+    self.container.cancelButton:SetScript("OnClick", cancel_OnClick)
     self.container.acceptButton:SetScript("OnClick", accept_OnClick)
 
     self:clearQuestReq()

@@ -30,6 +30,8 @@ core/QuestGiverMixin.lua
 core/QuestPlayerMixin.lua
 core/QuestReqItems.lua
 core/QuestReqItems.xml
+core/QuestSummary.lua
+core/QuestSummary.xml
 core/StoryQuestFrame.lua
 core/StoryQuestFrame.xml
 #core/DebugFrame.lua

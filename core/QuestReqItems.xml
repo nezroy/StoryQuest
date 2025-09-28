@@ -53,8 +53,5 @@
                 </Anchors>
             </Button>
         </Frames>
-		<Scripts>
-			<OnLoad method="OnLoad"/>
-		</Scripts>
     </Frame>
 </Ui>
