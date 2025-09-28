@@ -451,8 +451,9 @@ local function completeQuest(self)
     end
 end
 
-local function advance(self, do_not_accept, skip_to_end)
+local function advance(self, is_click, skip_to_end)
     local count = #self.questString
+    local click_accept = PKG.Settings.Get("ClickAccept")
     if self.questStringInt < count then
         if skip_to_end then
             self.questStringInt = count - 1
@@ -464,11 +465,11 @@ local function advance(self, do_not_accept, skip_to_end)
                 turnInQuest(self)
             end
         elseif self.questState == "OFFER" then
-            if not do_not_accept then
+            if not is_click or click_accept then
                 acceptQuest(self)
             end
         elseif self.questState == "COMPLETE" then
-            if not do_not_accept then
+            if not is_click or click_accept then
                 completeQuest(self)
             end
         end

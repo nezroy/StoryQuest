@@ -12,6 +12,8 @@ Settings are found in the default AddOn options location: `ESC → Options → A
 
   - **Lock Position**: check this to prevent the StoryQuest frame from being dragged/moved.
   - **Scale Window**: adjust the size of the StoryQuest window to your preference.
+  - **Title Style**: sets the style of the title header to be normal, thin, or transparent.
+  - **Left-Click to Accept/Complete**: controls if left-clicking anywhere in the StoryQuest window counts as clicking on the Accept and Complete Quest buttons.
   - **Head Slot Behavior**: global and per-character override setting that lets you control if your character's head slot item is shown or if it should always be hidden.
   - **Weapon Behavior**: global and per-character override setting that lets you control how your weapons are shown. They can be stowed (sheathed), drawn, or hidden completely.
   - **Scale Player Model**: adjusts the size of your character model in case the default racial scales don't feel quite right for you.

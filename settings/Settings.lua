@@ -8,6 +8,7 @@ local DEFAULT_DB = {
     ["ScalePlayer"] = 1.0,
     ["WeaponMode"] = 1,
     ["TitleStyle"] = 1,
+    ["ClickAccept"] = true,
 }
 
 local callback = nil
@@ -66,6 +67,17 @@ local function Setup(use_callback)
         local setting = Settings.RegisterAddOnSetting(category, var, var, STORYQUEST_DB, type(defVal), name, defVal)
         setting:SetValueChangedCallback(OnSettingChanged)
         Settings.CreateDropdown(category, setting, GetOptions, tooltip)
+    end
+
+    do
+        local var = "ClickAccept"
+        local name = "Left-Click to Accept/Complete"
+        local tooltip = "Determines if left-clicking anywhere in the StoryQuest window counts the same as clicking on the Accept and Complete Quest buttons."
+        local defVal = DEFAULT_DB[var]
+
+        local setting = Settings.RegisterAddOnSetting(category, var, var, STORYQUEST_DB, type(defVal), name, defVal)
+        setting:SetValueChangedCallback(OnSettingChanged)
+        Settings.CreateCheckbox(category, setting, tooltip)
     end
 
     do
