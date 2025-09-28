@@ -173,6 +173,8 @@ local T = {
     [1697869] = -33.3, -- katherine proudmoore
     [2448981] = {['sf'] = -45, ['x'] = -20}, -- mekkatorque
     [571311] = {['sf'] = -40, ['x'] = -40, ['z'] = 20}, -- huo
+    [579259] = {['sf'] = -33, ['x'] = -50, ['z'] = 20}, -- dafeng
+    [124495] = {['sf'] = -40, ['x'] = -250}, -- human male child
 }
 PKG.MODEL_TWEAKS = T
 

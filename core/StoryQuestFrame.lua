@@ -195,10 +195,10 @@ end
 
 local function getMapBackground(self)
     map_id = self.mapID or C_Map.GetBestMapForUnit("player") or 0
-    local map_bg = "Misc/default"
     if not map_id then
-        return map_bg
+        return "Misc/default"
     end
+    local map_bg
     repeat
         local map = C_Map.GetMapInfo(map_id)
         if map then
@@ -207,7 +207,7 @@ local function getMapBackground(self)
             map_id = map.parentMapID
         end
     until not map or map_bg or map.parentMapID == 0
-    return map_bg
+    return map_bg or "Misc/default"
 end
 
 function StoryQuest:showQuestFrame()

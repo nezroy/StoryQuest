@@ -12,6 +12,7 @@ local M = {
     [37]   = "EK/elwynn_forest",
     [1429] = "EK/elwynn_forest", -- pre-cata
     [84]   = "EK/stormwind",
+    [1453] = "EK/stormwind", -- pre-cata
     [179]  = "EK/gilneas",
     [202]  = "EK/gilneas_city",
     [217]  = "EK/ruins_of_gilneas",

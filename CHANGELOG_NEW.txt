@@ -1,3 +1,4 @@
 - Add more backgrounds and NPC tweaks
 - Add an option to control if left-clicking in the window accepts and completes quests
 - Fix an issue with quest turn-in transition
+- Fix bug on missing map background
