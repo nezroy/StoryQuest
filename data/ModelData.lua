@@ -172,6 +172,7 @@ local T = {
     [669393] = {['sf'] = -23.1, ['x'] = -80}, -- vol'jin
     [1697869] = -33.3, -- katherine proudmoore
     [2448981] = {['sf'] = -45, ['x'] = -20}, -- mekkatorque
+    [571311] = {['sf'] = -40, ['x'] = -40, ['z'] = 20}, -- huo
 }
 PKG.MODEL_TWEAKS = T
 
