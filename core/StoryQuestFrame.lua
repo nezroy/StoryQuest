@@ -197,7 +197,8 @@ end
 
 local function getMapBackground(self)
     map_id = self.mapID or C_Map.GetBestMapForUnit("player") or 0
-    if not map_id then
+    if map_id == 0 then
+        Debug("map - no id:", map_id)
         return "Misc/default"
     end
     local map_bg
@@ -276,6 +277,8 @@ function StoryQuest:clearQuestReq()
     self.quest_id = nil
     self.quest_idx = nil
     self.quest_can_turnin = false
+    self.update_map_attempt = 0
+    self.update_map_mutex = false
     self:clearDialog()
     self.container.summary:ClearInfo()
     self.container.summary:Hide()

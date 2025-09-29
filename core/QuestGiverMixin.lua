@@ -35,7 +35,7 @@ function QuestGiverMixin:setQuestGiverAnimation(count, qString, qStringInt)
         return
     end
 
-    if not self.is_loaded or not self.doAnims then
+    if not self.is_loaded or not self.do_anims then
         return
     end
 
@@ -178,7 +178,7 @@ function QuestGiverMixin:OnModelLoaded()
 
     Debug("giver model - fileID:", fileID, "| creatureID:", creatureID, "| sf:", sf, "| dID:", self:GetDisplayInfo(), "| f:", f)
 
-    self.doAnims = self.idle_anim ~= -1 and true or false
+    self.do_anims = self.idle_anim ~= -1 and true or false
     self:SetPitch(p)
     self:SetFacing(f)
     if self.idle_anim ~= -1 then
@@ -193,6 +193,7 @@ end
 
 function QuestGiverMixin:SetBoardUnit(board_type)
     self.is_clear = false
+    self.do_anims = false
     if board_types[board_type] ~= nil then
         self.file_id = board_types[board_type]
     else
