@@ -124,7 +124,6 @@ function QuestGiverMixin:OnModelLoaded()
     local tweak_opts = nil
     local creatureID = self.creature_id
 
-    local sf = 1.0
     local z = 50
     local x = -100
     local p = 0.0
@@ -144,7 +143,7 @@ function QuestGiverMixin:OnModelLoaded()
     if tweaks ~= nil and type(tweaks) == 'table' then
         tweak_opts = tweaks
     end
-    local mod_sf = -20 -- default if not changed results in sf of 1.25
+    local mod_sf = -20 -- default if not changed results in sf of 0.8
     if tweak_opts ~= nil then
         if tweak_opts['sf'] ~= nil then
             mod_sf = tweak_opts['sf']
@@ -152,9 +151,7 @@ function QuestGiverMixin:OnModelLoaded()
     elseif tweaks ~= nil then
         mod_sf = tweaks
     end
-    sf = sf * (1/((100 + mod_sf)/100))
-
-    self:InitializeCamera(sf)
+    local sf = 1.0 + (mod_sf/100)
 
     self.idle_anim = emotes.Idle
 
@@ -187,6 +184,7 @@ function QuestGiverMixin:OnModelLoaded()
     if self.idle_anim ~= -1 then
         self:SetAnimation(self.idle_anim)
     end
+    self:SetModelScale(sf)
     self:SetViewTranslation(x, z)
 
     self.is_loaded = true
@@ -200,6 +198,13 @@ function QuestGiverMixin:SetBoardUnit(board_type)
     else
         self.file_id = board_types["genericplayerchoice"]
     end
+    self:SetModel(self.file_id)
+end
+
+function QuestGiverMixin:SetModelUnit(file_id)
+    self.is_clear = false
+    self.do_anims = false
+    self.file_id = file_id
     self:SetModel(self.file_id)
 end
 
@@ -224,16 +229,10 @@ function QuestGiverMixin:ClearAll()
     self.is_loaded = false
 
     self:SetUnit("none")
-    self:SetCreature(0)
     self:SetAlpha(0)
-    self:ClearModel()
 
-    self:SetPosition(0, 0, 0)
-    self:SetRoll(0)
     self:SetFacing(0)
     self:SetPitch(0)
+    self:SetModelScale(1.0)
     self:ClearTransform()
-
-    self:SetCameraTarget(0, 0, 0)
-    self:SetCameraPosition(0, 0, 0)
 end
