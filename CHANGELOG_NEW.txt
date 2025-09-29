@@ -1,2 +1,1 @@
 - Add more backgrounds and NPC tweaks
-- Fix bug with deferred map ID update
