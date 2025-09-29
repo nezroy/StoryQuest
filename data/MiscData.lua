@@ -62,3 +62,9 @@ local B = {
     --]]
 }
 PKG.BOARD_TYPES = B
+
+-- object name to fileid lookups
+local O = {
+    ["Danger Sign"] = 319484,
+}
+PKG.OBJECT_TYPES = O

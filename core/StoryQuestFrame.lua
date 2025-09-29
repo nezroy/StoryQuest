@@ -2,6 +2,7 @@ local _, PKG = ...
 local Debug = PKG.Debug
 
 local mapBGs = PKG.MAP_BGS
+local object_types = PKG.OBJECT_TYPES
 
 StoryQuestFrameMixin = {}
 local StoryQuest = StoryQuestFrameMixin
@@ -57,6 +58,7 @@ local function splitQuest(inputstr)
     inputstr = inputstr:gsub("%-%-", "—") -- normalize emdash
     inputstr = inputstr:gsub("(%S)—(%S)", "%1 — %2") -- as above
     inputstr = inputstr:gsub(" Co%.", " Co;,;") -- change abbrev period into a pattern we fix back later
+    inputstr = inputstr:gsub(" Mk%.", " Mk;,;")
 
     -- split a string by separators, clean up, and add uwu caps if needed
     local sepString = function(text, uwuflag)
@@ -247,6 +249,8 @@ function StoryQuest:showQuestFrame()
                 gm:SetBoardUnit("horde")
             elseif npc_name == "Hero's Call Board" then
                 gm:SetBoardUnit("alliance")
+            elseif object_types[npc_name] then
+                gm:SetModelUnit(object_types[npc_name])
             else
                 -- if we can't figure out a better option, have the player read a scroll
                 pm:SetAction("read")

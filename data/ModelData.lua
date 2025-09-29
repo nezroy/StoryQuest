@@ -175,6 +175,9 @@ local T = {
     [571311] = {['sf'] = -40, ['x'] = -40, ['z'] = 20}, -- huo
     [579259] = {['sf'] = -33, ['x'] = -50, ['z'] = 20}, -- dafeng
     [124495] = {['sf'] = -40, ['x'] = -250}, -- human male child
+    [1806321] = {['sf'] = -50, ['x'] = -200}, -- hidden treasure chest
+    [1348273] = {['sf'] = 30}, -- lightspawn
+    [319484] = {['sf'] = -50, ['x'] = -250, ['f'] = -1.1}, -- danger sign
 }
 PKG.MODEL_TWEAKS = T
 
@@ -199,5 +202,6 @@ local N = {
     [36648] = -15.3, -- baine bloodhoof
     [4949] = -18, -- classic thrall
     [130993] = {['sf'] = -15, ['x'] = 15}, -- fareeya
+    [162943] = -17, -- hjalmar the undying
 }
 PKG.NPC_TWEAKS = N
