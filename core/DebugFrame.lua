@@ -78,10 +78,13 @@ end
 
 local function face_OnClick(self)
     local pm = StoryQuestFrame.container.playerModel
-    if pm:GetFacing() == -0.5 then
-        pm:SetFacing(0.5)
+    local gm = StoryQuestFrame.container.giverModel
+    if self.old_facing then
+        pm:SetFacing(self.old_facing)
+        self.old_facing = nil
     else
-        pm:SetFacing(-0.5)
+        self.old_facing = pm:GetFacing()
+        pm:SetFacing(gm:GetFacing())
     end
 end
 
@@ -136,7 +139,12 @@ local function reset_OnClick(self)
         b:Show()
         cb:Show()
     end
-    pm:SetFacing(0.5)
+    if self.old_facing then
+        pm:SetFacing(self.old_facing)
+        self.old_facing = nil
+    else
+        pm:SetFacing(0.5)
+    end
     gm:Hide()
     C_Timer.After(0, set_unit)
 end
@@ -175,7 +183,8 @@ local model_buttons = {
     {"drac M", 230743, 108879}, {"drac F", 230743, 104842},
     -- tww races
     {"erth M", 226676, 117358}, {"erth F", 226676, 118452},
-    {"xal", 230658}, {"widow", 207471},
+    {"NPC", 207471},
+    -- xal'atah: 230658, widow: 207471, dafeng: 55592
 }
 function DebugFrame:OnLoad()
     self.bgTex = 0
