@@ -14,7 +14,7 @@
         </Anchors>
         <Layers>
             <Layer level="BACKGROUND">
-                <Texture parentKey="border" file="Interface/AddOns/StoryQuest/textures/uistuff/borders">
+                <Texture parentKey="border" file="Interface/AddOns/StoryQuest/textures/uistuff/borders.png">
                     <Anchors>
                         <Anchor point="TOPLEFT" x="16"/>
                         <Anchor point="BOTTOMRIGHT" x="-16"/>

@@ -7,7 +7,7 @@ param (
 # in the tools directory because licensing & size limitations
 
 $assetPath = "$PSScriptRoot/../assets/"
-$convCmd = "C:/dev/ImageMagick-7.1.1-36-portable-Q16-HDRI-x64/magick.exe"
+$convCmd = "C:/opt/ImageMagick-7.1.2-3-portable-Q16-HDRI-x64/magick.exe"
 $blpCmd = "$PSScriptRoot/BLPConverter.exe"
 $srcFiles = Get-ChildItem -Recurse -File -Exclude *.unused.* -Include *.png -Path $assetPath
 if (-not $quiet) {
@@ -15,15 +15,21 @@ if (-not $quiet) {
 }
 foreach ($srcItem in $srcFiles) {
     $tgtPath = $srcItem.DirectoryName.Replace('\assets', '\textures')
-    $useBLP = $false
+    $outFmt = "PNG"
     if ($srcItem.FullName.Contains('backgrounds\')) {
-        $useBLP = $true
+        $outFmt = "JPG"
     }
-    if ($useBLP) {
+    if ($outFmt -eq "BLP") {
         $texPath = $srcItem.FullName.Replace('\assets\', '\textures\').Replace('.png', '.blp')
     }
-    else {
+    elseif ($outFmt -eq "JPG") {
+        $texPath = $srcItem.FullName.Replace('\assets\', '\textures\').Replace('.png', '.jpg')
+    }
+    elseif ($outFmt -eq "TGA") {
         $texPath = $srcItem.FullName.Replace('\assets\', '\textures\').Replace('.png', '.tga')
+    }
+    else {
+        $texPath = $srcItem.FullName.Replace('\assets\', '\textures\')
     }
     $texItem = Get-Item -Path $texPath -ErrorAction SilentlyContinue
     $srcName = $srcItem.FullName.Replace($PSScriptRoot.Replace('tools', ''), '')
@@ -41,18 +47,26 @@ foreach ($srcItem in $srcFiles) {
 
     if ($inFmt -eq 'srgb') {
         $outType = "TrueColor"
+        $outPng = "png24"
     }
     else {
         $outType = "TrueColorAlpha"
+        $outPng = "png32"
     }
 
     if (-not $quiet) {
         Write-Output "converting [$inFmt]: $srcName"
     }
-    if ($useBLP) {
+    if ($outFmt -eq "BLP") {
         & $blpCmd /FBLP_PAL_A0 $srcItem.FullName $texPath
     }
-    else {
+    elseif ($outFmt -eq "JPG") {
+        & $convCmd $srcItem.FullName -strip -type "TrueColor" $texPath
+    }
+    elseif ($outFmt -eq "TGA") {
         & $convCmd $srcItem.FullName -strip -orient bottom-left -define colorspace:auto-grayscale=off -compress RLE -flip -type $outType $texPath
+    }
+    else {
+        & $convCmd $srcItem.FullName -strip -define png:compression-level=9 -define png:format=$outPng $texPath
     }
 }

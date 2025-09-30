@@ -215,7 +215,7 @@ end
 
 function StoryQuest:showQuestFrame()
     local map_bg = getMapBackground(self)
-    self.container.mapBG:SetTexture("Interface/AddOns/StoryQuest/textures/backgrounds/" .. map_bg)
+    self.container.mapBG:SetTexture("Interface/AddOns/StoryQuest/textures/backgrounds/" .. map_bg .. ".jpg")
 
     self.container.floaty.title:SetText(GetTitleText())
 
