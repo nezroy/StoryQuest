@@ -194,12 +194,17 @@ end
 function QuestGiverMixin:SetBoardUnit(board_type)
     self.is_clear = false
     self.do_anims = false
-    if board_types[board_type] ~= nil then
-        self.file_id = board_types[board_type]
+    local board_id = board_types[board_type]
+    if board_id ~= nil then
+        if board_id < 0 then
+            return self:SetQuestUnit(-board_id)
+        end
+        self.file_id = board_id
     else
         self.file_id = board_types["genericplayerchoice"]
     end
     self:SetModel(self.file_id)
+    return true
 end
 
 function QuestGiverMixin:SetModelUnit(file_id)

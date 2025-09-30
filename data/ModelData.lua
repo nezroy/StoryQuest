@@ -178,6 +178,7 @@ local T = {
     [1806321] = {['sf'] = -50, ['x'] = -200}, -- hidden treasure chest
     [1348273] = {['sf'] = 30}, -- lightspawn
     [319484] = {['sf'] = -50, ['x'] = -250, ['f'] = -1.1}, -- danger sign
+    [5680838] = {['x'] = 40}, -- faerin lothar
 }
 PKG.MODEL_TWEAKS = T
 
