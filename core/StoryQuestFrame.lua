@@ -2,6 +2,7 @@ local _, PKG = ...
 local Debug = PKG.Debug
 
 local mapBGs = PKG.MAP_BGS
+local instanceBGs = PKG.INSTANCE_BGS
 local object_types = PKG.OBJECT_TYPES
 
 StoryQuestFrameMixin = {}
@@ -195,22 +196,30 @@ function StoryQuest:UnhideBlizzQuestFrame()
     QuestFrame:SetAlpha(1.0)
 end
 
+local default_map = "Misc/default"
 local function getMapBackground(self)
     map_id = self.mapID or C_Map.GetBestMapForUnit("player") or 0
     if map_id == 0 then
         Debug("map - no id:", map_id)
-        return "Misc/default"
+        return default_map
     end
     local map_bg
     repeat
         local map = C_Map.GetMapInfo(map_id)
         if map then
             Debug("map - id:", map.mapID, "| name:", map.name, "| type:", map.mapType, "| parent:", map.parentMapID)
-            map_bg = mapBGs[map.mapID] or mapBGs[map.parentMapID]
+            if map.mapType == Enum.UIMapType.Dungeon then
+                local _, _, _, _, _, _, _, instanceID, _ = GetInstanceInfo()
+                Debug("map - instance id:", instanceID)
+                map_bg = instanceBGs[instanceID]
+            end
+            if not map_bg then
+                map_bg = mapBGs[map.mapID] or mapBGs[map.parentMapID]
+            end
             map_id = map.parentMapID
         end
     until not map or map_bg or map.parentMapID == 0
-    return map_bg or "Misc/default"
+    return map_bg or default_map
 end
 
 function StoryQuest:showQuestFrame()

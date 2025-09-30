@@ -54,6 +54,7 @@ local M = {
     [120]  = "Wrath/stormpeaks",
     [125]  = "Wrath/dalaran",
     [378]  = "Mists/wandering_isle",
+    [437]  = "Mists/gate_setting_sun",
     [443]  = "Mists/shadowpan_monastery",
     [455]  = "Mists/mogushan_palace",
     [554]  = "Mists/timeless_isle",
@@ -96,3 +97,10 @@ local M = {
     [2472] = "TWW/tazavesh",
 }
 PKG.MAP_BGS = M
+
+-- background textures by instanceID (mainly for dungeons)
+local I = {
+    [1007] = "EK/scholomance",
+    [2648] = "TWW/rookery",
+}
+PKG.INSTANCE_BGS = I
