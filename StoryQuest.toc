@@ -1,4 +1,4 @@
-## Interface: 110205, 110200, 50501
+## Interface: 50501, 110200
 ## Title: StoryQuest
 ## Notes: Story window quest dialog, based on the GW2 style and addon.
 ## OptionalDeps: _DebugLog, BugSack, ACU
@@ -6,35 +6,35 @@
 ## X-Website: https://www.curseforge.com/wow/addons/storyquest
 ## X-Curse-Project-ID: 1094161
 ## DefaultState: Enabled
-## IconTexture: Interface/AddOns/StoryQuest/textures/logo.png
+## IconTexture: Interface\AddOns\StoryQuest\textures\logo.png
 
 ## Author: nezroy
 
 ## SavedVariablesPerCharacter: STORYQUEST_CHAR_DB
 ## SavedVariables: STORYQUEST_DB
 
-TaintLess/TaintLess.xml
+TaintLess\TaintLess.xml
 
-core/debug.lua
-core/FeatureFlags.lua
-core/[Game]/FeatureFlags.lua
+core\debug.lua
+core\FeatureFlags.lua
+core\[Game]\FeatureFlags.lua
 
-data/MiscData.lua
-data/MapData.lua
-data/ModelData.lua
-data/PlayerData.lua
+data\MiscData.lua
+data\MapData.lua
+data\ModelData.lua
+data\PlayerData.lua
 
-core/SharedItems.xml
-settings/Settings.lua
-core/QuestGiverMixin.lua
-core/QuestPlayerMixin.lua
-core/QuestReqItems.lua
-core/QuestReqItems.xml
-core/QuestSummary.lua
-core/QuestSummary.xml
-core/StoryQuestFrame.lua
-core/StoryQuestFrame.xml
-#core/DebugFrame.lua
-#core/DebugFrame.xml
+core\SharedItems.xml
+settings\Settings.lua
+core\QuestGiverMixin.lua
+core\QuestPlayerMixin.lua
+core\QuestReqItems.lua
+core\QuestReqItems.xml
+core\QuestSummary.lua
+core\QuestSummary.xml
+core\StoryQuestFrame.lua
+core\StoryQuestFrame.xml
+#core\DebugFrame.lua
+#core\DebugFrame.xml
 
 StoryQuest.lua
