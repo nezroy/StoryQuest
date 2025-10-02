@@ -82,9 +82,13 @@ local function face_OnClick(self)
     if self.old_facing then
         pm:SetFacing(self.old_facing)
         self.old_facing = nil
+        pm:SetAnimation(0)
+        gm:SetAnimation(0)
     else
         self.old_facing = pm:GetFacing()
         pm:SetFacing(gm:GetFacing())
+        pm:FreezeAnimation(0, 0, 0)
+        gm:FreezeAnimation(0, 0, 0)
     end
 end
 
@@ -145,6 +149,7 @@ local function reset_OnClick(self)
     else
         pm:SetFacing(0.5)
     end
+    pm:SetAnimation(0)
     gm:Hide()
     C_Timer.After(0, set_unit)
 end
@@ -179,11 +184,10 @@ local model_buttons = {
     {"zand M", 138126, 79861}, {"zand F", 138126, 79862},
     {"magh M", 158141, 93436}, {"magh F", 158141, 93434},
     {"vulp M", 226681, 79321}, {"vulp F", 226681, 79463},
-    -- df races
-    {"drac M", 230743, 108879}, {"drac F", 230743, 104842},
     -- tww races
     {"erth M", 226676, 117358}, {"erth F", 226676, 118452},
-    {"NPC", 207471},
+    -- df races
+    {"drac", 230743, 108879}, {"NPC", 207471},
     -- xal'atah: 230658, widow: 207471, dafeng: 55592
 }
 function DebugFrame:OnLoad()

@@ -7,20 +7,19 @@ StoryQuestPlayerModelMixin = {}
 local QuestPlayerMixin = StoryQuestPlayerModelMixin
 
 function QuestPlayerMixin:SetupModel()
-    self.skip_model_load = true -- ClearModel will cause a model load event we ignore
     self.is_unit_set = false
-    self:SetUnit("none")
-    self:ClearModel()
     self:ClearAll()
 end
 
 function QuestPlayerMixin:ClearAll()
     self.is_loaded = false
     self.defer_action = false
+    self:SetUnit("none")
+    self:SetModelScale(1.0)
+    self:RefreshCamera()
 end
 
 function QuestPlayerMixin:OnShow()
-    self.skip_model_load = false
     if not self.is_unit_set then
         if not PKG.FF.ReadingKit then
             local player_loc = PlayerLocation:CreateFromUnit("player")
@@ -30,19 +29,14 @@ function QuestPlayerMixin:OnShow()
             self.body_type = body_type
         end
         self.is_unit_set = true
-        self:SetUnit("player")
-    else
-        self:RefreshUnit()
     end
-    -- NOTE: the above Set/RefreshUnit calls will immediately call OnModelLoaded
-    -- if there is no load delay BEFORE continuing on in here; don't add anything
+    self:SetUnit("player")
+    -- NOTE: the above SetUnit call will immediately call OnModelLoaded if
+    -- there is no load delay BEFORE continuing on in here; don't add anything
     -- after those calls without considering the timing issue
 end
 
 function QuestPlayerMixin:OnHide()
-    -- model will load when frame first gets re-shown, but we don't want to
-    -- actually handle that until after the OnShow handler runs
-    self.skip_model_load = true
     self:ClearAll()
 end
 
@@ -55,13 +49,10 @@ function QuestPlayerMixin:OnModelLoaded()
     local p_info = PKG.PLAYER_SCALES[file_id]
 
     local x = -70
-    local z = -40
+    local z = -30
     local sf = 1.0
     local f = 0.5
-    local ps = PKG.Settings.Get("ScalePlayer")
-    if ps ~= 1.0 then
-        sf = sf/ps
-    end
+    local ps = ((PKG.Settings.Get("ScalePlayer") - 1.0)/2) + 1.0
 
     if p_info then
         if p_info.x then
@@ -71,8 +62,7 @@ function QuestPlayerMixin:OnModelLoaded()
             z = z + p_info.z
         end
         if p_info.sf then
-            sf = sf * (1/((100 + p_info.sf)/100))
-            -- TODO: apply personal scale setting here
+            sf = 1.0 + (p_info.sf/100)
         end
         if p_info.f then
             f = f * ((100 - p_info.f)/100)
@@ -81,8 +71,7 @@ function QuestPlayerMixin:OnModelLoaded()
 
     Debug("player - fileID:", file_id, "| sf:", sf, "| ps:", ps, "| x:", x, "| z:", z, "| f:", f)
 
-    self:RefreshCamera()
-    self:SetCamDistanceScale(sf)
+    self:SetModelScale(sf * ps)
     self:SetViewTranslation(x, z)
     self:SetFacing(f)
 
