@@ -31,7 +31,7 @@ function ReqItemsMixin:UpdateFrame()
         f:SetID(i)
         SetItemButtonCount(f, r.count)
 
-        if not r.name and r.id then
+        if (not r.name or r.name == "") and r.id then
             -- if item not cached but we have an ID to use then do a modern lookup
             Debug("doing fancy modern item lookup for id:", r.id)
             local item = Item:CreateFromItemID(r.id)
@@ -94,6 +94,7 @@ function ReqItemsMixin:UpdateInfo()
         if (IsQuestItemHidden(i) == 0) then
             local name, icon, count, _, _, item_id = GetQuestItemInfo("required", i)
             self.questReq["stuff"][item_idx] = {["id"] = item_id, ["name"] = name, ["icon"] = icon, ["count"] = count}
+            Debug("quest item req - id:", item_id, "| name:", name, "| count:", count)
             item_idx = item_idx + 1
         end
     end
