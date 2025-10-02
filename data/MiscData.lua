@@ -68,5 +68,7 @@ PKG.BOARD_TYPES = B
 -- object name to fileid lookups
 local O = {
     ["Danger Sign"] = 319484,
+    ["Fel Portal"] = 1268729,
+    ["Lever"] = 897186,
 }
 PKG.OBJECT_TYPES = O

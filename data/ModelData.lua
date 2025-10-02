@@ -177,8 +177,14 @@ local T = {
     [124495] = {['sf'] = -40, ['x'] = -250}, -- human male child
     [1806321] = {['sf'] = -50, ['x'] = -200}, -- hidden treasure chest
     [1348273] = {['sf'] = 30}, -- lightspawn
-    [319484] = {['sf'] = -50, ['x'] = -250, ['f'] = -1.1}, -- danger sign
+    [319484] = {['sf'] = -50, ['x'] = -250, ['f'] = -0.8}, -- danger sign
     [5680838] = {['x'] = 40}, -- faerin lothar
+    [1410363] = -30, -- summoned voidwalker
+    [926251] = -25, -- ghost wolf
+    [1268729] = {['sf'] = -80, ['x'] = 100, ['z'] = -50}, -- fel portal
+    [1239969] = {['sf'] = -5, ['x'] = 30}, -- maiev shadowsong
+    [897186] = {['sf'] = -25, ['x'] = -250, ['f'] = 2.0}, -- lever
+    [1245874] = {['sf'] = -17, ['x'] = 40}, -- sylvanas (legion)
 }
 PKG.MODEL_TWEAKS = T
 
@@ -204,5 +210,6 @@ local N = {
     [4949] = -18, -- classic thrall
     [130993] = {['sf'] = -15, ['x'] = 15}, -- fareeya
     [162943] = -17, -- hjalmar the undying
+    [93011] = -20, [98229] = -20, [93127] = -20, [97303] = -20, -- kayn sunfury
 }
 PKG.NPC_TWEAKS = N
