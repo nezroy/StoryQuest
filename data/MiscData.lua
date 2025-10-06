@@ -56,7 +56,10 @@ local B = {
     ["Kyrian"] = 1822634,
     ["Dragonflight"] = 1822634,
     --]]
-    ["thewarwithin"] = -223875,
+    ["thewarwithin"] = {
+        [2339] = 223875, -- dornogal, use faerin
+        [2255] = 223750, -- azj-kahet, use vinazian
+    },
     --[[
     ["Oribos"] = 1822634,
     ["jailerstower"] = 1822634,

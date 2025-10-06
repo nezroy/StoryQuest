@@ -241,7 +241,7 @@ function StoryQuest:showQuestFrame()
     local gm = self.container.giverModel
     if PKG.FF.PlayerChoice and is_self and PC_kit then
         -- a recent player choice popup was made, use the relevant kit/board
-        gm:SetBoardUnit(PC_kit)
+        gm:SetBoardUnit(PC_kit, self.mapId)
     elseif is_self then
         -- typical for auto-accepted quests, story pushes, etc.; have the player read a scroll
         pm:SetAction("read")

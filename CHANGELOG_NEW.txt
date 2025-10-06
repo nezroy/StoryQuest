@@ -1,1 +1,2 @@
-- Add more backgrounds and NPC tweaks
+- Fix an error when creature ID is not available
+- Bump TOC for 11.2.5

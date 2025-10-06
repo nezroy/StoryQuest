@@ -92,6 +92,9 @@ function QuestGiverMixin:setQuestGiverAnimation(count, qString, qStringInt)
 end
 
 local function getCreatureIDFromGUID(guid)
+    if not guid then
+        return 0
+    end
 	return tonumber(string.match(guid, "Creature%-.-%-.-%-.-%-.-%-(.-)%-"));
 end
 
@@ -191,15 +194,20 @@ function QuestGiverMixin:OnModelLoaded()
     self.FadeIn:Play()
 end
 
-function QuestGiverMixin:SetBoardUnit(board_type)
+function QuestGiverMixin:SetBoardUnit(board_type, map_id)
     self.is_clear = false
     self.do_anims = false
     local board_id = board_types[board_type]
     if board_id ~= nil then
-        if board_id < 0 then
-            return self:SetQuestUnit(-board_id)
+        if type(board_id) == "table" then
+            if map_id and board_id[map_id] then
+                return self:SetQuestUnit(board_id[map_id])
+            else
+                self.file_id = board_types["genericplayerchoice"]
+            end
+        else
+            self.file_id = board_id
         end
-        self.file_id = board_id
     else
         self.file_id = board_types["genericplayerchoice"]
     end
