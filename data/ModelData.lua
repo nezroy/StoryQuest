@@ -4,6 +4,7 @@ local emotes = PKG.EMOTES
 -- model (fileID) tweaks
 -- if only a single value defined (no table), that value is the sf
 -- sf: percent bigger(+) or smaller(-) from default size
+--     models not in these lists get a sf of -25
 -- x: right(+) or left(-) offset
 -- z: up(+) or down(-) offset
 -- f: percent change in facing toward cam(+) or away from cam(-)
@@ -190,6 +191,8 @@ local T = {
     [1281267] = 0, -- danica the reclaimer
     --[1284603] = {['sf'] = 0, ['ia'] = 217, ['hk'] = true}, -- odyn
     [1284603] = -14, -- odyn
+    [1109072] = {['sf'] = -35, ['x'] = -300}, -- emmigosa or probably any dragon whelpling
+    [123555] = {['sf'] = 0, ['x'] = 50}, -- agapanthus
 }
 PKG.MODEL_TWEAKS = T
 
@@ -215,7 +218,7 @@ local N = {
     [4949] = -18, -- classic thrall
     [130993] = {['sf'] = -15, ['x'] = 15}, -- fareeya
     [162943] = -17, -- hjalmar the undying
-    [93011] = -20, [98229] = -20, [93127] = -20, [97303] = -20, -- kayn sunfury
+    [93011] = -20, [98229] = -20, [93127] = -20, [97303] = -20, [89362] = -20, -- kayn sunfury
     [241140] = -25, [243948] = -25, -- moratari
 }
 PKG.NPC_TWEAKS = N

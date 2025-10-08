@@ -62,6 +62,7 @@ local M = {
     [619]  = "Legion/broken_isles",
     [627]  = "Legion/dalaran",
     [629]  = "Legion/dalaran_basement",
+    [630]  = "Legion/azsuna",
     [634]  = "Legion/stormheim",
     [652]  = "Legion/thunder_totem",
     [672]  = "Legion/mardum",
