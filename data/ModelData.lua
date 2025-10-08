@@ -107,6 +107,7 @@ local T = {
     [4416923] = {['sf'] = 26.6, ['x'] = 130, ['z'] = -30}, -- big ebyssian, big surigosa
     [5151105] = {['sf'] = 33.3, ['x'] = 130, ['z'] = -30}, -- big merithra
     [4492766] = {['sf'] = 81.8, ['x'] = 130, ['z'] = -30}, -- big vyranoth
+    [4500511] = {['sf'] = 33.3, ['x'] = 130, ['z'] = -30}, -- big eternus
 
     -- other stuff
     [1980608] = -23.1, -- Ulfar
@@ -185,6 +186,10 @@ local T = {
     [1239969] = {['sf'] = -5, ['x'] = 30}, -- maiev shadowsong
     [897186] = {['sf'] = -25, ['x'] = -250, ['f'] = 2.0}, -- lever
     [1245874] = {['sf'] = -17, ['x'] = 40}, -- sylvanas (legion)
+    [5145420] = 0, -- momentus
+    [1281267] = 0, -- danica the reclaimer
+    --[1284603] = {['sf'] = 0, ['ia'] = 217, ['hk'] = true}, -- odyn
+    [1284603] = -14, -- odyn
 }
 PKG.MODEL_TWEAKS = T
 
@@ -211,5 +216,6 @@ local N = {
     [130993] = {['sf'] = -15, ['x'] = 15}, -- fareeya
     [162943] = -17, -- hjalmar the undying
     [93011] = -20, [98229] = -20, [93127] = -20, [97303] = -20, -- kayn sunfury
+    [241140] = -25, [243948] = -25, -- moratari
 }
 PKG.NPC_TWEAKS = N

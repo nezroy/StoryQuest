@@ -60,6 +60,9 @@ local B = {
         [2339] = 223875, -- dornogal, use faerin
         [2255] = 223750, -- azj-kahet, use vinazian
     },
+    ["neutral"] = {
+        [619] = 241748, -- infinite bazaar, use eternus
+    },
     --[[
     ["Oribos"] = 1822634,
     ["jailerstower"] = 1822634,

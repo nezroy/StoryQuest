@@ -1,2 +1,1 @@
-- Fix an error when creature ID is not available
-- Bump TOC for 11.2.5
+- Add some Legion remix backgrounds and NPC tweaks
