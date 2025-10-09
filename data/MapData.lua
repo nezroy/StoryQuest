@@ -64,6 +64,7 @@ local M = {
     [629]  = "Legion/dalaran_basement",
     [630]  = "Legion/azsuna",
     [634]  = "Legion/stormheim",
+    [641]  = "Legion/valsharah",
     [652]  = "Legion/thunder_totem",
     [672]  = "Legion/mardum",
     [680]  = "Legion/suramar",
@@ -107,6 +108,7 @@ PKG.MAP_BGS = M
 -- background textures by instanceID (mainly for dungeons)
 local I = {
     [1007] = "EK/scholomance",
+    [1458] = "Legion/nelth_lair",
     [1468] = "Legion/vaulf_of_wardens",
     [2648] = "TWW/rookery",
 }

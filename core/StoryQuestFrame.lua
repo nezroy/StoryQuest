@@ -208,7 +208,7 @@ local function getMapBackground(self)
         local map = C_Map.GetMapInfo(map_id)
         if map then
             Debug("map - id:", map.mapID, "| name:", map.name, "| type:", map.mapType, "| parent:", map.parentMapID)
-            if map.mapType == Enum.UIMapType.Dungeon then
+            if map.mapType == Enum.UIMapType.Dungeon or map.mapType == Enum.UIMapType.Orphan then
                 local _, _, _, _, _, _, _, instanceID, _ = GetInstanceInfo()
                 Debug("map - instance id:", instanceID)
                 map_bg = instanceBGs[instanceID]
