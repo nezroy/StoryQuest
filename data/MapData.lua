@@ -69,6 +69,7 @@ local M = {
     [672]  = "Legion/mardum",
     [680]  = "Legion/suramar",
     [695]  = "Legion/skyhold",
+    [739]  = "Legion/trueshot_lodge",
     [882]  = "Legion/eredath",
     [940]  = "Legion/vindicaar",
     [896]  = "BFA/drustvar",
@@ -110,6 +111,7 @@ local I = {
     [1007] = "EK/scholomance",
     [1458] = "Legion/nelth_lair",
     [1468] = "Legion/vaulf_of_wardens",
+    [1579] = "WoD/ulduar",
     [2648] = "TWW/rookery",
 }
 PKG.INSTANCE_BGS = I
