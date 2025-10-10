@@ -109,6 +109,7 @@ local T = {
     [5151105] = {['sf'] = 33.3, ['x'] = 130, ['z'] = -30}, -- big merithra
     [4492766] = {['sf'] = 81.8, ['x'] = 130, ['z'] = -30}, -- big vyranoth
     [4500511] = {['sf'] = 33.3, ['x'] = 130, ['z'] = -30}, -- big eternus
+    [123497] = {['sf'] = 33.3, ['x'] = 130, ['z'] = -30}, -- big ebyssian
 
     -- other stuff
     [1980608] = -23.1, -- Ulfar
@@ -193,6 +194,8 @@ local T = {
     [1284603] = -14, -- odyn
     [1109072] = {['sf'] = -35, ['x'] = -300}, -- emmigosa or probably any dragon whelpling
     [123555] = {['sf'] = 0, ['x'] = 50}, -- agapanthus
+    [123382] = {['x'] = -80}, -- unng ak/furbolgs
+    [1120483] = 0, -- eche'ro
 }
 PKG.MODEL_TWEAKS = T
 
@@ -220,5 +223,6 @@ local N = {
     [162943] = -17, -- hjalmar the undying
     [93011] = -20, [98229] = -20, [93127] = -20, [97303] = -20, [89362] = -20, -- kayn sunfury
     [241140] = -25, [243948] = -25, -- moratari
+    [95130] = {['x'] = 400}, -- moozy, displays as nelf for some reason, so just hide that
 }
 PKG.NPC_TWEAKS = N
