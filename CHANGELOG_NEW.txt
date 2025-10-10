@@ -1,1 +1,2 @@
-- Add some Legion remix backgrounds and NPC tweaks
+- Add more Legion remix backgrounds
+- Fix cancel button sometimes not showing on turn-in

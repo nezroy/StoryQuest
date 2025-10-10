@@ -116,7 +116,6 @@ function StoryQuest:questTextCompleted()
     else
         self.container.acceptButton:SetText(ACCEPT)
         self.container.acceptButton:Show()
-        self.container.cancelButton:SetText(DECLINE)
     end
 end
 
@@ -308,7 +307,6 @@ function StoryQuest:OnShow()
         return
     end
     self.container.FadeIn:Play()
-    self.container.cancelButton:SetShown(not QuestFrame.autoQuest)
 end
 
 function StoryQuest:OnHide()
@@ -361,6 +359,7 @@ function StoryQuest:evQuestProgress()
     end
     self.container.summary:UpdateInfo(self.quest_id, self.quest_idx, self.questState)
     self.questString = splitQuest(GetProgressText())
+    self.container.cancelButton:SetShown(not QuestFrame.autoQuest)
     self.container.cancelButton:SetText(CANCEL)
 
     UIFrameFadeIn(self.container.summary, 0.1, 0, 1)
@@ -375,9 +374,12 @@ function StoryQuest:evQuestDetail(questStartItemID)
         self:HideBlizzQuestFrame()
         self:clearQuestReq()
         self.questState = "OFFER"
+        self.container.cancelButton:SetText(DECLINE)
     else
         self.questStringInt = 0
+        self.container.cancelButton:SetText(CANCEL)
     end
+    self.container.cancelButton:SetShown(not QuestFrame.autoQuest)
     self.quest_id = GetQuestID()
     self.quest_idx = getQuestIndex(self.quest_id)
     Debug("detail - questID:", self.quest_id, "| index:", self.quest_idx, "| auto:", QuestFrame.autoQuest)
@@ -395,10 +397,10 @@ function StoryQuest:evQuestComplete()
         self:HideBlizzQuestFrame()
         self:clearQuestReq()
     else
-        self.container.cancelButton:SetText(CANCEL)
-        self.container.cancelButton:SetShown(not QuestFrame.autoQuest)
         self.questStringInt = 0
     end
+    self.container.cancelButton:SetText(CANCEL)
+    self.container.cancelButton:SetShown(not QuestFrame.autoQuest)
     self.questState = "COMPLETE"
     self.quest_id = GetQuestID()
     self.quest_idx = getQuestIndex(self.quest_id)
