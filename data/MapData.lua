@@ -113,6 +113,7 @@ local I = {
     [1007] = "EK/scholomance",
     [1458] = "Legion/nelth_lair",
     [1468] = "Legion/vaulf_of_wardens",
+    [1515] = "Legion/huln_war",
     [1579] = "WoD/ulduar",
     [2648] = "TWW/rookery",
 }
