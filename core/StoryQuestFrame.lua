@@ -51,6 +51,7 @@ local function splitQuest(inputstr)
     local i = 1
 
     -- cleanup and normalize the quest text
+    inputstr = inputstr:gsub("%|n", "\n") -- normalize escape sequence to LF
     inputstr = inputstr:gsub("[\r\n]+", "\n") -- normalize to LF and collapse multi-line gaps
     inputstr = inputstr:gsub("^%s+", "") -- left trim whitespace
     inputstr = inputstr:gsub("%s+$", "") -- right trim whitespace

@@ -1,1 +1,2 @@
 - Add more Legion remix backgrounds and NPC tweaks
+- Fix a quest text parsing issue with escape codes
