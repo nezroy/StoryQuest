@@ -196,6 +196,8 @@ local T = {
     [123555] = {['sf'] = 0, ['x'] = 50}, -- agapanthus
     [123382] = {['x'] = -80}, -- unng ak/furbolgs
     [1120483] = 0, -- eche'ro
+    [1245128] = -30, -- keeper remulos
+    [124025] = -30, -- mylune
 }
 PKG.MODEL_TWEAKS = T
 
