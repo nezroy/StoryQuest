@@ -110,6 +110,7 @@ local T = {
     [4492766] = {['sf'] = 81.8, ['x'] = 130, ['z'] = -30}, -- big vyranoth
     [4500511] = {['sf'] = 33.3, ['x'] = 130, ['z'] = -30}, -- big eternus
     [123497] = {['sf'] = 33.3, ['x'] = 130, ['z'] = -30}, -- big ebyssian
+    [234554] = {['sf'] = 26.6, ['x'] = 130, ['z'] = -30}, -- big stellagosa
 
     -- other stuff
     [1980608] = -23.1, -- Ulfar
@@ -199,6 +200,7 @@ local T = {
     [1245128] = -30, -- keeper remulos
     [124025] = -30, -- mylune
     [1134486] = {['sf'] = -50, ['x'] = -200, ['z'] = 200}, -- tidestone core
+    [1134482] = {['sf'] = -65, ['x'] = -200, ['z'] = 200}, -- tidestone of golganneth
 }
 PKG.MODEL_TWEAKS = T
 
