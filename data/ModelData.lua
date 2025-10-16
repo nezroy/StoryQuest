@@ -97,6 +97,9 @@ local T = {
     [1267024] = {['sf'] = -50, ['x'] = -250, ['z'] = 200, ['ia'] = -1}, -- floating scroll/khadgar's summons
     [5755585] = {['sf'] = -66.7, ['z'] = 50, ['ia'] = -1}, -- chett
     [6658771] = {['sf'] = -60, ['x'] = -200, ['ia'] = -1}, -- titan console
+    [1134486] = {['sf'] = -50, ['x'] = -200, ['z'] = 200}, -- tidestone core
+    [1134482] = {['sf'] = -65, ['x'] = -200, ['z'] = 200}, -- tidestone of golganneth
+    [1395379] = {['sf'] = -30, ['x'] = -200}, -- light's heart
 
     -- big dragons
     [3084654] = {['sf'] = 26.6, ['x'] = 130, ['z'] = -30}, -- big wrathion
@@ -199,8 +202,6 @@ local T = {
     [1120483] = 0, -- eche'ro
     [1245128] = -30, -- keeper remulos
     [124025] = -30, -- mylune
-    [1134486] = {['sf'] = -50, ['x'] = -200, ['z'] = 200}, -- tidestone core
-    [1134482] = {['sf'] = -65, ['x'] = -200, ['z'] = 200}, -- tidestone of golganneth
 }
 PKG.MODEL_TWEAKS = T
 
