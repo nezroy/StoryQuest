@@ -198,6 +198,7 @@ local T = {
     [1120483] = 0, -- eche'ro
     [1245128] = -30, -- keeper remulos
     [124025] = -30, -- mylune
+    [1134486] = {['sf'] = -50, ['x'] = -200, ['z'] = 200}, -- tidestone core
 }
 PKG.MODEL_TWEAKS = T
 

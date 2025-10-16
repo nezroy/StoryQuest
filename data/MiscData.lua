@@ -76,5 +76,6 @@ local O = {
     ["Danger Sign"] = 319484,
     ["Fel Portal"] = 1268729,
     ["Lever"] = 897186,
+    ["Tidestone Core"] = 1134486,
 }
 PKG.OBJECT_TYPES = O
