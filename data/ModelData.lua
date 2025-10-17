@@ -115,6 +115,7 @@ local T = {
     [4500511] = {['sf'] = 33.3, ['x'] = 130, ['z'] = -30}, -- big eternus
     [123497] = {['sf'] = 33.3, ['x'] = 130, ['z'] = -30}, -- big ebyssian
     [234554] = {['sf'] = 26.6, ['x'] = 130, ['z'] = -30}, -- big stellagosa
+    [532126] = {['sf'] = 42.8, ['x'] = 130, ['z'] = -30}, -- big ysera
 
     -- other stuff
     [1980608] = -23.1, -- Ulfar
@@ -203,6 +204,9 @@ local T = {
     [1120483] = 0, -- eche'ro
     [1245128] = -30, -- keeper remulos
     [124025] = -30, -- mylune
+    [3024833] = -7, -- aranelle
+    [1273835] = 65, -- thaon moonclaw
+    [1137939] = 80, -- elothir
 }
 PKG.MODEL_TWEAKS = T
 
