@@ -77,5 +77,6 @@ local O = {
     ["Fel Portal"] = 1268729,
     ["Lever"] = 897186,
     ["Tidestone Core"] = 1134486,
+    ["Tears of Elune"] = 1337278,
 }
 PKG.OBJECT_TYPES = O
