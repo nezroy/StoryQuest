@@ -1,1 +1,2 @@
-- Update TOC for Classic Era
+- Add garrison backgrounds
+- Add candy bucket
