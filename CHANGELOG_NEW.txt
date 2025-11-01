@@ -1,2 +1,2 @@
-- Add garrison backgrounds
-- Add candy bucket
+- Add many backgrounds
+- Hallow's End model tweaks

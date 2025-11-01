@@ -79,5 +79,7 @@ local O = {
     ["Tidestone Core"] = 1134486,
     ["Tears of Elune"] = 1337278,
     ["Candy Bucket"] = 5019424,
+    ["Large Jack-o'-Lantern"] = 199901,
+    --["Wanted Board"] = 199428,
 }
 PKG.OBJECT_TYPES = O

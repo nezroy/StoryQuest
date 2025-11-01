@@ -102,7 +102,9 @@ local T = {
     [1395379] = {['sf'] = -30, ['x'] = -200, ['ia'] = -1}, -- light's heart
     [1449278] = {['sf'] = -40, ['x'] = -250, ['z'] = 50}, -- khadgar orb
     [1337278] = {['sf'] = -60, ['x'] = -200, ['z'] = 50, ['ia'] = -1}, -- tears of elune
-    [5019424] = {['sf'] = -55, ['x'] = -200, ['z'] = 50, ['ia'] = -1, ['f'] = 0.7}, -- candy bucket
+    [5019424] = {['sf'] = -55, ['x'] = -200, ['z'] = 15, ['ia'] = -1, ['f'] = 0.9}, -- candy bucket
+    [199901] = {['sf'] = -55, ['x'] = -200, ['z'] = 100, ['ia'] = -1}, -- large jack-o-lantern
+    --[199428] = {['sf'] = -45, ['x'] = -200, ['z'] = 150, ['ia'] = -1}, -- wanted board
 
     -- big dragons
     [3084654] = {['sf'] = 26.6, ['x'] = 130, ['z'] = -30}, -- big wrathion
@@ -209,6 +211,7 @@ local T = {
     [3024833] = -7, -- aranelle
     [1273835] = 65, -- thaon moonclaw
     [1137939] = 80, -- elothir
+    [1622490] = -52, -- jesper/human male child
 }
 PKG.MODEL_TWEAKS = T
 
