@@ -1,2 +1,1 @@
-- Add many backgrounds
-- Hallow's End model tweaks
+- Update TOC for Midnight Beta
