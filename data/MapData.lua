@@ -166,6 +166,7 @@ local M = {
     [2395] = "Midnight/eversong_woods",
     [2424] = "Midnight/queldanas",
     [2432] = "Midnight/queldanas_intro",
+    [2437] = "Midnight/zulaman",
 }
 PKG.MAP_BGS = M
 
