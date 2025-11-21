@@ -110,6 +110,10 @@ function QuestGiverMixin:SetQuestUnit(creature_id, display_id)
     else
         -- we do it this way to get equipped weapon; otherwise we could just set by creature ID
         self.creature_id = getCreatureIDFromGUID(UnitGUID("questnpc"))
+        if self.creature_id and PKG.DID_OVERRIDE[self.creature_id] then
+            self:SetCreature(self.creature_id, PKG.DID_OVERRIDE[self.creature_id] or 0)
+            return true
+        end
         local did_set_unit = self:SetUnit("questnpc")
         if not did_set_unit then
             self.creature_id = 0

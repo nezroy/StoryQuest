@@ -1,2 +1,1 @@
-- Update TOC for Midnight Beta and Mists
-- Add some Midnight bgs
+- Midnight backgrounds and model tweaks

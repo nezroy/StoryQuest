@@ -104,6 +104,7 @@ local T = {
     [1337278] = {['sf'] = -60, ['x'] = -200, ['z'] = 50, ['ia'] = -1}, -- tears of elune
     [5019424] = {['sf'] = -55, ['x'] = -200, ['z'] = 15, ['ia'] = -1, ['f'] = 0.9}, -- candy bucket
     [199901] = {['sf'] = -55, ['x'] = -200, ['z'] = 100, ['ia'] = -1}, -- large jack-o-lantern
+    [4861458] = {['sf'] = -50, ['x'] = -250, ['z'] = 300, ['ia'] = -1}, -- floaty orb messenger aelor
     --[199428] = {['sf'] = -45, ['x'] = -200, ['z'] = 150, ['ia'] = -1}, -- wanted board
 
     -- big dragons
@@ -212,6 +213,7 @@ local T = {
     [1273835] = 65, -- thaon moonclaw
     [1137939] = 80, -- elothir
     [1622490] = -52, -- jesper/human male child
+    [5909233] = {['sf'] = -44, ['x'] = -250}, -- gidwin goldbraids (wrapped up)
 }
 PKG.MODEL_TWEAKS = T
 
@@ -242,3 +244,9 @@ local N = {
     [95130] = {['x'] = 400}, -- moozy, displays as nelf for some reason, so just hide that
 }
 PKG.NPC_TWEAKS = N
+
+-- display ID override by creature ID
+local D = {
+    [257544] = 140230, -- messenger aelor
+}
+PKG.DID_OVERRIDE = D
