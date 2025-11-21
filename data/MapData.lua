@@ -163,6 +163,7 @@ local M = {
     [2371] = "TWW/karesh",
     [2472] = "TWW/tazavesh",
     [2393] = "Midnight/silvermoon_city",
+    [2395] = "Midnight/eversong_woods",
     [2424] = "Midnight/queldanas",
     [2432] = "Midnight/queldanas_intro",
 }
