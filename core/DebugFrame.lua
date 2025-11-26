@@ -187,8 +187,12 @@ local model_buttons = {
     -- tww races
     {"erth M", 226676, 117358}, {"erth F", 226676, 118452},
     -- df races
-    {"drac", 230743, 108879}, {"NPC", 207471},
+    {"drac", 230743, 108879},
+    -- midnight races
+    {"hara M", 245102}, {"hara F", 245090},
+    -- testing
     -- xal'atah: 230658, widow: 207471, dafeng: 55592
+    {"NPC", 207471},
 }
 function DebugFrame:OnLoad()
     self.bgTex = 0

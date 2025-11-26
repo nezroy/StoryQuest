@@ -1,1 +1,2 @@
 - Midnight backgrounds and model tweaks
+- Add Haranir race params

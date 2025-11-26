@@ -88,6 +88,8 @@ local T = {
     [4207724] = {['sf'] = -32, ['x'] = 30}, -- dracthyr male & female
     [5548261] = {['sf'] = -34, ['x'] = -40}, -- earthen male
     [5548259] = {['sf'] = -33, ['x'] = 38}, -- earthen female
+    [5422149] = {['sf'] = -20.5, ['x'] = -10}, -- haranir male
+    [5422147] = {['sf'] = -21, ['x'] = -15}, -- haranir female
 
     -- non-creature items/objects
     [1822634] = {['sf'] = -50, ['x'] = -250, ['z'] = -40, ['ia'] = -1, ['f'] = -0.7}, -- generic quest board
@@ -214,6 +216,7 @@ local T = {
     [1137939] = 80, -- elothir
     [1622490] = -52, -- jesper/human male child
     [5909233] = {['sf'] = -44, ['x'] = -250}, -- gidwin goldbraids (wrapped up)
+    [5633401] = {['sf'] = -25.5, ['x'] = -15}, -- orweyna
 }
 PKG.MODEL_TWEAKS = T
 
