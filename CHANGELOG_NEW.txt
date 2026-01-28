@@ -1,2 +1,2 @@
-- Midnight backgrounds and model tweaks
-- Add Haranir race params
+- Midnight pre-patch model tweaks
+- Update TOC for MoP, TBC
