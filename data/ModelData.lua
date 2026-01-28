@@ -217,6 +217,7 @@ local T = {
     [1622490] = -52, -- jesper/human male child
     [5909233] = {['sf'] = -44, ['x'] = -250}, -- gidwin goldbraids (wrapped up)
     [5633401] = {['sf'] = -25.5, ['x'] = -15}, -- orweyna
+    [234919] = -5, -- vrykul female (tigrid the charmer)
 }
 PKG.MODEL_TWEAKS = T
 
@@ -250,6 +251,6 @@ PKG.NPC_TWEAKS = N
 
 -- display ID override by creature ID
 local D = {
-    [257544] = 140230, -- messenger aelor
+    [257544] = 140230, [259951] = 140230, [259941] = 140230, [259942] = 140230, -- messenger aelor
 }
 PKG.DID_OVERRIDE = D
