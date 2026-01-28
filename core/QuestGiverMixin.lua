@@ -91,12 +91,16 @@ function QuestGiverMixin:setQuestGiverAnimation(count, qString, qStringInt)
     end
 end
 
-local function getCreatureIDFromGUID(guid)
-    if not guid then
+local function getCreatureID(target)
+    if not target then
         return 0
     end
-	return tonumber(string.match(guid, "Creature%-.-%-.-%-.-%-.-%-(.-)%-"));
+    if UnitCreatureID then
+        return UnitCreatureID(target)
+    end
+	return tonumber(string.match(UnitGUID(target), "Creature%-.-%-.-%-.-%-.-%-(.-)%-"))
 end
+
 
 function QuestGiverMixin:SetQuestUnit(creature_id, display_id)
     self.is_clear = false
@@ -109,7 +113,7 @@ function QuestGiverMixin:SetQuestUnit(creature_id, display_id)
         return true
     else
         -- we do it this way to get equipped weapon; otherwise we could just set by creature ID
-        self.creature_id = getCreatureIDFromGUID(UnitGUID("questnpc"))
+        self.creature_id = getCreatureID("questnpc")
         if self.creature_id and PKG.DID_OVERRIDE[self.creature_id] then
             self:SetCreature(self.creature_id, PKG.DID_OVERRIDE[self.creature_id] or 0)
             return true
