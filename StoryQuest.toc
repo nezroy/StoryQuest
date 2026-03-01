@@ -1,4 +1,4 @@
-## Interface: 11508, 20505, 50503, 120000
+## Interface: 11508, 20505, 50503, 120001
 ## Title: StoryQuest
 ## Notes: Story window quest dialog, based on the GW2 style and addon.
 ## OptionalDeps: _DebugLog, BugSack, ACU

@@ -1,2 +1,1 @@
-- Midnight pre-patch model tweaks
-- Update TOC for MoP, TBC
+- Update TOC for Midnight
