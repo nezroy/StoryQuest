@@ -1,3 +1,1 @@
-- Scarlet Halls background
-- Arcantina background
-- Voidstorm background
+- Lothraxion scale fix

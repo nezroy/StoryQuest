@@ -218,6 +218,7 @@ local T = {
     [5909233] = {['sf'] = -44, ['x'] = -250}, -- gidwin goldbraids (wrapped up)
     [5633401] = {['sf'] = -25.5, ['x'] = -15}, -- orweyna
     [234919] = -5, -- vrykul female (tigrid the charmer)
+    [6730408] = 20, -- lothraxion
 }
 PKG.MODEL_TWEAKS = T
 
