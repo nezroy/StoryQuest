@@ -164,6 +164,7 @@ local M = {
     [2472] = "TWW/tazavesh",
     [2393] = "Midnight/silvermoon_city",
     [2395] = "Midnight/eversong_woods",
+    [2405] = "Midnight/void_storm",
     [2413] = "Midnight/harandar",
     [2424] = "Midnight/queldanas",
     [2432] = "Midnight/queldanas_intro",
