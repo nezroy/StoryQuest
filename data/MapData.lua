@@ -183,5 +183,6 @@ local I = {
     [1579] = "WoD/ulduar",
     [1624] = "Legion/exodar_defense",
     [2648] = "TWW/rookery",
+    [2857] = "Mists/scarlet_halls",
 }
 PKG.INSTANCE_BGS = I
