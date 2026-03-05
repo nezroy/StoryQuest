@@ -184,5 +184,6 @@ local I = {
     [1624] = "Legion/exodar_defense",
     [2648] = "TWW/rookery",
     [2857] = "Mists/scarlet_halls",
+    [2195] = "Midnight/arcantina",
 }
 PKG.INSTANCE_BGS = I
