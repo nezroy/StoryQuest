@@ -220,6 +220,7 @@ local T = {
     [234919] = -5, -- vrykul female (tigrid the charmer)
     [6730408] = 20, -- lothraxion
     [6181816] = 8, -- decimus
+    [6181818] = 7, -- perodius
 }
 PKG.MODEL_TWEAKS = T
 

@@ -1,2 +1,3 @@
 - Lothraxion scale fix
 - Decimus scale fix
+- Perodius scale fix
