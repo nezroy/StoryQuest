@@ -221,6 +221,7 @@ local T = {
     [6730408] = 20, -- lothraxion
     [6181816] = 8, -- decimus
     [6181818] = 7, -- perodius
+    [6254251] = -47, -- amani child (kuvahn)
 }
 PKG.MODEL_TWEAKS = T
 

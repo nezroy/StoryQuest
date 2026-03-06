@@ -1,4 +1,1 @@
-- Lothraxion scale fix
-- Decimus scale fix
-- Perodius scale fix
-- Use Liadrin for weekly choice board in Silvermoon
+- Amani child scale fix
