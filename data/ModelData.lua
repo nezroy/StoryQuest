@@ -219,6 +219,7 @@ local T = {
     [5633401] = {['sf'] = -25.5, ['x'] = -15}, -- orweyna
     [234919] = -5, -- vrykul female (tigrid the charmer)
     [6730408] = 20, -- lothraxion
+    [6181816] = 8, -- decimus
 }
 PKG.MODEL_TWEAKS = T
 
