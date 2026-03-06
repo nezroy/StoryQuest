@@ -182,6 +182,9 @@ function QuestGiverMixin:OnModelLoaded()
         if tweak_opts.ia ~= nil then
             self.idle_anim = tweak_opts.ia
         end
+        if tweak_opts.ik ~= nil then
+            self.idle_kit = tweak_opts.ik
+        end
         if tweak_opts.hk ~= nil then
             self.half_kits = tweak_opts.hk
         end
@@ -192,7 +195,9 @@ function QuestGiverMixin:OnModelLoaded()
     self.do_anims = self.idle_anim ~= -1 and true or false
     self:SetPitch(p)
     self:SetFacing(f)
-    if self.idle_anim ~= -1 then
+    if self.idle_kit ~= -1 then
+        self:PlayAnimKit(self.idle_kit, true)
+    elseif self.idle_anim ~= -1 then
         self:SetAnimation(self.idle_anim)
     end
     self:SetModelScale(sf)
@@ -244,6 +249,7 @@ function QuestGiverMixin:ClearAll()
     self.file_id = nil
     self.do_anims = false
     self.idle_anim = emotes.Idle
+    self.idle_kit = -1
     self.half_kits = false
     self.anim_next = -1
     self.anim_playing = false

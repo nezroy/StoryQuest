@@ -232,6 +232,9 @@ local n_widow_araknai = {
 }
 local n_berrund  = -9.1
 local n_mayla = -17
+local n_dundun = {
+    ['sf'] = -50, ['ia'] = -1, ['ik'] = 35831, ['hk'] = true, ['z'] = 120, ['x'] = -30,
+}
 local N = {
     [197478] = -64.3, -- herald flaps
     [201648] = {['sf'] = 26.6, ['x'] = 130}, -- big somnikus
@@ -250,6 +253,7 @@ local N = {
     [93011] = -20, [98229] = -20, [93127] = -20, [97303] = -20, [89362] = -20, -- kayn sunfury
     [241140] = -25, [243948] = -25, -- moratari
     [95130] = {['x'] = 400}, -- moozy, displays as nelf for some reason, so just hide that
+    [251601] = n_dundun, [242704] = n_dundun,
 }
 PKG.NPC_TWEAKS = N
 
