@@ -1,2 +1,3 @@
 - Amani child scale fix
+- Harandir child scale fix
 - Give Dundun his float
