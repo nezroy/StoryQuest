@@ -222,7 +222,8 @@ local T = {
     [6181816] = 8, -- decimus
     [6181818] = 7, -- perodius
     [6254251] = -47, -- amani child (kuvahn)
-    [6647868] = -47, -- haranir child (chua)
+    [6647868] = -47, -- haranir child male (chua)
+    [6647866] = -47, -- haranir child female (nayeli)
 }
 PKG.MODEL_TWEAKS = T
 
