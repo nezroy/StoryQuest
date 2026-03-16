@@ -224,6 +224,7 @@ local T = {
     [6254251] = -47, -- amani child (kuvahn)
     [6647868] = -47, -- haranir child male (chua)
     [6647866] = -47, -- haranir child female (nayeli)
+    [1719397] = -47, -- tortollan child (trishe)
 }
 PKG.MODEL_TWEAKS = T
 

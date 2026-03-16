@@ -1,1 +1,2 @@
 - Harandir child scale fix
+- Tortollan child scale fix
