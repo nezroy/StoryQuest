@@ -1,2 +1,3 @@
 - Harandir child scale fix
 - Tortollan child scale fix
+- Fix leaking global
