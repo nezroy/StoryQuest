@@ -34,7 +34,9 @@ core\QuestSummary.lua
 core\QuestSummary.xml
 core\StoryQuestFrame.lua
 core\StoryQuestFrame.xml
+#@debug@
 #core\DebugFrame.lua
 #core\DebugFrame.xml
+#@end-debug@
 
 StoryQuest.lua
