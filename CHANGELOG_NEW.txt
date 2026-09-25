@@ -1,3 +1,2 @@
-- Harandir child scale fix
-- Tortollan child scale fix
-- Fix leaking global
+- Update TOC for all versions
+- Add initial WoW Forever Beta support
