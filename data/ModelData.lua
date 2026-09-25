@@ -90,6 +90,8 @@ local T = {
     [5548259] = {['sf'] = -33, ['x'] = 38}, -- earthen female
     [5422149] = {['sf'] = -20.5, ['x'] = -10}, -- haranir male
     [5422147] = {['sf'] = -21, ['x'] = -15}, -- haranir female
+    [7478487] = {['sf'] = -25.9, ['x'] = 10}, -- skyborne elf male
+    [7478494] = {['sf'] = -30.5, ['x'] = 30}, -- skyborne elf female
 
     -- non-creature items/objects
     [1822634] = {['sf'] = -50, ['x'] = -250, ['z'] = -40, ['ia'] = -1, ['f'] = -0.7}, -- generic quest board
