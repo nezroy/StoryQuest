@@ -259,6 +259,7 @@ local N = {
     [241140] = -25, [243948] = -25, -- moratari
     [95130] = {['x'] = 400}, -- moozy, displays as nelf for some reason, so just hide that
     [251601] = n_dundun, [242704] = n_dundun,
+    [251166] = 15, -- earth manifestation
 }
 PKG.NPC_TWEAKS = N
 
