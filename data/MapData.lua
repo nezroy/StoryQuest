@@ -67,6 +67,7 @@ local M = {
     [85]   = "Kalimdor/orgrimmar",
     [1454] = "Kalimdor/orgrimmar_classic", -- pre-cata
     [88]   = "Kalimdor/thunderbluff",
+    [1456] = "Kalimdor/thunderbluff", -- pre-cata
     [89]   = "Kalimdor/darnassus",
     [97]   = "Kalimdor/azuremyst_isle",
     [103]  = "Kalimdor/exodar",
