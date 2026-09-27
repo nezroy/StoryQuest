@@ -227,6 +227,7 @@ local T = {
     [6647868] = -47, -- haranir child male (chua)
     [6647866] = -47, -- haranir child female (nayeli)
     [1719397] = -47, -- tortollan child (trishe)
+    [1721534] = 20, -- cyclone construct
 }
 PKG.MODEL_TWEAKS = T
 
