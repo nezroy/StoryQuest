@@ -1,2 +1,3 @@
 - Model tweaks
 - Additional backgrounds (Naigtal)
+- Fix LFS packaging problem
