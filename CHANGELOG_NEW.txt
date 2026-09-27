@@ -1,4 +1,2 @@
-- Update TOC for all versions
-- Add initial WoW Forever Beta support
-- Fix error in Forever for Skyborne characters in scroll/reading kit quests
-- Bump addon version and add explicit addon packaging
+- Model tweaks
+- Additional backgrounds (Naigtal)
