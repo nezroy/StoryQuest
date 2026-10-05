@@ -1,2 +1,1 @@
-- Model tweaks
-- Background ID fix (Thunderbluff)
+- Fix secret value access on UnitName result
