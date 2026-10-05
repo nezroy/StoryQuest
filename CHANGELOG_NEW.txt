@@ -1,3 +1,2 @@
 - Model tweaks
-- Additional backgrounds (Naigtal)
-- Fix LFS packaging problem
+- Background ID fix (Thunderbluff)
