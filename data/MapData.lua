@@ -171,6 +171,7 @@ local M = {
     [2432] = "Midnight/queldanas_intro",
     [2437] = "Midnight/zulaman",
     [2600] = "Midnight/naigtal",
+    [2512] = "Midnight/coiled_isle",
     [2521] = "Forever/zephras_isle",
 }
 PKG.MAP_BGS = M

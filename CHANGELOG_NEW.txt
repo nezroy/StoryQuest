@@ -1,1 +1,1 @@
-- Fix secret value access on UnitName result
+- Updated backgrounds (The Coiled Isle)
