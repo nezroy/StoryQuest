@@ -41,6 +41,7 @@ local M = {
     [465]  = "EK/deathknell",
     [467]  = "EK/sunstrider_isle",
     [998]  = "EK/undercity",
+    [1458]  = "EK/undercity", -- pre-cata
     [243]  = "EK/blackrock_depths",
     [1186] = "EK/blackrock_depths", -- dark iron starter version
     [2352] = "EK/founders_point",
