@@ -1,1 +1,2 @@
-- Fix classic/forever backgrounds (Undercity)
+- Fix classic/forever backgrounds (Undercity, Ironforge)
+- Add classic/forever backgrounds (Loch Modan)
