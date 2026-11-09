@@ -27,6 +27,7 @@ local M = {
     [48]   = "EK/loch_modan",
     [1432] = "EK/loch_modan_og", -- pre-cata
     [49]   = "EK/redridge_mountains",
+    [1433] = "EK/redridge_mountains", --pre-cata
     [50]   = "EK/northern_stranglethorn",
     [51]   = "EK/swamp_of_sorrows",
     [52]   = "EK/westfall",

@@ -1,1 +1,1 @@
-- Fix classic/forever backgrounds (Westfall)
+- Fix classic/forever backgrounds (Westfall, Redridge)
