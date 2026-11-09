@@ -21,7 +21,7 @@ end
 
 function QuestPlayerMixin:OnShow()
     if not self.is_unit_set then
-        if not PKG.FF.ReadingKit then
+        if not PKG.FF.ReadingKit or PKG.FF.ReadingKit == 0 then
             local player_loc = PlayerLocation:CreateFromUnit("player")
             local race_id = C_PlayerInfo.GetRace(player_loc)
             local body_type = C_PlayerInfo.GetSex(player_loc) + 2
@@ -129,9 +129,9 @@ function QuestPlayerMixin:SetAction(action)
 
     if action == "read" then
         self:SetSheathed(true, false)
-        if PKG.FF.ReadingKit then
+        if PKG.FF.ReadingKit and PKG.FF.ReadingKit ~= 0 then
             self:SetAnimation(emotes.IdleRead)
-            self:ApplySpellVisualKit(29521, false)
+            self:ApplySpellVisualKit(PKG.FF.ReadingKit, false)
         else
             local frame = NO_KIT_FRAMES[self.race_id][self.body_type]
             if frame < 0 then
@@ -159,7 +159,7 @@ end
 
 function QuestPlayerMixin:OnLoad()
     self:SetScript("OnEvent", self.OnEvent)
-    if not PKG.FF.ReadingKit then
+    if not PKG.FF.ReadingKit or PKG.FF.ReadingKit == 0 then
         -- we only need race/body type info if we have to custom animate "reading"
         self:RegisterEvent("BARBER_SHOP_RESULT")
     end
