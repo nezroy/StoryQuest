@@ -24,6 +24,7 @@ local M = {
     [42]   = "EK/deadwind_pass",
     [46]   = "EK/karazhan_catacombs",
     [47]   = "EK/duskwood",
+    [1431] = "EK/duskwood", -- pre-cata
     [48]   = "EK/loch_modan",
     [1432] = "EK/loch_modan_og", -- pre-cata
     [49]   = "EK/redridge_mountains",

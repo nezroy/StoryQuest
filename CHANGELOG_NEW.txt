@@ -1,1 +1,2 @@
 - Add classic/forever backgrounds (Darkshore)
+- Fix classic/forever backgrounds (Duskwood)
