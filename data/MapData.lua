@@ -58,6 +58,7 @@ local M = {
     [57]   = "Kalimdor/teldrassil",
     [1438] = "Kalimdor/teldrassil", -- pre-cata
     [62]   = "Kalimdor/darkshore_cata",
+    [1439] = "Kalimdor/darkshore", -- pre-cata
     [63]   = "Kalimdor/ashenvale",
     [65]   = "Kalimdor/stonetalon_mountains",
     [66]   = "Kalimdor/desolace",
